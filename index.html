@@ -1,0 +1,2511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#00843D">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Italy Guide">
+  <title>Italy Travel Pocket Guide | Offline Phrasebook & Sentence Engine</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3Cpath fill='%23009246' d='M0 0h1v2H0z'/%3E%3Cpath fill='%23fff' d='M1 0h1v2H1z'/%3E%3Cpath fill='%23ce2b37' d='M2 0h1v2H2z'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --brand: #00843D; /* Italian Flag Green */
+      --brand-deep: #005a2b;
+      --bg: #f3f5f8;
+      --surface: #ffffff;
+      --surface-2: #eef2f6;
+      --text: #0f172a;
+      --muted: #566276;
+      --border: #e2e8f0;
+      --border-strong: #cfd8e3;
+      --accent: #00843D;          /* fills (white text on it) */
+      --accent-text: #00733a;     /* green text & icons on surfaces */
+      --accent-soft: rgba(0, 132, 61, 0.1);
+      --on-accent: #ffffff;
+      --glass: rgba(243, 245, 248, 0.9);
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 2px 6px rgba(15, 23, 42, 0.05);
+      --radius: 14px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+      /* Interlinear token colors: slot N in the builder = tok-N in the live sentence */
+      --tok-1: #00843d;
+      --tok-2: #0369a1;
+      --tok-3: #b45309;
+      --tok-4: #6d28d9;
+
+      /* Mobile layout: bottom tab bar + notch / home-indicator safe areas */
+      --nav-h: 62px;
+      --safe-t: env(safe-area-inset-top, 0px);
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --pad-l: max(16px, env(safe-area-inset-left, 0px));
+      --pad-r: max(16px, env(safe-area-inset-right, 0px));
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --surface: #151e2d;
+        --surface-2: #1c2738;
+        --text: #e9eef5;
+        --muted: #9ba8ba;
+        --border: #243044;
+        --border-strong: #334155;
+        --accent-text: #4ade80;
+        --accent-soft: rgba(74, 222, 128, 0.14);
+        --glass: rgba(11, 18, 32, 0.88);
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+        --tok-1: #4ade80;
+        --tok-2: #38bdf8;
+        --tok-3: #fbbf24;
+        --tok-4: #c4b5fd;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    html:has(dialog[open]) { overflow: hidden; }
+
+    body {
+      font-family: var(--font);
+      line-height: 1.5;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: calc(var(--nav-h) + var(--safe-b) + 24px);
+    }
+
+    /* Backdrop behind the status bar on notched phones (zero height elsewhere) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--safe-t);
+      background: var(--brand-deep);
+      z-index: 60;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    svg { flex-shrink: 0; }
+    :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+    [hidden] { display: none !important; }
+
+    .wrap {
+      width: 100%;
+      max-width: 712px;
+      margin: 0 auto;
+      padding-left: var(--pad-l);
+      padding-right: var(--pad-r);
+    }
+
+    /* ==========================================================================
+       HEADER (scrolls away so sticky tools get the full screen height)
+       ========================================================================== */
+    .app-header {
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%);
+      color: #fff;
+      padding: calc(var(--safe-t) + 14px) 0 14px;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    /* CSS flag: the 🇮🇹 emoji renders as the letters "IT" on Windows */
+    .flag {
+      flex: 0 0 auto;
+      width: 24px;
+      height: 18px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #009246 0 33.33%, #fff 33.33% 66.66%, #ce2b37 66.66%);
+      box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.75);
+    }
+
+    .app-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .app-sub {
+      font-size: 0.8125rem;
+      opacity: 0.9;
+    }
+
+    .offline-badge {
+      flex: 0 0 auto;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    /* ==========================================================================
+       BOTTOM TAB BAR (thumb reach)
+       ========================================================================== */
+    .tabbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 50;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -2px 12px rgba(15, 23, 42, 0.06);
+      padding-bottom: var(--safe-b);
+    }
+
+    .tabbar-inner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      height: var(--nav-h);
+    }
+
+    .tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .tab-icon {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 30px;
+      border-radius: 999px;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .tab[aria-selected="true"] { color: var(--accent-text); }
+    .tab[aria-selected="true"] .tab-icon { background: var(--accent-soft); }
+    .tab:active .tab-icon { transform: scale(0.94); }
+
+    /* ==========================================================================
+       STICKY TOOLBARS (phrase search / builder HUD)
+       ========================================================================== */
+    .toolbar,
+    .hud {
+      position: sticky;
+      top: var(--safe-t);
+      z-index: 40;
+      background: var(--bg);
+      background: var(--glass);
+      -webkit-backdrop-filter: saturate(160%) blur(14px);
+      backdrop-filter: saturate(160%) blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toolbar { padding-top: 12px; }
+    .hud { padding: 8px 0; }
+
+    /* Search */
+    .search { position: relative; }
+
+    .search-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 44px 0 40px;
+      font: inherit;
+      font-size: 16px; /* 16px+ stops iOS from zooming on focus */
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .search-input::placeholder { color: var(--muted); opacity: 1; }
+    .search-input::-webkit-search-cancel-button,
+    .search-input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .search-clear {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      border-radius: 12px;
+    }
+
+    /* Horizontal pill rails: bleed to the screen edges, fade to hint at more */
+    .rail {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 0 calc(-1 * var(--pad-r)) 0 calc(-1 * var(--pad-l));
+      padding: 10px var(--pad-r) 10px var(--pad-l);
+      scrollbar-width: none;
+      overscroll-behavior-x: contain;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--pad-l), #000 calc(100% - var(--pad-r)), transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 var(--pad-l), #000 calc(100% - var(--pad-r)), transparent 100%);
+    }
+    .rail::-webkit-scrollbar { display: none; }
+
+    .pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      white-space: nowrap;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+    }
+    .pill:active { transform: scale(0.97); }
+    .pill[aria-pressed="true"] {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--on-accent);
+    }
+
+    /* ==========================================================================
+       CARDS, BUTTONS & PHRASE LIST
+       ========================================================================== */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 12px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      transition: transform 0.1s, background-color 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--on-accent);
+    }
+    .btn.icon {
+      width: 44px;
+      padding: 0;
+      font-size: 1.125rem;
+    }
+    .btn[aria-pressed="true"] {
+      background: var(--accent-soft);
+      border-color: var(--accent-text);
+      color: var(--accent-text);
+    }
+
+    .btn.primary.is-speaking,
+    .show-btn.primary.is-speaking {
+      animation: pulse-ring 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(0, 132, 61, 0.5); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 132, 61, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 132, 61, 0); }
+    }
+
+    .text-btn {
+      min-height: 40px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent-text);
+    }
+    .text-btn:active { background: var(--accent-soft); }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      transition: transform 0.1s, background-color 0.15s, color 0.15s;
+    }
+    .icon-btn.subtle {
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      color: var(--muted);
+    }
+    .icon-btn:active { transform: scale(0.92); }
+    .icon-btn.is-speaking {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--on-accent);
+    }
+
+    .list-meta {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      margin: 12px 0 4px;
+    }
+
+    .group-title,
+    .section-label,
+    .slot-label {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .group-title { margin: 18px 0 8px; }
+    .single-cat .group-title { display: none; }
+
+    .phrase {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 12px;
+      padding: 14px 12px 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .phrase-it {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--accent-text);
+    }
+
+    .phrase-en {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .phon {
+      font-size: 0.8125rem;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .phrase-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .note {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--surface-2);
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 16px;
+      color: var(--muted);
+    }
+    .empty p { margin-bottom: 14px; }
+
+    /* ==========================================================================
+       SENTENCE BUILDER: STICKY HUD + DECK
+       ========================================================================== */
+    .hud-card { padding: 12px 14px; }
+
+    .hud-it {
+      font-size: 1.1875rem;
+      font-weight: 700;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .tok { font-weight: 800; }
+    .tok-1 { color: var(--tok-1); }
+    .tok-2 { color: var(--tok-2); }
+    .tok-3 { color: var(--tok-3); }
+    .tok-4 { color: var(--tok-4); }
+
+    .hud-phon {
+      font-size: 0.8125rem;
+      font-style: italic;
+      line-height: 1.35;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .hud-en {
+      font-size: 0.875rem;
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    /* Listen | slow | copy | Show — labeled primary actions, icon-only secondary */
+    .hud-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 44px 44px minmax(0, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .hud-actions .btn:not(.icon) {
+      gap: 5px;
+      padding: 0 8px;
+    }
+
+    .deck { padding-top: 4px; }
+
+    .deck-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .deck-head .section-label { padding: 4px 0; }
+    .deck > .deck-head:first-child { margin-top: 12px; }
+
+    .deck-tools {
+      display: flex;
+      gap: 2px;
+      margin-right: -8px;
+    }
+
+    .cat-desc {
+      font-size: 0.875rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    .cat-desc strong {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .segmented {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      margin-top: 8px;
+      border-radius: 12px;
+      background: var(--surface-2);
+    }
+
+    .segmented button {
+      flex: 1;
+      min-height: 40px;
+      padding: 4px 10px;
+      border-radius: 9px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--muted);
+    }
+
+    .segmented button[aria-pressed="true"] {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+
+    .slot { margin-top: 16px; }
+
+    .slot-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    /* Color key linking each slot to its colored words in the HUD sentence */
+    .slot-label::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--slot-color);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      max-width: 100%;
+      min-height: 48px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      text-align: left;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      transition: transform 0.1s, background-color 0.15s, border-color 0.15s;
+    }
+    .chip:active { transform: scale(0.97); }
+
+    .chip-it {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .chip-en {
+      font-size: 0.75rem;
+      line-height: 1.3;
+      color: var(--muted);
+    }
+
+    .chip[aria-pressed="true"] {
+      border-color: var(--slot-color);
+      box-shadow: inset 0 0 0 1px var(--slot-color);
+      background: var(--surface-2);
+      background: color-mix(in srgb, var(--slot-color) 10%, var(--surface));
+    }
+
+    @media (hover: hover) {
+      .pill:hover,
+      .chip:hover,
+      .btn:not(.primary):hover { border-color: var(--muted); }
+    }
+
+    /* ==========================================================================
+       GRAMMAR RULES & FORMULAS
+       ========================================================================== */
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 28px 0 12px;
+    }
+
+    .rule-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .rule-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .rule-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .rule-desc strong { color: var(--text); }
+
+    .formula-tag {
+      display: inline-block;
+      margin-bottom: 6px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .example-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 0.875rem;
+    }
+
+    .example-list li {
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .example-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent-text);
+      font-weight: 700;
+    }
+
+    .ex-en {
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+
+    /* ==========================================================================
+       QUICK VOCAB (tap to hear)
+       ========================================================================== */
+    #panel-vocab .section-title:first-of-type { margin-top: 12px; }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .vocab-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 60px;
+      padding: 10px 30px 10px 12px;
+      border-radius: 12px;
+      text-align: left;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: transform 0.1s, border-color 0.15s;
+    }
+    .vocab-item:active { transform: scale(0.97); }
+
+    .vocab-item::after {
+      content: "";
+      position: absolute;
+      top: 11px;
+      right: 10px;
+      width: 14px;
+      height: 14px;
+      background: var(--muted);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cpath d='M15.54 8.46a5 5 0 0 1 0 7.07'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cpath d='M15.54 8.46a5 5 0 0 1 0 7.07'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .vocab-item.is-speaking {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+    .vocab-item.is-speaking::after { background: var(--accent-text); }
+
+    .vocab-it {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .vocab-en {
+      font-size: 0.8125rem;
+      line-height: 1.3;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       "SHOW TO STAFF" CARD (full screen on phones, text flips 180°)
+       ========================================================================== */
+    .show-card {
+      width: min(560px, calc(100% - 32px));
+      max-width: none;
+      margin: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 20px;
+      background: #09090b;
+      color: #f4f4f5;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      overscroll-behavior: contain;
+    }
+
+    .show-card::backdrop {
+      background: rgba(0, 0, 0, 0.85);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+
+    .show-inner {
+      display: flex;
+      flex-direction: column;
+      min-height: 440px;
+      padding: 16px 20px 20px;
+    }
+
+    .show-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #27272a;
+    }
+
+    .show-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #7dd3fc;
+    }
+
+    .show-close {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #27272a;
+      color: #e4e4e7;
+    }
+
+    .show-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 0;
+      overflow-y: auto;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* "safe" vertical centering: long text still scrolls from the top */
+    .show-text > :first-child { margin-top: auto; }
+    .show-text > :last-child { margin-bottom: auto; }
+    .show-text.flipped { transform: rotate(180deg); }
+
+    .show-it {
+      font-size: clamp(2rem, 8.5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: #fef08a; /* High contrast yellow */
+      overflow-wrap: anywhere;
+    }
+
+    .show-phon {
+      font-size: 1rem;
+      font-style: italic;
+      color: #a1a1aa;
+      margin-top: 16px;
+    }
+
+    .show-en {
+      font-size: 1.125rem;
+      color: #d4d4d8;
+      margin-top: 8px;
+    }
+
+    .show-actions {
+      display: grid;
+      grid-template-columns: 1fr 52px 1fr;
+      gap: 10px;
+    }
+
+    .show-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 52px;
+      border-radius: 12px;
+      border: 1px solid #3f3f46;
+      background: #18181b;
+      color: #fafafa;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      transition: transform 0.1s;
+    }
+    .show-btn:active { transform: scale(0.97); }
+    .show-btn.icon { font-size: 1.25rem; }
+    .show-btn.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+    }
+    .show-btn[aria-pressed="true"] {
+      background: #14532d;
+      border-color: #4ade80;
+      color: #dcfce7;
+    }
+
+    @media (max-width: 640px), (max-height: 540px) {
+      .show-card {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0;
+        border-radius: 0;
+      }
+      .show-inner {
+        height: 100%;
+        min-height: 0;
+        padding: calc(var(--safe-t) + 12px) var(--pad-r) calc(var(--safe-b) + 16px) var(--pad-l);
+      }
+    }
+
+    /* ==========================================================================
+       TOAST
+       ========================================================================== */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--nav-h) + var(--safe-b) + 14px);
+      z-index: 70;
+      max-width: calc(100% - 32px);
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.94);
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      transform: translate(-50%, 12px);
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    .show-card .toast { bottom: calc(var(--safe-b) + 92px); }
+
+    @media (prefers-color-scheme: dark) {
+      .toast {
+        background: rgba(241, 245, 249, 0.96);
+        color: #0f172a;
+      }
+    }
+
+    /* Small phones (320–359px) */
+    @media (max-width: 359px) {
+      .offline-badge,
+      .hud-actions .btn:not(.icon) svg { display: none; }
+    }
+
+    /* Landscape phones: sticky bars would leave almost no room to scroll */
+    @media (max-height: 540px) {
+      .toolbar,
+      .hud { position: static; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="wrap header-row">
+      <div class="brand">
+        <span class="flag" aria-hidden="true"></span>
+        <div>
+          <h1 class="app-title">Italy Travel Pocket Guide</h1>
+          <p class="app-sub">Rome · Sorrento · Amalfi Coast</p>
+        </div>
+      </div>
+      <span class="offline-badge">Offline</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- TAB 1: PHRASES -->
+    <section id="panel-phrases" class="panel" role="tabpanel" aria-labelledby="tab-phrases" hidden>
+      <div class="toolbar">
+        <div class="wrap">
+          <form class="search" id="searchForm" role="search">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="search" id="searchInput" class="search-input" placeholder="Search: ferry, spritz, beach…" aria-label="Search phrases" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+            <button type="button" class="search-clear" id="searchClear" aria-label="Clear search" hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </form>
+          <div class="rail" id="phraseCats" role="group" aria-label="Filter by category"></div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <p class="list-meta" id="phraseMeta" aria-live="polite"></p>
+        <div id="phraseList"></div>
+        <div class="empty" id="phraseEmpty" hidden>
+          <p id="phraseEmptyText"></p>
+          <button type="button" class="btn" id="phraseEmptyAction"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SENTENCE BUILDER + GRAMMAR -->
+    <section id="panel-builder" class="panel" role="tabpanel" aria-labelledby="tab-builder">
+      <!-- The HUD only sticks while the builder deck is on screen -->
+      <div class="builder">
+        <div class="hud">
+          <div class="wrap">
+            <div class="card hud-card">
+              <p class="hud-it" id="hudIt" lang="it" aria-live="polite"></p>
+              <p class="hud-phon" id="hudPhon"></p>
+              <p class="hud-en" id="hudEn"></p>
+              <div class="hud-actions">
+                <button type="button" class="btn primary" data-action="speak">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                  <span>Listen</span>
+                </button>
+                <button type="button" class="btn icon" data-action="slow" aria-pressed="false" aria-label="Slow audio" title="Slow audio"><span aria-hidden="true">🐢</span></button>
+                <button type="button" class="btn icon" data-action="copy" aria-label="Copy Italian text" title="Copy Italian text">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+                <button type="button" class="btn" data-action="show" title="Show full screen to staff">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                  <span>Show</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap deck">
+          <div class="deck-head">
+            <h2 class="section-label">Category</h2>
+          </div>
+          <div class="rail" id="builderCats" role="group" aria-label="Travel category"></div>
+          <p class="cat-desc" id="catDesc"></p>
+
+          <div id="tplBlock" hidden>
+            <div class="deck-head">
+              <h2 class="section-label" id="tplLabel">Formula</h2>
+            </div>
+            <div class="segmented" id="tplSwitch" role="group" aria-labelledby="tplLabel"></div>
+          </div>
+
+          <div class="deck-head">
+            <h2 class="section-label">Build your sentence</h2>
+            <div class="deck-tools">
+              <button type="button" class="text-btn" data-action="shuffle">🎲 Shuffle</button>
+              <button type="button" class="text-btn" data-action="reset">↺ Reset</button>
+            </div>
+          </div>
+          <div id="slots"></div>
+        </div>
+      </div>
+
+      <div class="wrap grammar">
+        <!-- THE 4 GOLDEN ITALIAN GRAMMAR RULES -->
+        <h2 class="section-title">📐 The 4 Golden Italian Grammar Rules</h2>
+
+        <div class="rule-box">
+          <div class="rule-title">1. Drop the "I / You" (No need for "Io" or "Tu")</div>
+          <div class="rule-desc">Italian verb endings already identify who is speaking. Say <strong>Vorrei</strong>, not <em>Io vorrei</em>. Say <strong>Parla inglese?</strong>, not <em>Lei parla inglese?</em></div>
+        </div>
+
+        <div class="rule-box">
+          <div class="rule-title">2. Negation is dead simple: Just add "Non"</div>
+          <div class="rule-desc">Place <strong>Non</strong> directly in front of any verb to make it negative.</div>
+          <ul class="example-list">
+            <li><strong>Parlo</strong> (I speak) ➔ <strong>Non parlo</strong> (I don't speak)</li>
+            <li><strong>Capisco</strong> (I understand) ➔ <strong>Non capisco</strong> (I don't understand)</li>
+            <li><strong>Funziona</strong> (It works) ➔ <strong>Non funziona</strong> (It's not working)</li>
+          </ul>
+        </div>
+
+        <div class="rule-box">
+          <div class="rule-title">3. Turn any statement into a question by raising pitch</div>
+          <div class="rule-desc">Italian has no helper verbs like "do" or "does". Keep the exact same words and simply raise your voice pitch at the end.</div>
+          <ul class="example-list">
+            <li><em>È compreso il coperto.</em> (The cover charge is included.)</li>
+            <li><em>È compreso il coperto?</em> (Is the cover charge included?)</li>
+          </ul>
+        </div>
+
+        <div class="rule-box">
+          <div class="rule-title">4. Near Future: Just use the Present + "Tra"</div>
+          <div class="rule-desc">For events happening today or soon, Italians use the conversational present tense + <strong>tra / fra</strong> (in [time]):</div>
+          <ul class="example-list">
+            <li><strong>Guardiamo lo spettacolo tra venti minuti.</strong><br><span class="ex-en">(We watch [we'll watch] the show in 20 minutes.)</span></li>
+            <li><strong>Il traghetto parte tra dieci minuti.</strong><br><span class="ex-en">(The ferry departs in ten minutes.)</span></li>
+          </ul>
+        </div>
+
+        <!-- THE 6 MASTER KEY FORMULAS -->
+        <h2 class="section-title">🗝️ The 6 "Master Key" Starter Formulas</h2>
+
+        <div class="rule-box">
+          <span class="formula-tag">Vorrei + [Noun or Verb]</span>
+          <div class="rule-desc">The universal polite standard for ordering food, tickets, or services ("I would like..."):</div>
+          <ul class="example-list">
+            <li><em>Vorrei un tavolo per due</em> (I'd like a table for 2)</li>
+            <li><em>Vorrei un biglietto per l'aliscafo</em> (I'd like a hydrofoil ticket)</li>
+          </ul>
+        </div>
+
+        <div class="rule-box">
+          <span class="formula-tag">Posso avere + [Noun]?</span>
+          <div class="rule-desc">"May I have...?" / "Can I get...?"</div>
+          <ul class="example-list">
+            <li><em>Posso avere il conto?</em> (May I have the check?)</li>
+            <li><em>Posso avere una bottiglia d'acqua naturale?</em> (May I have a bottle of still water?)</li>
+          </ul>
+        </div>
+
+        <div class="rule-box">
+          <span class="formula-tag">Dov'è + [Singular] / Dove sono + [Plural]?</span>
+          <div class="rule-desc">"Where is...?" / "Where are...?"</div>
+          <ul class="example-list">
+            <li><em>Dov'è l'imbarco dei traghetti?</em> (Where is the ferry boarding dock?)</li>
+            <li><em>Dov'è il bagno?</em> (Where is the restroom?)</li>
+          </ul>
+        </div>
+
+        <div class="rule-box">
+          <span class="formula-tag">A che ora parte + [Train / Ferry / Bus]?</span>
+          <div class="rule-desc">"What time does [x] leave?" Vital for Rome Termini tracks and Amalfi Coast docks:</div>
+          <ul class="example-list">
+            <li><em>A che ora parte l'ultimo traghetto per Sorrento?</em> (What time does the last ferry to Sorrento leave?)</li>
+            <li><em>A che ora chiude?</em> (What time does it close?)</li>
+          </ul>
+        </div>
+
+        <div class="rule-box">
+          <span class="formula-tag">È possibile + [Infinitive Verb]?</span>
+          <div class="rule-desc">"Is it possible to...?"</div>
+          <ul class="example-list">
+            <li><em>È possibile pagare con la carta?</em> (Is it possible to pay with card?)</li>
+            <li><em>È possibile dividere il conto?</em> (Is it possible to split the check?)</li>
+          </ul>
+        </div>
+
+        <div class="rule-box">
+          <span class="formula-tag">Ha qualcosa senza + [Ingredient]?</span>
+          <div class="rule-desc">"Do you have anything without...?" (Essential for dietary needs & allergies):</div>
+          <ul class="example-list">
+            <li><em>Ha qualcosa senza glutine?</em> (Do you have anything gluten-free?)</li>
+            <li><em>Ha qualcosa senza latticini?</em> (Do you have anything dairy-free?)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: QUICK VOCABULARY -->
+    <section id="panel-vocab" class="panel" role="tabpanel" aria-labelledby="tab-vocab" hidden>
+      <div class="wrap">
+        <p class="list-meta">Tap any word to hear it.</p>
+        <h2 class="section-title">⏱️ Time & Schedules</h2>
+        <div class="vocab-grid">
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Tra venti minuti</span><span class="vocab-en">In 20 minutes</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Tra un'ora</span><span class="vocab-en">In one hour</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Adesso / Ora</span><span class="vocab-en">Now</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Dopo / Più tardi</span><span class="vocab-en">Later / After</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Oggi / Stasera</span><span class="vocab-en">Today / Tonight</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Domani mattina</span><span class="vocab-en">Tomorrow morning</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Subito</span><span class="vocab-en">Right away / Immediately</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">In ritardo / In orario</span><span class="vocab-en">Delayed / On time</span></button>
+        </div>
+
+        <h2 class="section-title">📍 Directions & Transport Terms</h2>
+        <div class="vocab-grid">
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">A destra</span><span class="vocab-en">To the right</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">A sinistra</span><span class="vocab-en">To the left</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Sempre dritto</span><span class="vocab-en">Straight ahead</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Vicino / Lontano</span><span class="vocab-en">Near / Far</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Entrata / Uscita</span><span class="vocab-en">Entrance / Exit</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Binario</span><span class="vocab-en">Platform / Track</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Molo / Imbarco</span><span class="vocab-en">Pier / Boarding dock</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Traghetto / Aliscafo</span><span class="vocab-en">Ferry / Fast hydrofoil</span></button>
+        </div>
+
+        <h2 class="section-title">🔢 Essential Numbers</h2>
+        <div class="vocab-grid">
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Uno / Due / Tre</span><span class="vocab-en">1 / 2 / 3</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Quattro / Cinque</span><span class="vocab-en">4 / 5</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Sei / Sette / Otto</span><span class="vocab-en">6 / 7 / 8</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Nove / Dieci</span><span class="vocab-en">9 / 10</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Venti / Trenta</span><span class="vocab-en">20 / 30</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Cinquanta / Cento</span><span class="vocab-en">50 / 100</span></button>
+        </div>
+
+        <h2 class="section-title">🔗 Connecting Words & Courtesies</h2>
+        <div class="vocab-grid">
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">E / O</span><span class="vocab-en">And / Or</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Ma</span><span class="vocab-en">But</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Con / Senza</span><span class="vocab-en">With / Without</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Perché</span><span class="vocab-en">Because / Why</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Molto gentile</span><span class="vocab-en">Very kind of you</span></button>
+          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Scusi il disturbo</span><span class="vocab-en">Sorry to trouble you</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="Sections">
+    <div class="wrap tabbar-inner" role="tablist">
+      <button type="button" class="tab" role="tab" id="tab-phrases" data-tab="phrases" aria-controls="panel-phrases" aria-selected="false" tabindex="-1">
+        <span class="tab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+        <span>Phrases</span>
+      </button>
+      <button type="button" class="tab" role="tab" id="tab-builder" data-tab="builder" aria-controls="panel-builder" aria-selected="true">
+        <span class="tab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+        <span>Builder</span>
+      </button>
+      <button type="button" class="tab" role="tab" id="tab-vocab" data-tab="vocab" aria-controls="panel-vocab" aria-selected="false" tabindex="-1">
+        <span class="tab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+        <span>Vocab</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- FULL-SCREEN "SHOW TO STAFF" CARD -->
+  <dialog id="showCard" class="show-card" aria-labelledby="showTag">
+    <div class="show-inner">
+      <div class="show-top">
+        <span class="show-tag" id="showTag">Mostra al personale · Show to staff</span>
+        <button type="button" class="show-close" data-action="close" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="show-text" id="showText">
+        <p class="show-it" id="showIt" lang="it"></p>
+        <p class="show-phon" id="showPhon"></p>
+        <p class="show-en" id="showEn"></p>
+      </div>
+
+      <div class="show-actions">
+        <button type="button" class="show-btn" data-action="flip" aria-pressed="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Flip 180°
+        </button>
+        <button type="button" class="show-btn icon" data-action="slow" aria-pressed="false" aria-label="Slow audio" title="Slow audio"><span aria-hidden="true">🐢</span></button>
+        <button type="button" class="show-btn primary" data-action="speak">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          Listen
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    'use strict';
+
+    // =========================================================================
+    // 1. TRAVEL CATEGORIES (shared by the phrase filter and the sentence builder)
+    // =========================================================================
+    const CATEGORIES = [
+      { id: 'basics',    icon: '👋', label: 'Basics' },
+      { id: 'dining',    icon: '🍽️', label: 'Dining',           it: 'Ristorante & Caffè',   desc: 'Dining, counter coffee, table service & check requests.' },
+      { id: 'dietary',   icon: '🍕', label: 'Dietary / Celiac', it: 'Allergie & Diete',     desc: 'Celiac gluten-free, dairy, vegan, allergies & tap water.' },
+      { id: 'ferry',     icon: '⛴️', label: 'Ferries / Sea',    it: 'Traghetti & Costiera', desc: 'Amalfi, Positano, Capri hydrofoils, piers & luggage.' },
+      { id: 'transit',   icon: '🚆', label: 'Trains & Buses',   it: 'Treni & Bus SITA',     desc: 'Rome Termini, Circumvesuviana, Pompeii & SITA tickets.' },
+      { id: 'hotel',     icon: '🏨', label: 'Hotel & B&B',      it: 'Albergo & Check-In',   desc: 'Early luggage drop, room amenities, Wi-Fi & checkout.' },
+      { id: 'beach',     icon: '🏖️', label: 'Beach & Boats',    it: 'Spiaggia & Lidi',      desc: 'Renting sunbeds, umbrellas & boat charters in Positano/Capri.' },
+      { id: 'sights',    icon: '🏛️', label: 'Sights & Tours',   it: 'Monumenti & Tour',     desc: 'Colosseum, Vatican, Pompeii reservations & audio guides.' },
+      { id: 'aperitivo', icon: '🍷', label: 'Aperitivo & Wine', it: 'Aperitivo & Bar',      desc: 'Spritz (Aperol/Limoncello), regional wines & bar snacks.' },
+      { id: 'taxi',      icon: '🚕', label: 'Taxi & Scooter',   it: 'Taxi & Scooter',       desc: 'Airport flat rates, taxi meters & renting a Vespa in Sorrento.' },
+      { id: 'emergency', icon: '🚨', label: 'Urgent & Help',    it: 'Farmacia & Aiuto',     desc: 'Seasickness remedies, lost wallet/passport & urgent medical.' }
+    ];
+
+    // =========================================================================
+    // 2. PHRASES DATABASE (50+ HIGH-YIELD TRAVEL PHRASES)
+    // =========================================================================
+    const PHRASES = [
+      // Basics & Courtesy
+      { cat: 'basics', it: 'Buongiorno / Buonasera', en: 'Good morning / Good evening', phon: 'bwon-JOR-noh / bwah-nah-SEH-rah', note: 'Use buongiorno until ~1-2 PM, then switch to buonasera.' },
+      { cat: 'basics', it: 'Per favore / Grazie mille', en: 'Please / Thank you very much', phon: 'pehr fah-VOH-reh / GRAHT-syeh MEE-leh', note: 'Essential politeness at all times.' },
+      { cat: 'basics', it: 'Prego', en: 'You\'re welcome / After you / How can I help?', phon: 'PREH-goh', note: 'You will hear this constantly from waiters and store clerks.' },
+      { cat: 'basics', it: 'Mi scusi / Permesso', en: 'Excuse me (formal) / Pardon (passing through crowd)', phon: 'mee SKOO-zee / pehr-MEHS-soh', note: 'Use "permesso" when boarding tight ferries or Rome metro.' },
+      { cat: 'basics', it: 'Parla inglese?', en: 'Do you speak English?', phon: 'PAR-lah een-GLEH-zeh?', note: 'Polite question before switching to English.' },
+      { cat: 'basics', it: 'Non parlo bene l\'italiano.', en: 'I don\'t speak Italian well.', phon: 'nohn PAR-loh BEH-neh leet-ahl-YAH-noh', note: 'Locals appreciate you trying!' },
+      { cat: 'basics', it: 'Può ripetere più lentamente, per favore?', en: 'Could you repeat more slowly, please?', phon: 'pwoh ree-PEH-teh-reh pyoo lehn-tah-MEHN-teh, pehr fah-VOH-reh?', note: 'Great when locals speak too fast.' },
+      { cat: 'basics', it: 'Scusi il disturbo.', en: 'Sorry to trouble / disturb you.', phon: 'SKOO-zee eel dees-TOOR-boh', note: 'Gold-standard polite opener before asking questions.' },
+
+      // Dining & Trattoria
+      { cat: 'dining', it: 'Un caffè al banco, per favore.', en: 'An espresso at the counter, please.', phon: 'oon kahf-FEH ahl BAHN-koh, pehr fah-VOH-reh', note: 'Fast & cheaper. In Italy "un caffè" is an espresso.' },
+      { cat: 'dining', it: 'Un tavolo per due all\'aperto, per favore.', en: 'A table for two outside, please.', phon: 'oon TAH-voh-loh pehr DOO-eh ahl-lah-PEHR-toh, pehr fah-VOH-reh', note: 'Great for coastal views.' },
+      { cat: 'dining', it: 'Il conto, per favore.', en: 'The check / bill, please.', phon: 'eel KOHN-toh, pehr fah-VOH-reh', note: 'Waiters rarely bring it until you ask.' },
+      { cat: 'dining', it: 'Possiamo pagare con la carta?', en: 'Can we pay by card?', phon: 'pohs-SYAH-moh pah-GAH-reh kohn lah KAR-tah?', note: 'Cards widely accepted, but good to confirm.' },
+      { cat: 'dining', it: 'Possiamo fare conti separati?', en: 'Can we split the check / pay separately?', phon: 'pohs-SYAH-moh FAH-reh KOHN-tee seh-pah-RAH-tee?', note: 'Ask before the bill is printed.' },
+      { cat: 'dining', it: 'Posso avere acqua naturale / gassata?', en: 'May I have still / sparkling water?', phon: 'POHS-soh ah-VEH-reh AHK-wah nah-too-RAH-leh / gahs-SAH-tah?', note: 'Tap water isn\'t automatically served.' },
+      { cat: 'dining', it: 'È compreso il coperto?', en: 'Is the cover charge included?', phon: 'eh kohm-PREH-zoh eel koh-PEHR-toh?', note: '"Coperto" is the bread/table service charge per head.' },
+      { cat: 'dining', it: 'Da asporto, per favore.', en: 'Takeaway / To-go, please.', phon: 'dah ahs-POHR-toh, pehr fah-VOH-reh', note: 'Useful for pizza al taglio or paninis.' },
+      { cat: 'dining', it: 'Qual è il piatto del giorno?', en: 'What is the special / dish of the day?', phon: 'kwahl eh eel PYAHT-toh dehl JOR-noh?', note: 'Best way to get fresh coastal seafood in Amalfi.' },
+
+      // Dietary & Allergies
+      { cat: 'dietary', it: 'Avete opzioni senza glutine per celiaci?', en: 'Do you have gluten-free options for celiacs?', phon: 'ah-VEH-teh ohp-TSYOH-nee SEHN-tsah GLOO-tee-neh pehr cheh-LYAH-chee?', note: 'Italy is world-class for celiac safety (AIC standard).' },
+      { cat: 'dietary', it: 'Sono allergico alle noci / ai crostacei.', en: 'I am allergic to nuts / shellfish.', phon: 'SOH-noh ahl-LEHR-jee-koh AHL-leh NOH-chee / ah-ee kroh-STAH-cheh-ee', note: 'Vital allergy disclosure.' },
+      { cat: 'dietary', it: 'È senza lattosio / formaggio?', en: 'Is it lactose-free / without cheese?', phon: 'eh SEHN-tsah laht-TOH-zyoh / for-MAHD-joh?', note: 'Helpful for dairy sensitivities.' },
+      { cat: 'dietary', it: 'Avete piatti vegetariani o vegani?', en: 'Do you have vegetarian or vegan dishes?', phon: 'ah-VEH-teh PYAHT-tee veh-jeh-tah-RYAH-nee oh veh-GAH-nee?', note: 'Many pasta & vegetable dishes naturally qualify.' },
+      { cat: 'dietary', it: 'Possiamo avere una caraffa d\'acqua del rubinetto?', en: 'Can we have a carafe of tap water?', phon: 'pohs-SYAH-moh ah-VEH-reh OO-nah kah-RAHF-fah DAHK-wah dehl roo-bee-NEHT-toh?', note: 'Safe and clean throughout Rome and Campania.' },
+
+      // Ferries & Maritime (Amalfi / Sorrento / Capri)
+      { cat: 'ferry', it: 'A che ora parte il traghetto per Positano / Capri?', en: 'What time does the ferry to Positano / Capri leave?', phon: 'ah keh OH-rah PAR-teh eel trah-GEHT-toh pehr...', note: 'Critical for Amalfi Coast port docks.' },
+      { cat: 'ferry', it: 'Dov\'è l\'imbarco dei traghetti?', en: 'Where is the ferry boarding dock?', phon: 'doh-VEH leem-BAR-koh deh-ee trah-GEHT-tee?', note: 'Helps navigate Sorrento Marina Piccola and Amalfi port.' },
+      { cat: 'ferry', it: 'Questo è l\'aliscafo veloce o il traghetto?', en: 'Is this the fast hydrofoil or regular ferry?', phon: 'KWEHS-toh eh lah-lee-SKAH-foh veh-LOH-cheh oh eel trah-GEHT-toh?', note: 'Aliscafo is faster but cancelled first in rough seas.' },
+      { cat: 'ferry', it: 'C\'è un supplemento per le valigie grandi?', en: 'Is there a fee for large suitcases on the ferry?', phon: 'CHEH oon soop-pleh-MEHN-toh pehr leh vah-LEE-jeh GRAHN-dee?', note: 'Usually €1.50–€3.00 per large bag on ferries.' },
+      { cat: 'ferry', it: 'I traghetti partono regolarmente con questo mare?', en: 'Are ferries running normally with this sea condition?', phon: 'ee trah-GEHT-tee PAR-toh-noh reh-goh-lar-MEHN-teh kohn KWEHS-toh MAH-reh?', note: 'High winds cancel hydrofoils to Capri.' },
+
+      // Trains, Metro & SITA Buses
+      { cat: 'transit', it: 'Da quale binario parte il treno per Roma?', en: 'Which track / platform does the train to Rome leave from?', phon: 'dah KWAH-leh bee-NAH-ryoh PAR-teh eel TREH-noh pehr ROH-mah?', note: 'Vital at Rome Termini & Napoli Centrale.' },
+      { cat: 'transit', it: 'Dove posso comprare i biglietti per il bus SITA?', en: 'Where can I buy tickets for the SITA bus?', phon: 'DOH-veh POHS-soh kohm-PRAH-reh ee beel-YEHT-tee pehr eel boos SEE-tah?', note: 'Tickets are NEVER sold onboard; buy at a Tabacchi first.' },
+      { cat: 'transit', it: 'Questo autobus va ad Amalfi / Positano?', en: 'Does this bus go to Amalfi / Positano?', phon: 'KWEHS-toh OW-toh-boos vah ahd ah-MAHL-fee?', note: 'Check before boarding SITA buses.' },
+      { cat: 'transit', it: 'Dove posso convalidare il biglietto?', en: 'Where can I validate my ticket?', phon: 'DOH-veh POHS-soh kohn-vah-lee-DAH-reh eel beel-YEHT-toh?', note: 'Always stamp tickets in yellow/green machines before boarding!' },
+      { cat: 'transit', it: 'Da dove parte la Circumvesuviana per Pompei / Sorrento?', en: 'Where does the Circumvesuviana train to Pompeii / Sorrento leave from?', phon: 'dah DOH-veh PAR-teh lah cheer-koom-veh-zoo-VYAH-nah pehr pohm-PEH-ee?', note: 'Located on the lower floor of Napoli Centrale.' },
+      { cat: 'transit', it: 'Guarderemo lo spettacolo tra venti minuti.', en: 'We\'ll watch the show in 20 minutes.', phon: 'gwar-deh-REH-moh loh speht-TAH-koh-loh trah VEHN-tee mee-NOO-tee', note: 'Conversational: "Guardiamo lo spettacolo tra venti minuti."' },
+
+      // Hotel & Accommodation
+      { cat: 'hotel', it: 'Possiamo lasciare i bagagli prima del check-in?', en: 'Can we leave our luggage before check-in?', phon: 'pohs-SYAH-moh lah-SHAH-reh ee bah-GAHL-yee PREE-mah dehl check-in?', note: 'Great when arriving in Rome or Sorrento early.' },
+      { cat: 'hotel', it: 'Qual è la password del Wi-Fi?', en: 'What is the Wi-Fi password?', phon: 'kwahl eh lah password dehl Wi-Fi?', note: 'Front desk essential.' },
+      { cat: 'hotel', it: 'L\'aria condizionata non funziona bene.', en: 'The air conditioning isn\'t working properly.', phon: 'LAH-ryah kohn-dee-tsyo-NAH-tah nohn foon-TSYOH-nah BEH-neh.', note: 'Crucial for summer heat.' },
+      { cat: 'hotel', it: 'È possibile avere due cuscini / asciugamani in più?', en: 'Is it possible to have two extra pillows / towels?', phon: 'eh pohs-SEE-bee-leh ah-VEH-reh DOO-eh koo-SHEE-nee / ah-shoo-gah-MAH-nee een pyoo?', note: 'Room service inquiry.' },
+      { cat: 'hotel', it: 'A che ora dobbiamo fare il check-out?', en: 'What time is check-out?', phon: 'ah keh OH-rah dohb-BYAH-moh FAH-reh eel check-out?', note: 'Confirm before departure day.' },
+
+      // Beach & Boat Charters
+      { cat: 'beach', it: 'Vorrei noleggiare due lettini e un ombrellone.', en: 'I\'d like to rent two sunbeds and an umbrella.', phon: 'vohr-REH-ee noh-lehd-JAH-reh DOO-eh leht-TEE-nee eh oon ohm-brehl-LOH-neh.', note: 'Standard phrase at private Amalfi & Positano lidi.' },
+      { cat: 'beach', it: 'Quanto costa per l\'intera giornata?', en: 'How much is it for the whole day?', phon: 'KWAHN-toh KOH-stah pehr leen-TEH-rah jor-NAH-tah?', note: 'Lido rates vary significantly by row.' },
+      { cat: 'beach', it: 'Dov\'è la spiaggia libera?', en: 'Where is the free public beach?', phon: 'doh-VEH lah SPYAHD-jah LEE-beh-rah?', note: 'Small free sections alongside private beach clubs.' },
+      { cat: 'beach', it: 'Vorrei prenotare un tour in barca per i Faraglioni.', en: 'I\'d like to book a boat tour to the Faraglioni rocks.', phon: 'vohr-REH-ee preh-noh-TAH-reh oon tour een BAR-kah pehr ee fah-rahl-YOH-nee.', note: 'Iconic Capri coast boat trip.' },
+
+      // Sights, Museums & Ruins
+      { cat: 'sights', it: 'Abbiamo già la prenotazione online.', en: 'We already have an online reservation.', phon: 'ahb-BYAH-moh JAH lah preh-noh-tah-TSYOH-neh on-line.', note: 'Skip-the-line at Colosseum, Vatican, or Pompeii.' },
+      { cat: 'sights', it: 'È obbligatorio coprire le spalle e le ginocchia?', en: 'Is it mandatory to cover shoulders and knees?', phon: 'eh ohb-blee-gah-TOH-ryoh koh-PREE-reh leh SPAHL-leh eh leh jee-NOHK-kyah?', note: 'Strictly enforced at St. Peter\'s and Italian churches.' },
+      { cat: 'sights', it: 'Avete un\'audioguida in inglese?', en: 'Do you have an audio guide in English?', phon: 'ah-VEH-teh oon-ow-dyoh-GWEE-dah een een-GLEH-zeh?', note: 'Helpful for exploring Pompeii.' },
+      { cat: 'sights', it: 'Dov\'è l\'ingresso / l\'uscita per i gruppi?', en: 'Where is the entrance / exit for groups / individuals?', phon: 'doh-VEH lehn-GREHS-soh / loo-SHEE-tah pehr ee GROOP-pee?', note: 'Avoid wrong lines at busy monuments.' },
+      { cat: 'sights', it: 'Possiamo scattare foto qui?', en: 'Can we take photos here?', phon: 'pohs-SYAH-moh skaht-TAH-reh FOH-toh kwee?', note: 'No photos allowed in the Sistine Chapel.' },
+
+      // Aperitivo, Wine & Nightlife
+      { cat: 'aperitivo', it: 'Un Aperol Spritz e un Limoncello Spritz, per favore.', en: 'An Aperol Spritz and a Limoncello Spritz, please.', phon: 'oon AH-peh-rohl spritz eh oon lee-mohn-CHEHL-loh spritz, pehr fah-VOH-reh.', note: 'Limoncello spritz is the signature Amalfi cocktail!' },
+      { cat: 'aperitivo', it: 'Ci sono gli stuzzichini con l\'aperitivo?', en: 'Do snacks / appetizers come with the aperitivo?', phon: 'chee SOH-noh lyee stoot-tsee-KEE-nee kohn lah-peh-ree-TEE-voh?', note: 'In Italy, drinks typically include olives, chips, or small bites.' },
+      { cat: 'aperitivo', it: 'Quale vino bianco locale ci consiglia?', en: 'Which local white wine do you recommend?', phon: 'KWAH-leh VEE-noh BYAHN-koh loh-KAH-leh chee kohn-SEEL-yah?', note: 'Try Greco di Tufo or Furore bianco on the coast.' },
+      { cat: 'aperitivo', it: 'Un bicchiere di vino della casa, per favore.', en: 'A glass of the house wine, please.', phon: 'oon beek-KYEH-reh dee VEE-noh dehl-lah KAH-zah, pehr fah-VOH-reh.', note: 'Inexpensive and almost always good quality.' },
+
+      // Taxi & Scooter Rentals
+      { cat: 'taxi', it: 'Quanto costa la tariffa fissa per l\'aeroporto?', en: 'How much is the flat rate to the airport?', phon: 'KWAHN-toh KOH-stah lah tah-REEF-fah FEES-sah pehr lah-eh-roh-POHR-toh?', note: 'Rome fixed rates: Fiumicino €55, Ciampino €40.' },
+      { cat: 'taxi', it: 'Può accendere il tassametro, per favore?', en: 'Could you turn on the meter, please?', phon: 'pwoh aht-CHEHN-deh-reh eel tahs-SAH-meh-troh, pehr fah-VOH-reh?', note: 'Polite reminder if driver forgets meter.' },
+      { cat: 'taxi', it: 'Mi può lasciare all\'angolo qui vicino?', en: 'Can you drop me off at the corner nearby?', phon: 'mee pwoh lah-SHAH-reh ahl-LAHN-goh-loh kwee vee-CHEE-noh?', note: 'Good when streets are pedestrian-only.' },
+      { cat: 'taxi', it: 'Vorrei noleggiare uno scooter 125 per due giorni.', en: 'I\'d like to rent a 125cc scooter for two days.', phon: 'vohr-REH-ee noh-lehd-JAH-reh OO-noh SKOO-tehr pehr DOO-eh JOR-nee.', note: 'Popular way to explore the Sorrento peninsula.' },
+
+      // Emergency & Pharmacy
+      { cat: 'emergency', it: 'Non funziona.', en: 'It\'s not working.', phon: 'nohn foon-TSYOH-nah', note: 'For ticket validators, card readers, AC, or keycards.' },
+      { cat: 'emergency', it: 'Dov\'è la farmacia più vicina?', en: 'Where is the nearest pharmacy?', phon: 'doh-VEH lah far-mah-CHEE-ah pyoo vee-CHEE-nah?', note: 'Look for glowing green cross sign.' },
+      { cat: 'emergency', it: 'Cerco una medicina per il mal di mare / mal d\'auto.', en: 'I need medication for seasickness / car sickness.', phon: 'CHEHR-koh OO-nah meh-dee-CHEE-nah pehr eel mahl dee MAH-reh / mahl DOW-toh.', note: 'Ask for "Xamamina" at port pharmacies.' },
+      { cat: 'emergency', it: 'Ho perso il portafoglio / il passaporto!', en: 'I lost my wallet / my passport!', phon: 'oh PEHR-soh eel pohr-tah-FOHL-yoh / eel pahs-sah-POHR-toh!', note: 'Report to Carabinieri or hotel reception.' },
+      { cat: 'emergency', it: 'Ho bisogno di aiuto / Chiami il centododici (112)!', en: 'I need help / Call 112 (European emergency number)!', phon: 'oh bee-ZOHN-yoh dee ah-YOO-toh / KYAH-mee eel chehn-toh-DOH-dee-chee!', note: '112 works for police, ambulance, and fire in Italy.' }
+    ];
+
+    // =========================================================================
+    // 3. SENTENCE BUILDER TEMPLATES (4-SLOT ENGINE, keyed by category id)
+    // =========================================================================
+    const TEMPLATES = {
+      dining: [
+        {
+          id: 'order_food',
+          name: 'Ordinare al tavolo / banco',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Intenzione (Intent)',
+              options: [
+                { it: 'Vorrei', en: 'I would like', phon: 'vohr-REH-ee' },
+                { it: 'Posso avere', en: 'May I have', phon: 'POHS-soh ah-VEH-reh' },
+                { it: 'Prendiamo', en: 'We will take', phon: 'prehn-DYAH-moh' },
+                { it: 'Avete', en: 'Do you have', phon: 'ah-VEH-teh' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Ordinazione (Item)',
+              options: [
+                { it: 'un caffè', en: 'an espresso', phon: 'oon kahf-FEH' },
+                { it: 'un cappuccino', en: 'a cappuccino', phon: 'oon kahp-poot-CHEE-noh' },
+                { it: 'un tavolo', en: 'a table', phon: 'oon TAH-voh-loh' },
+                { it: 'una pizza margherita', en: 'a margherita pizza', phon: 'OO-nah PEET-tsah mar-geh-REE-tah' },
+                { it: 'un primo di pesce', en: 'a seafood pasta course', phon: 'oon PREE-moh dee PEH-sheh' },
+                { it: 'un bicchiere di vino bianco', en: 'a glass of white wine', phon: 'oon beek-KYEH-reh dee VEE-noh BYAHN-koh' },
+                { it: 'una bottiglia d\'acqua naturale', en: 'a bottle of still water', phon: 'OO-nah boht-TEEL-yah DAHK-wah nah-too-RAH-leh' },
+                { it: 'una bottiglia d\'acqua frizzante', en: 'a bottle of sparkling water', phon: 'OO-nah boht-TEEL-yah DAHK-wah freet-TSAHN-teh' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Dettaglio / Specifica',
+              options: [
+                { it: 'per due persone', en: 'for two people', phon: 'pehr DOO-eh pehr-SOH-neh' },
+                { it: 'al banco', en: 'at the bar counter', phon: 'ahl BAHN-koh' },
+                { it: 'all\'aperto', en: 'outside / terrace', phon: 'ahl-lah-PEHR-toh' },
+                { it: 'con vista mare', en: 'with sea view', phon: 'kohn VEE-stah MAH-reh' },
+                { it: 'ben cotto', en: 'well done', phon: 'behn KOHT-toh' },
+                { it: 'subito', en: 'right away', phon: 'SOO-bee-toh' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Cortesia (Closer)',
+              options: [
+                { it: ', per favore.', en: ', please.', phon: 'pehr fah-VOH-reh' },
+                { it: ', grazie mille.', en: ', thank you very much.', phon: 'GRAHT-syeh MEE-leh' },
+                { it: '?', en: '?', phon: '?' }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'dining_payment',
+          name: 'Pagamento, Conto & Coperto',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Domanda',
+              options: [
+                { it: 'Possiamo avere', en: 'Can we have', phon: 'pohs-SYAH-moh ah-VEH-reh' },
+                { it: 'È possibile pagare', en: 'Is it possible to pay', phon: 'eh pohs-SEE-bee-leh pah-GAH-reh' },
+                { it: 'Nel totale è compreso', en: 'In the total is ... included', phon: 'nehl toh-TAH-leh eh kohm-PREH-zoh' },
+                { it: 'È possibile dividere', en: 'Is it possible to split', phon: 'eh pohs-SEE-bee-leh dee-VEE-deh-reh' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Metodo / Voce',
+              options: [
+                { it: 'il conto', en: 'the bill / check', phon: 'eel KOHN-toh' },
+                { it: 'con la carta', en: 'by credit card', phon: 'kohn lah KAR-tah' },
+                { it: 'con Apple Pay', en: 'with Apple Pay', phon: 'kohn Apple Pay' },
+                { it: 'in contanti', en: 'in cash', phon: 'een kohn-TAHN-tee' },
+                { it: 'il coperto', en: 'the cover charge', phon: 'eel koh-PEHR-toh' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Modalità',
+              options: [
+                { it: 'al tavolo', en: 'at the table', phon: 'ahl TAH-voh-loh' },
+                { it: 'separatamente', en: 'separately', phon: 'seh-pah-rah-tah-MEHN-teh' },
+                { it: 'tutto insieme', en: 'all together', phon: 'TOOT-toh een-SYEH-meh' },
+                { it: 'con la ricevuta', en: 'with the receipt', phon: 'kohn lah ree-cheh-VOO-tah' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' },
+                { it: '?', en: '?', phon: '?' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      dietary: [
+        {
+          id: 'dietary_allergies',
+          name: 'Celiachia, Glutine & Latticini',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Richiesta / Avviso',
+              options: [
+                { it: 'Avete piatti', en: 'Do you have dishes', phon: 'ah-VEH-teh PYAHT-tee' },
+                { it: 'Questo piatto è', en: 'Is this dish', phon: 'KWEHS-toh PYAHT-toh eh' },
+                { it: 'Sono allergico e cerco', en: 'I am allergic and looking for', phon: 'SOH-noh ahl-LEHR-jee-koh eh CHEHR-koh' },
+                { it: 'È possibile prepararlo', en: 'Is it possible to prepare it', phon: 'eh pohs-SEE-bee-leh preh-pah-RAHR-loh' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Requisito / Ingrediente',
+              options: [
+                { it: 'senza glutine per celiaci', en: 'gluten-free for celiacs', phon: 'SEHN-tsah GLOO-tee-neh pehr cheh-LYAH-chee' },
+                { it: 'senza formaggio né latticini', en: 'without cheese nor dairy', phon: 'SEHN-tsah for-MAHD-joh neh laht-tee-CHEE-nee' },
+                { it: 'senza noci o frutta a guscio', en: 'without tree nuts', phon: 'SEHN-tsah NOH-chee oh FROOT-tah ah GOO-shoh' },
+                { it: 'completamente vegetariano', en: 'completely vegetarian', phon: 'kohm-pleh-tah-MEHN-teh veh-jeh-tah-RYAH-noh' },
+                { it: 'completamente vegano', en: 'completely vegan', phon: 'kohm-pleh-tah-MEHN-teh veh-GAH-noh' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Tipo di Portata',
+              options: [
+                { it: 'per la pasta', en: 'for pasta', phon: 'pehr lah PAH-stah' },
+                { it: 'per la pizza', en: 'for pizza', phon: 'pehr lah PEET-tsah' },
+                { it: 'per il dessert', en: 'for dessert', phon: 'pehr eel dehs-SEHR' },
+                { it: 'nel menù', en: 'on the menu', phon: 'nehl meh-NOO' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' },
+                { it: ', grazie mille.', en: ', thank you very much.', phon: 'GRAHT-syeh MEE-leh' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      ferry: [
+        {
+          id: 'ferry_coastal',
+          name: 'Aliscafi & Traghetti Costiera',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Domanda Partenza',
+              options: [
+                { it: 'A che ora parte', en: 'What time leaves', phon: 'ah keh OH-rah PAR-teh' },
+                { it: 'Dov\'è l\'imbarco per', en: 'Where is the boarding dock for', phon: 'doh-VEH leem-BAR-koh pehr' },
+                { it: 'Questo è', en: 'Is this', phon: 'KWEHS-toh eh' },
+                { it: 'C\'è un supplemento per', en: 'Is there a surcharge for', phon: 'CHEH oon soop-pleh-MEHN-toh pehr' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Tipo di Nave / Bagaglio',
+              options: [
+                { it: 'il traghetto', en: 'the standard ferry', phon: 'eel trah-GEHT-toh' },
+                { it: 'l\'aliscafo veloce', en: 'the high-speed hydrofoil', phon: 'lah-lee-SKAH-foh veh-LOH-cheh' },
+                { it: 'l\'ultimo traghetto della giornata', en: 'the last ferry of the day', phon: 'LOOL-tee-moh trah-GEHT-toh dehl-lah jor-NAH-tah' },
+                { it: 'la valigia grande', en: 'large suitcase', phon: 'lah vah-LEE-jah GRAHN-deh' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Destinazione Costiera',
+              options: [
+                { it: 'per Positano', en: 'for Positano', phon: 'pehr poh-zee-TAH-noh' },
+                { it: 'per Capri', en: 'for Capri', phon: 'pehr KAH-pree' },
+                { it: 'per Amalfi', en: 'for Amalfi', phon: 'pehr ah-MAHL-fee' },
+                { it: 'per Sorrento', en: 'for Sorrento', phon: 'pehr sohr-REHN-toh' },
+                { it: 'per Salerno', en: 'for Salerno', phon: 'pehr sah-LEHR-noh' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Tempo / Cortesia',
+              options: [
+                { it: 'oggi?', en: 'today?', phon: 'OHD-jee?' },
+                { it: 'tra dieci minuti?', en: 'in 10 minutes?', phon: 'trah DYEH-chee mee-NOO-tee?' },
+                { it: 'domani mattina?', en: 'tomorrow morning?', phon: 'doh-MAH-nee maht-TEE-nah?' },
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      transit: [
+        {
+          id: 'transit_trains',
+          name: 'Treni, Metro & Bus SITA',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Richiesta',
+              options: [
+                { it: 'Da quale binario parte', en: 'Which track does ... depart from', phon: 'dah KWAH-leh bee-NAH-ryoh PAR-teh' },
+                { it: 'Dove posso convalidare', en: 'Where can I validate / stamp', phon: 'DOH-veh POHS-soh kohn-vah-lee-DAH-reh' },
+                { it: 'Questo autobus va', en: 'Does this bus go', phon: 'KWEHS-toh OW-toh-boos vah' },
+                { it: 'Dove posso comprare i biglietti', en: 'Where can I buy tickets', phon: 'DOH-veh POHS-soh kohm-PRAH-reh ee beel-YEHT-tee' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Treno / Linea',
+              options: [
+                { it: 'il treno Frecciarossa per Roma', en: 'the high-speed train to Rome', phon: 'eel TREH-noh freht-chah-ROHS-sah pehr ROH-mah' },
+                { it: 'la Circumvesuviana per Pompei', en: 'the Circumvesuviana to Pompeii', phon: 'lah cheer-koom-veh-zoo-VYAH-nah pehr pohm-PEH-ee' },
+                { it: 'l\'autobus SITA', en: 'the SITA bus', phon: 'LOW-toh-boos SEE-tah' },
+                { it: 'il biglietto del bus', en: 'the bus ticket', phon: 'eel beel-YEHT-toh dehl boos' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Direzione / Fermata',
+              options: [
+                { it: 'a Roma Termini', en: 'at Rome Termini', phon: 'ah ROH-mah TEHR-mee-nee' },
+                { it: 'ad Amalfi via Ravello', en: 'to Amalfi via Ravello', phon: 'ahd ah-MAHL-fee VEE-ah rah-VEHL-loh' },
+                { it: 'a Sorrento stazione', en: 'at Sorrento station', phon: 'ah sohr-REHN-toh stah-TSYOH-neh' },
+                { it: 'in stazione', en: 'in the station', phon: 'een stah-TSYOH-neh' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' },
+                { it: '?', en: '?', phon: '?' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      hotel: [
+        {
+          id: 'hotel_stay',
+          name: 'Check-In, Bagagli & Camera',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Richiesta Reception',
+              options: [
+                { it: 'Possiamo lasciare', en: 'Can we leave', phon: 'pohs-SYAH-moh lah-SHAH-reh' },
+                { it: 'È possibile avere', en: 'Is it possible to have', phon: 'eh pohs-SEE-bee-leh ah-VEH-reh' },
+                { it: 'Non funziona', en: 'It is not working', phon: 'nohn foon-TSYOH-nah' },
+                { it: 'A che ora è', en: 'What time is', phon: 'ah keh OH-rah eh' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Servizio / Problema',
+              options: [
+                { it: 'i bagagli in deposito', en: 'the luggage in storage', phon: 'ee bah-GAHL-yee een deh-POH-zee-toh' },
+                { it: 'l\'aria condizionata', en: 'the air conditioning', phon: 'LAH-ryah kohn-dee-tsyo-NAH-tah' },
+                { it: 'la password del Wi-Fi', en: 'the Wi-Fi password', phon: 'lah password dehl Wi-Fi' },
+                { it: 'due asciugamani in più', en: 'two extra towels', phon: 'DOO-eh ah-shoo-gah-MAH-nee een pyoo' },
+                { it: 'la colazione', en: 'breakfast', phon: 'lah koh-lah-TSYOH-neh' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Momento / Posizione',
+              options: [
+                { it: 'prima del check-in', en: 'before check-in', phon: 'PREE-mah dehl check-in' },
+                { it: 'dopo il check-out', en: 'after check-out', phon: 'DOH-poh eel check-out' },
+                { it: 'in camera mia', en: 'in my room', phon: 'een KAH-meh-rah MEE-ah' },
+                { it: 'domattina', en: 'tomorrow morning', phon: 'doh-maht-TEE-nah' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' },
+                { it: ', grazie mille.', en: ', thank you very much.', phon: 'GRAHT-syeh MEE-leh' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      beach: [
+        {
+          id: 'beach_lido',
+          name: 'Lettini, Ombrelloni & Barche',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Noleggio / Richiesta',
+              options: [
+                { it: 'Vorremmo noleggiare', en: 'We would like to rent', phon: 'vohr-REHM-moh noh-lehd-JAH-reh' },
+                { it: 'Quanto costa', en: 'How much is', phon: 'KWAHN-toh KOH-stah' },
+                { it: 'Avete posti liberi per', en: 'Do you have free spots for', phon: 'ah-VEH-teh POH-stee LEE-beh-ree pehr' },
+                { it: 'Vorrei prenotare un giro in barca per', en: 'I\'d like to book a boat tour to', phon: 'vohr-REH-ee preh-noh-TAH-reh oon JEE-roh een BAR-kah pehr' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Dotazione / Tour',
+              options: [
+                { it: 'due lettini e un ombrellone', en: 'two sunbeds and an umbrella', phon: 'DOO-eh leht-TEE-nee eh oon ohm-brehl-LOH-neh' },
+                { it: 'un lettino in prima fila', en: 'a sunbed in the first row', phon: 'oon leht-TEE-noh een PREE-mah FEE-lah' },
+                { it: 'i Faraglioni di Capri', en: 'the Capri Faraglioni', phon: 'ee fah-rahl-YOH-nee dee KAH-pree' },
+                { it: 'la Grotta Azzurra', en: 'the Blue Grotto', phon: 'lah GROHT-tah ahd-ZOOR-rah' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Durata',
+              options: [
+                { it: 'per l\'intera giornata', en: 'for the whole day', phon: 'pehr leen-TEH-rah jor-NAH-tah' },
+                { it: 'solo per il pomeriggio', en: 'only for the afternoon', phon: 'SOH-loh pehr eel poh-meh-REED-joh' },
+                { it: 'per due ore con skipper', en: 'for 2 hours with skipper', phon: 'pehr DOO-eh OH-reh kohn SKEEP-pehr' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' },
+                { it: ', grazie.', en: ', thank you.', phon: 'GRAHT-syeh' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      sights: [
+        {
+          id: 'sights_tours',
+          name: 'Musei, Pompei & Chiese',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Accesso / Domanda',
+              options: [
+                { it: 'Abbiamo già la prenotazione per', en: 'We already have the reservation for', phon: 'ahb-BYAH-moh JAH lah preh-noh-tah-TSYOH-neh pehr' },
+                { it: 'Dov\'è l\'ingresso per', en: 'Where is the entrance for', phon: 'doh-VEH lehn-GREHS-soh pehr' },
+                { it: 'È obbligatorio coprire', en: 'Is it mandatory to cover', phon: 'eh ohb-blee-gah-TOH-ryoh koh-PREE-reh' },
+                { it: 'Avete un\'audioguida in', en: 'Do you have an audio guide in', phon: 'ah-VEH-teh oon-ow-dyoh-GWEE-dah een' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Monumento / Requisito',
+              options: [
+                { it: 'il Colosseo', en: 'the Colosseum', phon: 'eel koh-lohs-SEH-oh' },
+                { it: 'i Musei Vaticani', en: 'the Vatican Museums', phon: 'ee moo-ZEH-ee vah-tee-KAH-nee' },
+                { it: 'gli Scavi di Pompei', en: 'the Pompeii Ruins', phon: 'lyee SKAH-vee dee pohm-PEH-ee' },
+                { it: 'le spalle e le ginocchia', en: 'shoulders and knees', phon: 'leh SPAHL-leh eh leh jee-NOHK-kyah' },
+                { it: 'inglese', en: 'English', phon: 'een-GLEH-zeh' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Modalità / Orario',
+              options: [
+                { it: 'per le dieci', en: 'for 10:00 AM', phon: 'pehr leh DYEH-chee' },
+                { it: 'senza fare la fila', en: 'without waiting in line', phon: 'SEHN-tsah FAH-reh lah FEE-lah' },
+                { it: 'all\'interno della basilica', en: 'inside the basilica', phon: 'ahl-leen-TEHR-noh dehl-lah bah-ZEE-lee-kah' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' },
+                { it: ', grazie mille.', en: ', thank you very much.', phon: 'GRAHT-syeh MEE-leh' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      aperitivo: [
+        {
+          id: 'aperitivo_wine',
+          name: 'Spritz, Vino & Stuzzichini',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Ordinazione Bar',
+              options: [
+                { it: 'Vorrei ordinare', en: 'I\'d like to order', phon: 'vohr-REH-ee or-dee-NAH-reh' },
+                { it: 'Prendiamo', en: 'We\'ll take', phon: 'prehn-DYAH-moh' },
+                { it: 'Quale vino locale ci consiglia', en: 'Which local wine do you recommend', phon: 'KWAH-leh VEE-noh loh-KAH-leh chee kohn-SEEL-yah' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Drink / Aperitivo',
+              options: [
+                { it: 'un Aperol Spritz', en: 'an Aperol Spritz', phon: 'oon AH-peh-rohl spritz' },
+                { it: 'un Limoncello Spritz', en: 'a Limoncello Spritz', phon: 'oon lee-mohn-CHEHL-loh spritz' },
+                { it: 'un bicchiere di Greco di Tufo', en: 'a glass of Greco di Tufo (Campanian white)', phon: 'oon beek-KYEH-reh dee GREH-koh dee TOO-foh' },
+                { it: 'una birra Moretti alla spina', en: 'a draught Moretti beer', phon: 'OO-nah BEER-rah moh-REHT-tee ahl-lah SPEE-nah' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Accompagnamento',
+              options: [
+                { it: 'con gli stuzzichini', en: 'with bar snacks/olives', phon: 'kohn lyee stoot-tsee-KEE-nee' },
+                { it: 'con un tagliere di salumi e formaggi', en: 'with a charcuterie & cheese board', phon: 'kohn oon tahl-YEH-reh dee sah-LOO-mee eh for-MAHD-jee' },
+                { it: 'seduti fuori', en: 'seated outside', phon: 'seh-DOO-tee FWOH-ree' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore.', en: ', please.', phon: 'pehr fah-VOH-reh' },
+                { it: ', grazie!', en: ', thank you!', phon: 'GRAHT-syeh' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      taxi: [
+        {
+          id: 'taxi_rides',
+          name: 'Tariffa Taxi & Noleggio Scooter',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Domanda Corsa',
+              options: [
+                { it: 'Quanto costa una corsa fino', en: 'How much is a ride to', phon: 'KWAHN-toh KOH-stah OO-nah KOR-sah FEE-noh' },
+                { it: 'Può accendere il tassametro', en: 'Could you turn on the meter', phon: 'pwoh aht-CHEHN-deh-reh eel tahs-SAH-meh-troh' },
+                { it: 'Mi può lasciare', en: 'Can you drop me off', phon: 'mee pwoh lah-SHAH-reh' },
+                { it: 'Vorrei noleggiare uno scooter', en: 'I\'d like to rent a scooter', phon: 'vohr-REH-ee noh-lehd-JAH-reh OO-noh SKOO-tehr' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Destinazione / Mezzo',
+              options: [
+                { it: 'all\'aeroporto di Fiumicino', en: 'to Fiumicino Airport', phon: 'ahl-lah-eh-roh-POHR-toh dee fyoo-mee-CHEE-noh' },
+                { it: 'al porto di Sorrento', en: 'to Sorrento port', phon: 'ahl POHR-toh dee sohr-REHN-toh' },
+                { it: 'all\'angolo della strada', en: 'at the street corner', phon: 'ahl-LAHN-goh-loh dehl-lah STRAH-dah' },
+                { it: 'per visitare la Costiera', en: 'to explore the Amalfi Coast', phon: 'pehr vee-zee-TAH-reh lah koh-STYEH-rah' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Tariffa / Dettaglio',
+              options: [
+                { it: 'con la tariffa fissa', en: 'with the flat rate', phon: 'kohn lah tah-REEF-fah FEES-sah' },
+                { it: 'subito', en: 'right now', phon: 'SOO-bee-toh' },
+                { it: 'per oggi e domani', en: 'for today and tomorrow', phon: 'pehr OHD-jee eh doh-MAH-nee' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore?', en: ', please?', phon: 'pehr fah-VOH-reh?' },
+                { it: '?', en: '?', phon: '?' }
+              ]
+            }
+          ]
+        }
+      ],
+
+      emergency: [
+        {
+          id: 'emergency_pharmacy',
+          name: 'Farmacia, Mal di Mare & Aiuto',
+          slots: [
+            {
+              key: 'slot1',
+              label: '1. Urgenza (Starter)',
+              options: [
+                { it: 'Ho bisogno urgente di', en: 'I urgently need', phon: 'oh bee-ZOHN-yoh oor-JEHN-teh dee' },
+                { it: 'Cerco una medicina per', en: 'I am looking for medicine for', phon: 'CHEHR-koh OO-nah meh-dee-CHEE-nah pehr' },
+                { it: 'Aiuto, ho perso', en: 'Help, I lost', phon: 'ah-YOO-toh, oh PEHR-soh' },
+                { it: 'Dov\'è subito', en: 'Where is right now', phon: 'doh-VEH SOO-bee-toh' }
+              ]
+            },
+            {
+              key: 'slot2',
+              label: '2. Problema / Necessità',
+              options: [
+                { it: 'il mal di mare', en: 'seasickness', phon: 'eel mahl dee MAH-reh' },
+                { it: 'la nausea per le curve', en: 'motion sickness from winding coastal curves', phon: 'lah NOW-zeh-ah pehr leh KOOR-veh' },
+                { it: 'il portafoglio e i documenti', en: 'my wallet and documents', phon: 'eel pohr-tah-FOHL-yoh eh ee doh-koo-MEHN-tee' },
+                { it: 'un medico che parla inglese', en: 'an English-speaking doctor', phon: 'oon MEH-dee-koh keh PAR-lah een-GLEH-zeh' },
+                { it: 'la farmacia di turno', en: 'the 24-hour on-duty pharmacy', phon: 'lah far-mah-CHEE-ah dee TOOR-noh' }
+              ]
+            },
+            {
+              key: 'slot3',
+              label: '3. Contesto',
+              options: [
+                { it: 'prima di salire sul traghetto', en: 'before getting on the ferry', phon: 'PREE-mah dee sah-LEE-reh sool trah-GEHT-toh' },
+                { it: 'qui vicino', en: 'nearby', phon: 'kwee vee-CHEE-noh' },
+                { it: 'subito', en: 'immediately', phon: 'SOO-bee-toh' }
+              ]
+            },
+            {
+              key: 'slot4',
+              label: '4. Chiusura',
+              options: [
+                { it: ', per favore!', en: ', please!', phon: 'pehr fah-VOH-reh!' },
+                { it: '! Aiuto!', en: '! Help!', phon: 'ah-YOO-toh!' }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    // =========================================================================
+    // 4. HELPERS
+    // =========================================================================
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+    const escapeHtml = str => String(str).replace(/[&<>"']/g, ch =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+
+    // Accent-insensitive search: "caffe" finds "caffè", "perche" finds "perché"
+    const fold = str => str.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+    // Remembers tab, builder sentence and audio speed across reloads (mobile browsers
+    // discard background tabs). Storage can be unavailable (private mode), so never throw.
+    const store = {
+      get(key, fallback) {
+        try {
+          const raw = localStorage.getItem('itguide.' + key);
+          return raw === null ? fallback : JSON.parse(raw);
+        } catch (e) {
+          return fallback;
+        }
+      },
+      set(key, value) {
+        try { localStorage.setItem('itguide.' + key, JSON.stringify(value)); } catch (e) {}
+      }
+    };
+
+    const ICONS = {
+      speaker: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>',
+      expand: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>'
+    };
+
+    // Bring a pill into view inside its horizontal rail without moving the page
+    function scrollRailTo(btn, instant) {
+      const rail = btn.parentElement;
+      const r = rail.getBoundingClientRect();
+      const b = btn.getBoundingClientRect();
+      if (!r.width) return; // rail is on a hidden tab
+      const margin = 32;
+      let delta = 0;
+      if (b.left < r.left + margin) delta = b.left - r.left - margin;
+      else if (b.right > r.right - margin) delta = b.right - r.right + margin;
+      if (delta) rail.scrollBy({ left: delta, behavior: instant ? 'auto' : 'smooth' });
+    }
+
+    const toast = (() => {
+      let timer;
+      return msg => {
+        const el = $('#toast');
+        // A modal <dialog> sits in the top layer, so the toast must live inside it to be seen
+        const dialog = $('#showCard');
+        const host = dialog.open ? dialog : document.body;
+        if (el.parentNode !== host) host.appendChild(el);
+        el.textContent = msg;
+        el.classList.add('show');
+        clearTimeout(timer);
+        timer = setTimeout(() => el.classList.remove('show'), 2200);
+      };
+    })();
+
+    // execCommand fallback for file:// pages and browsers that reject the Clipboard API
+    function legacyCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', ''); // no keyboard pop-up on phones
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;'; // no scroll jump
+      document.body.appendChild(ta);
+      try {
+        ta.select();
+        return document.execCommand('copy');
+      } catch (e) {
+        return false;
+      } finally {
+        ta.remove();
+      }
+    }
+
+    async function copyText(text) {
+      let copied = false;
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          copied = true;
+        } catch (e) { /* permission or focus issue: try the fallback */ }
+      }
+      if (!copied) copied = legacyCopy(text);
+      if (copied) {
+        if (navigator.vibrate) navigator.vibrate(20);
+        toast('📋 Copied to clipboard');
+      } else {
+        toast('Couldn’t copy. Long-press the text instead.');
+      }
+    }
+
+    // =========================================================================
+    // 5. OFFLINE SPEECH (Web Speech API, Italian voice, shared slow mode)
+    // =========================================================================
+    const Speech = (() => {
+      const synth = 'speechSynthesis' in window ? window.speechSynthesis : null;
+      let voices = [];
+      let slow = store.get('slow', false) === true;
+      let activeBtn = null;
+      let seq = 0;
+      let warnedNoVoice = false;
+
+      function loadVoices() {
+        voices = synth.getVoices().filter(v => /^it\b/i.test(v.lang));
+      }
+
+      function pickVoice() {
+        // Network voices (e.g. Chrome desktop "Google italiano") fail offline: use on-device ones then
+        const local = voices.filter(v => v.localService);
+        const pool = !navigator.onLine && local.length ? local : voices;
+        return pool.find(v => /google|alice/i.test(v.name)) || pool[0] || null;
+      }
+
+      // "Buongiorno / Buonasera" → "Buongiorno, Buonasera"; drop asides like "(112)"
+      function speakable(text) {
+        return text
+          .replace(/\([^)]*\)/g, ' ')
+          .replace(/\s*\/\s*/g, ', ')
+          .replace(/\s+([,.!?])/g, '$1')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function setActive(btn) {
+        if (activeBtn) activeBtn.classList.remove('is-speaking');
+        activeBtn = btn || null;
+        if (activeBtn) activeBtn.classList.add('is-speaking');
+      }
+
+      function speak(text, btn) {
+        if (!synth) {
+          toast('Audio isn’t supported in this browser');
+          return;
+        }
+        if (!voices.length) loadVoices();
+        if (!voices.length && synth.getVoices().length && !warnedNoVoice) {
+          warnedNoVoice = true;
+          toast('No Italian voice installed, so audio may sound off');
+        }
+        // Chrome can drop an utterance queued right after an unnecessary cancel()
+        if (synth.speaking || synth.pending) synth.cancel();
+
+        const id = ++seq; // ignore events from utterances that were cut off
+        const utterance = new SpeechSynthesisUtterance(speakable(text));
+        utterance.lang = 'it-IT';
+        utterance.rate = slow ? 0.65 : 0.9;
+        const voice = pickVoice();
+        if (voice) utterance.voice = voice;
+
+        utterance.onstart = () => { if (id === seq) setActive(btn); };
+        utterance.onend = () => { if (id === seq) setActive(null); };
+        utterance.onerror = e => {
+          if (id !== seq) return;
+          setActive(null);
+          if (e.error !== 'interrupted' && e.error !== 'canceled') toast('Couldn’t play audio');
+        };
+        synth.speak(utterance);
+      }
+
+      function stop() {
+        seq++;
+        setActive(null);
+        if (synth && (synth.speaking || synth.pending)) synth.cancel();
+      }
+
+      function syncSlowButtons() {
+        $$('[data-action="slow"]').forEach(b => b.setAttribute('aria-pressed', String(slow)));
+      }
+
+      function toggleSlow() {
+        slow = !slow;
+        store.set('slow', slow);
+        syncSlowButtons();
+        toast(slow ? '🐢 Slow audio on' : 'Normal audio speed');
+      }
+
+      if (synth) {
+        loadVoices();
+        synth.onvoiceschanged = loadVoices;
+      }
+
+      return { speak, stop, toggleSlow, syncSlowButtons };
+    })();
+
+    // =========================================================================
+    // 6. BOTTOM TAB NAVIGATION
+    // =========================================================================
+    const Tabs = (() => {
+      const ids = ['phrases', 'builder', 'vocab'];
+      const scrollPos = {};
+      let current = null;
+
+      function show(id) {
+        if (!ids.includes(id)) id = 'builder';
+        if (id === current) {
+          window.scrollTo({ top: 0, behavior: 'smooth' }); // re-tap the active tab: back to top
+          return;
+        }
+        if (current) scrollPos[current] = window.scrollY;
+        ids.forEach(t => {
+          const on = t === id;
+          const tab = $('#tab-' + t);
+          tab.setAttribute('aria-selected', String(on));
+          tab.tabIndex = on ? 0 : -1;
+          $('#panel-' + t).hidden = !on;
+        });
+        current = id;
+        store.set('tab', id);
+        window.scrollTo(0, scrollPos[id] || 0);
+        document.dispatchEvent(new CustomEvent('tabshown', { detail: id }));
+      }
+
+      function init() {
+        const list = $('.tabbar [role="tablist"]');
+        list.addEventListener('click', e => {
+          const tab = e.target.closest('[role="tab"]');
+          if (tab) show(tab.dataset.tab);
+        });
+        list.addEventListener('keydown', e => {
+          const i = ids.indexOf(current);
+          const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: ids.length - 1 }[e.key];
+          if (next === undefined) return;
+          e.preventDefault();
+          const id = ids[(next + ids.length) % ids.length];
+          show(id);
+          $('#tab-' + id).focus();
+        });
+        show(store.get('tab', 'builder'));
+      }
+
+      return { init };
+    })();
+
+    // =========================================================================
+    // 7. PHRASEBOOK (search + category filter)
+    // =========================================================================
+    const Phrases = (() => {
+      let category = 'all';
+      let cards = [];
+
+      function cardHtml(p, i) {
+        return `
+          <article class="card phrase" data-i="${i}">
+            <div class="phrase-text">
+              <p class="phrase-it" lang="it">${escapeHtml(p.it)}</p>
+              <p class="phrase-en">${escapeHtml(p.en)}</p>
+              <p class="phon">${escapeHtml(p.phon)}</p>
+            </div>
+            <div class="phrase-actions">
+              <button type="button" class="icon-btn" data-action="speak" aria-label="Play audio" title="Play audio">${ICONS.speaker}</button>
+              <button type="button" class="icon-btn subtle" data-action="show" aria-label="Show full screen" title="Show full screen to staff">${ICONS.expand}</button>
+            </div>
+            ${p.note ? `<p class="note">💡 ${escapeHtml(p.note)}</p>` : ''}
+          </article>`;
+      }
+
+      function render() {
+        const used = CATEGORIES.filter(c => PHRASES.some(p => p.cat === c.id));
+        $('#phraseCats').innerHTML = [{ id: 'all', label: 'All' }, ...used].map(c => `
+          <button type="button" class="pill" data-cat="${c.id}" aria-pressed="${c.id === category}">${c.icon ? `<span aria-hidden="true">${c.icon}</span>` : ''}${escapeHtml(c.label)}</button>
+        `).join('');
+
+        // Rendered once; filtering only toggles `hidden`
+        $('#phraseList').innerHTML = used.map(c => `
+          <section class="phrase-group">
+            <h2 class="group-title">${c.icon} ${escapeHtml(c.label)}</h2>
+            ${PHRASES.map((p, i) => p.cat === c.id ? cardHtml(p, i) : '').join('')}
+          </section>
+        `).join('');
+
+        cards = $$('#phraseList .phrase').map(el => {
+          const p = PHRASES[Number(el.dataset.i)];
+          return { el, p, haystack: fold(`${p.it} ${p.en} ${p.note || ''}`) };
+        });
+      }
+
+      function apply() {
+        const input = $('#searchInput');
+        const terms = fold(input.value).split(/\s+/).filter(Boolean);
+        let shown = 0;
+        cards.forEach(c => {
+          const match = (category === 'all' || c.p.cat === category) && terms.every(t => c.haystack.includes(t));
+          c.el.hidden = !match;
+          if (match) shown++;
+        });
+        $$('#phraseList .phrase-group').forEach(g => { g.hidden = !g.querySelector('.phrase:not([hidden])'); });
+        $('#phraseList').classList.toggle('single-cat', category !== 'all');
+
+        const filtered = terms.length > 0 || category !== 'all';
+        $('#phraseMeta').textContent = filtered ? `${shown} of ${PHRASES.length} phrases` : `${PHRASES.length} phrases`;
+        $('#searchClear').hidden = !input.value;
+
+        $('#phraseEmpty').hidden = shown > 0;
+        if (!shown) {
+          $('#phraseEmptyText').textContent = terms.length
+            ? `No phrases match “${input.value.trim()}”${category !== 'all' ? ' in this category' : ''}.`
+            : 'No phrases in this category.';
+          $('#phraseEmptyAction').textContent = category !== 'all' ? 'Search all categories' : 'Clear search';
+        }
+      }
+
+      function setCategory(id) {
+        category = id;
+        $$('#phraseCats .pill').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.cat === id)));
+        const pill = $(`#phraseCats [data-cat="${id}"]`);
+        if (pill) scrollRailTo(pill);
+        apply();
+        // Switching filters mid-scroll: jump back to the top of the list, keeping the search bar
+        const listTop = $('#panel-phrases').getBoundingClientRect().top + window.scrollY;
+        if (window.scrollY > listTop) window.scrollTo(0, listTop);
+      }
+
+      function clearSearch() {
+        $('#searchInput').value = '';
+        apply();
+      }
+
+      function init() {
+        render();
+        const input = $('#searchInput');
+        input.addEventListener('input', apply);
+        input.addEventListener('keydown', e => { if (e.key === 'Escape') clearSearch(); });
+        // The keyboard's Search key just dismisses the keyboard; results are already live
+        $('#searchForm').addEventListener('submit', e => { e.preventDefault(); input.blur(); });
+        $('#searchClear').addEventListener('click', () => { clearSearch(); input.focus(); });
+        $('#phraseCats').addEventListener('click', e => {
+          const pill = e.target.closest('[data-cat]');
+          if (pill) setCategory(pill.dataset.cat);
+        });
+        $('#phraseEmptyAction').addEventListener('click', () => {
+          if (category !== 'all') setCategory('all');
+          else clearSearch();
+        });
+        $('#phraseList').addEventListener('click', e => {
+          const btn = e.target.closest('[data-action]');
+          if (!btn) return;
+          const p = PHRASES[Number(btn.closest('.phrase').dataset.i)];
+          if (btn.dataset.action === 'speak') Speech.speak(p.it, btn);
+          else if (btn.dataset.action === 'show') ShowCard.open({ it: p.it, phon: p.phon, en: p.en });
+        });
+        document.addEventListener('tabshown', e => {
+          if (e.detail !== 'phrases') return;
+          const pill = $(`#phraseCats [data-cat="${category}"]`);
+          if (pill) scrollRailTo(pill, true);
+        });
+        apply();
+      }
+
+      return { init };
+    })();
+
+    // =========================================================================
+    // 8. FULL-SCREEN "SHOW TO STAFF" CARD (screen wake lock + 180° flip)
+    // =========================================================================
+    const ShowCard = (() => {
+      const dialog = $('#showCard');
+      let wakeLock = null;
+      let current = null;
+
+      async function keepAwake() {
+        if (!('wakeLock' in navigator) || document.visibilityState !== 'visible') return;
+        try {
+          const lock = await navigator.wakeLock.request('screen');
+          if (!dialog.open) { lock.release().catch(() => {}); return; }
+          wakeLock = lock;
+          lock.addEventListener('release', () => { if (wakeLock === lock) wakeLock = null; });
+        } catch (e) { /* denied, e.g. battery saver: the card still works */ }
+      }
+
+      function allowSleep() {
+        if (wakeLock) wakeLock.release().catch(() => {});
+        wakeLock = null;
+      }
+
+      function setFlipped(on) {
+        $('#showText').classList.toggle('flipped', on);
+        $('#showCard [data-action="flip"]').setAttribute('aria-pressed', String(on));
+      }
+
+      function open(text) {
+        current = text;
+        $('#showIt').textContent = text.it;
+        $('#showPhon').textContent = text.phon || '';
+        $('#showEn').textContent = text.en || '';
+        setFlipped(false);
+        if (!dialog.open) dialog.showModal();
+        keepAwake();
+      }
+
+      function init() {
+        // Fires for the close button, Esc and the Android back gesture alike
+        dialog.addEventListener('close', () => {
+          allowSleep();
+          Speech.stop();
+        });
+        // The OS drops the wake lock when the app is backgrounded; take it again on return
+        document.addEventListener('visibilitychange', () => {
+          if (dialog.open && !wakeLock && document.visibilityState === 'visible') keepAwake();
+        });
+        dialog.addEventListener('click', e => {
+          const btn = e.target.closest('[data-action]');
+          if (!btn) return;
+          switch (btn.dataset.action) {
+            case 'close': dialog.close(); break;
+            case 'flip': setFlipped(!$('#showText').classList.contains('flipped')); break;
+            case 'slow': Speech.toggleSlow(); break;
+            case 'speak': Speech.speak(current.it, btn); break;
+          }
+        });
+      }
+
+      return { init, open };
+    })();
+
+    // =========================================================================
+    // 9. SENTENCE BUILDER (category → formula → 4 slots → live HUD)
+    // =========================================================================
+    const Builder = (() => {
+      const CATS = CATEGORIES.filter(c => TEMPLATES[c.id]);
+      const state = { cat: CATS[0].id, tpl: 0, sel: [0, 0, 0, 0] };
+      let compiled = null;
+
+      const template = () => TEMPLATES[state.cat][state.tpl] || TEMPLATES[state.cat][0];
+      const persist = () => store.set('builder', state);
+
+      // Restore the last sentence; validate it because the data may have changed since
+      function restore() {
+        const saved = store.get('builder', null);
+        if (!saved || !TEMPLATES[saved.cat]) return;
+        state.cat = saved.cat;
+        state.tpl = TEMPLATES[saved.cat][saved.tpl] ? saved.tpl : 0;
+        state.sel = template().slots.map((slot, i) => {
+          const v = Array.isArray(saved.sel) ? saved.sel[i] : 0;
+          return Number.isInteger(v) && slot.options[v] ? v : 0;
+        });
+      }
+
+      // Chip labels drop the joining punctuation of closers: ", per favore." → "per favore."
+      const chipText = s => s.replace(/^[,.!?]\s+(?=\S)/, '');
+
+      function compile() {
+        const parts = template().slots.map((slot, i) => slot.options[state.sel[i]] || slot.options[0]);
+        // Smart grammatical glue: no space after an elision (dov'…) or before a closer
+        // that starts with punctuation (", per favore", "?")
+        const tokens = parts.map((p, i) => {
+          const next = parts[i + 1];
+          return p.it + (!next || p.it.endsWith("'") || /^[,.!?]/.test(next.it) ? '' : ' ');
+        });
+        return {
+          tokens,
+          it: tokens.join(''),
+          en: parts.map(p => p.en).join(' ').replace(/\s+/g, ' ').replace(/\s+([?,!.])/g, '$1'),
+          phon: parts.map(p => p.phon).filter(ph => /[a-z]/i.test(ph)).join(' · ')
+        };
+      }
+
+      function renderHud() {
+        compiled = compile();
+        $('#hudIt').innerHTML = compiled.tokens
+          .map((t, i) => `<span class="tok tok-${i + 1}">${escapeHtml(t)}</span>`).join('');
+        $('#hudPhon').textContent = compiled.phon;
+        $('#hudEn').textContent = compiled.en;
+      }
+
+      function renderCats() {
+        $('#builderCats').innerHTML = CATS.map(c => `
+          <button type="button" class="pill" data-cat="${c.id}" aria-pressed="${c.id === state.cat}"><span aria-hidden="true">${c.icon}</span>${escapeHtml(c.label)}</button>
+        `).join('');
+      }
+
+      function renderSlots() {
+        $('#slots').innerHTML = template().slots.map((slot, si) => `
+          <div class="slot" role="group" aria-labelledby="slot-label-${si}" style="--slot-color: var(--tok-${si + 1})">
+            <h3 class="slot-label" id="slot-label-${si}">${escapeHtml(slot.label)}</h3>
+            <div class="chips">
+              ${slot.options.map((o, oi) => `
+                <button type="button" class="chip" data-slot="${si}" data-opt="${oi}" aria-pressed="${oi === state.sel[si]}">
+                  <span class="chip-it" lang="it">${escapeHtml(chipText(o.it))}</span>
+                  <span class="chip-en">${escapeHtml(/[a-z]/i.test(o.en) ? chipText(o.en) : 'question mark')}</span>
+                </button>`).join('')}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      function renderCategory() {
+        const cat = CATS.find(c => c.id === state.cat);
+        $('#catDesc').innerHTML = `<strong lang="it">${escapeHtml(cat.it)}</strong> · ${escapeHtml(cat.desc)}`;
+        const list = TEMPLATES[state.cat];
+        $('#tplBlock').hidden = list.length < 2;
+        $('#tplSwitch').innerHTML = list.length < 2 ? '' : list.map((t, i) => `
+          <button type="button" data-tpl="${i}" aria-pressed="${i === state.tpl}" lang="it">${escapeHtml(t.name)}</button>
+        `).join('');
+        renderSlots();
+        renderHud();
+      }
+
+      // Selection changes only flip aria-pressed, so rails keep their scroll and focus
+      function syncChips() {
+        $$('#slots .chip').forEach(b => {
+          b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === state.sel[Number(b.dataset.slot)]));
+        });
+      }
+
+      function selectCategory(id, pill) {
+        if (id === state.cat) return;
+        state.cat = id;
+        state.tpl = 0;
+        state.sel = [0, 0, 0, 0];
+        $$('#builderCats .pill').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.cat === id)));
+        scrollRailTo(pill);
+        renderCategory();
+        persist();
+      }
+
+      function selectTemplate(i) {
+        if (i === state.tpl) return;
+        state.tpl = i;
+        state.sel = [0, 0, 0, 0];
+        $$('#tplSwitch [data-tpl]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.tpl) === i)));
+        renderSlots();
+        renderHud();
+        persist();
+      }
+
+      function selectOption(slot, opt) {
+        state.sel[slot] = opt;
+        syncChips();
+        renderHud();
+        persist();
+      }
+
+      function shuffle() {
+        const slots = template().slots;
+        const combos = slots.reduce((n, s) => n * s.options.length, 1);
+        let next;
+        do {
+          next = slots.map(s => Math.floor(Math.random() * s.options.length));
+        } while (combos > 1 && next.every((v, i) => v === state.sel[i])); // always change something
+        state.sel = next;
+        syncChips();
+        renderHud();
+        persist();
+      }
+
+      function reset() {
+        state.sel = [0, 0, 0, 0];
+        syncChips();
+        renderHud();
+        persist();
+      }
+
+      function init() {
+        restore();
+        renderCats();
+        renderCategory();
+
+        $('#builderCats').addEventListener('click', e => {
+          const pill = e.target.closest('[data-cat]');
+          if (pill) selectCategory(pill.dataset.cat, pill);
+        });
+        $('#tplSwitch').addEventListener('click', e => {
+          const btn = e.target.closest('[data-tpl]');
+          if (btn) selectTemplate(Number(btn.dataset.tpl));
+        });
+        $('#slots').addEventListener('click', e => {
+          const chip = e.target.closest('.chip');
+          if (chip) selectOption(Number(chip.dataset.slot), Number(chip.dataset.opt));
+        });
+        $('#panel-builder').addEventListener('click', e => {
+          const btn = e.target.closest('[data-action]');
+          if (!btn) return;
+          switch (btn.dataset.action) {
+            case 'speak': Speech.speak(compiled.it, btn); break;
+            case 'slow': Speech.toggleSlow(); break;
+            case 'copy': copyText(compiled.it); break;
+            case 'show': ShowCard.open({ it: compiled.it, phon: compiled.phon, en: compiled.en }); break;
+            case 'shuffle': shuffle(); break;
+            case 'reset': reset(); break;
+          }
+        });
+        document.addEventListener('tabshown', e => {
+          if (e.detail !== 'builder') return;
+          const pill = $(`#builderCats [data-cat="${state.cat}"]`);
+          if (pill) scrollRailTo(pill, true);
+        });
+      }
+
+      return { init };
+    })();
+
+    // =========================================================================
+    // 10. QUICK VOCAB (tap a word to hear it)
+    // =========================================================================
+    $('#panel-vocab').addEventListener('click', e => {
+      const item = e.target.closest('.vocab-item');
+      if (item) Speech.speak($('.vocab-it', item).textContent, item);
+    });
+
+    // Initialize on load
+    Phrases.init();
+    Builder.init();
+    ShowCard.init();
+    Speech.syncSlowButtons();
+    Tabs.init();
+  </script>
+</body>
+</html>

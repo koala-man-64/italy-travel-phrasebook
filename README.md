@@ -15,4 +15,13 @@ Audio uses the browser's built-in speech synthesis and needs an Italian voice on
 
 ## Offline use
 
-Nothing is fetched after the page loads, but there is no service worker yet, so the web link itself needs a connection to open. To use it with no connection at all, save `index.html` to the device and open it from there.
+Open the link once with a connection and the app saves itself on the device. You'll see "Saved for offline use", and from then on it opens with no connection. To use it like an app:
+
+- **iPhone:** in Safari, tap Share → Add to Home Screen, then open it once from the home screen while online. The home-screen app keeps its own offline copy. Safari may clear a site's copy after a week without visits, so launch it from the icon.
+- **Android:** in Chrome, tap ⋮ → Add to Home screen (or Install app), then open it once while online.
+
+Downloading `index.html` doesn't work on an iPhone: the Files app shows HTML without running its JavaScript, and Safari can't open local files.
+
+Audio with no connection needs an Italian voice installed on the phone (iPhone: Settings → Accessibility → Spoken Content → Voices → Italian).
+
+An installed copy picks up updates on the first launch after it has been online, and shows them from the launch after that.

@@ -1,0 +1,16 @@
+{
+  "name": "Italy Travel Pocket Guide",
+  "short_name": "Italy Guide",
+  "description": "Offline Italian phrasebook and sentence builder for Rome, Sorrento and the Amalfi Coast.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#00843D",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

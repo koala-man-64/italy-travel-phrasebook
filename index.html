@@ -2117,6 +2117,33 @@
 
       function init() {
         const list = $('.tabbar [role="tablist"]');
+        const main = $('main');
+        let swipe = null;
+        main.addEventListener('touchstart', e => {
+          swipe = null;
+          if (e.touches.length !== 1 || e.target.closest('button, a, input, select, textarea, [contenteditable], .rail')) return;
+          const touch = e.touches[0];
+          // Leave the screen edges available for the browser's back gesture.
+          if (touch.clientX < 24 || touch.clientX > window.innerWidth - 24) return;
+          swipe = { x: touch.clientX, y: touch.clientY, tab: current };
+        }, { passive: true });
+        main.addEventListener('touchmove', e => {
+          if (!swipe) return;
+          const touch = e.touches[0];
+          if (e.touches.length !== 1 || Math.abs(touch.clientY - swipe.y) > 40) swipe = null;
+        }, { passive: true });
+        main.addEventListener('touchcancel', () => { swipe = null; }, { passive: true });
+        main.addEventListener('touchend', e => {
+          const start = swipe;
+          swipe = null;
+          if (!start || e.touches.length || current !== start.tab) return;
+          const touch = e.changedTouches[0];
+          const dx = touch.clientX - start.x;
+          const dy = touch.clientY - start.y;
+          if (Math.abs(dx) < 60 || Math.abs(dy) > 40 || Math.abs(dx) < Math.abs(dy) * 2) return;
+          const next = ids.indexOf(current) + (dx < 0 ? 1 : -1);
+          if (next >= 0 && next < ids.length) show(ids[next]);
+        }, { passive: true });
         list.addEventListener('click', e => {
           const tab = e.target.closest('[role="tab"]');
           if (tab) show(tab.dataset.tab);

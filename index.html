@@ -497,6 +497,34 @@
     }
 
     .tok { font-weight: 800; }
+    .word-swap {
+      font: inherit;
+      color: inherit;
+      background: transparent;
+      padding: 5px 1px;
+      border: 0;
+      border-radius: 4px;
+      text-decoration: underline dotted;
+      text-underline-offset: 4px;
+      min-height: 44px;
+    }
+    .word-swap:hover, .word-swap[aria-expanded="true"] { background: var(--surface); }
+    .swap-hint { font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
+    .swap-dialog {
+      width: min(440px, calc(100% - 32px));
+      max-height: 75dvh;
+      margin: auto;
+      padding: 20px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-y: auto;
+    }
+    .swap-dialog::backdrop { background: rgb(0 0 0 / 45%); }
+    .swap-dialog .chips { flex-wrap: wrap; }
+    .swap-dialog p { margin: 10px 0; }
+    .swap-dialog .btn { margin-top: 16px; }
     .tok-1 { color: var(--tok-1); }
     .tok-2 { color: var(--tok-2); }
     .tok-3 { color: var(--tok-3); }
@@ -1022,6 +1050,7 @@
           <div class="wrap">
             <div class="card hud-card">
               <p class="hud-it" id="hudIt" lang="it" aria-live="polite"></p>
+              <p class="swap-hint">Tap an underlined word to see alternatives.</p>
               <p class="hud-phon" id="hudPhon"></p>
               <p class="hud-en" id="hudEn"></p>
               <div class="hud-actions">
@@ -2351,6 +2380,36 @@
       const CATS = CATEGORIES.filter(c => TEMPLATES[c.id]);
       const state = { cat: CATS[0].id, tpl: 0, sel: [0, 0, 0, 0] };
       let compiled = null;
+      let swapSlot = null;
+      let swapTrigger = null;
+
+      function closeSwap() {
+        const slot = swapSlot;
+        if ($('#wordSwap').open) $('#wordSwap').close();
+        swapSlot = null;
+        if (swapTrigger && swapTrigger.isConnected) {
+          swapTrigger.setAttribute('aria-expanded', 'false');
+          swapTrigger.focus();
+        } else if (slot !== null) {
+          $(`#hudIt [data-swap-slot="${slot}"]`)?.focus();
+        }
+        swapTrigger = null;
+      }
+
+      function openSwap(button) {
+        swapSlot = Number(button.dataset.swapSlot);
+        swapTrigger = button;
+        const slot = template().slots[swapSlot];
+        const current = slot.options[state.sel[swapSlot]];
+        $('#swapCurrent').textContent = chipText(current.it);
+        $('#swapOptions').innerHTML = slot.options.map((o, i) => `
+          <button type="button" class="chip" data-replacement="${i}" aria-pressed="${i === state.sel[swapSlot]}">
+            <span class="chip-it" lang="it">${escapeHtml(chipText(o.it))}</span>
+            <span class="chip-en">${escapeHtml(/[a-z]/i.test(o.en) ? chipText(o.en) : 'question mark')}</span>
+          </button>`).join('');
+        button.setAttribute('aria-expanded', 'true');
+        $('#wordSwap').showModal();
+      }
 
       const template = () => TEMPLATES[state.cat][state.tpl] || TEMPLATES[state.cat][0];
       const persist = () => store.set('builder', state);
@@ -2389,7 +2448,10 @@
       function renderHud() {
         compiled = compile();
         $('#hudIt').innerHTML = compiled.tokens
-          .map((t, i) => `<span class="tok tok-${i + 1}">${escapeHtml(t)}</span>`).join('');
+          .map((t, i) => `<span class="tok tok-${i + 1}">${t.split(/(\s+)/).map(word =>
+            /[a-zà-ÿ]/i.test(word) && template().slots[i].options.length > 1
+              ? `<button type="button" class="word-swap" data-swap-slot="${i}" aria-haspopup="dialog" aria-controls="wordSwap" aria-expanded="false" aria-label="${escapeHtml('Replace ' + word)}">${escapeHtml(word)}</button>`
+              : escapeHtml(word)).join('')}</span>`).join('');
         $('#hudPhon').textContent = compiled.phon;
         $('#hudEn').textContent = compiled.en;
       }
@@ -2484,6 +2546,29 @@
 
       function init() {
         restore();
+        const dialog = document.createElement('dialog');
+        dialog.id = 'wordSwap';
+        dialog.className = 'swap-dialog';
+        dialog.setAttribute('aria-labelledby', 'swapTitle');
+        dialog.setAttribute('aria-describedby', 'swapHelp');
+        dialog.innerHTML = `<h2 id="swapTitle">Choose a replacement</h2>
+          <p>Replacing: <strong id="swapCurrent" lang="it"></strong></p>
+          <p id="swapHelp">Choose a phrase that fits this part of your sentence. Related words change together to keep the Italian phrasing intact.</p>
+          <div class="chips" id="swapOptions" role="group" aria-label="Replacement phrases"></div>
+          <button type="button" class="btn" id="swapClose">Cancel</button>`;
+        document.body.appendChild(dialog);
+        $('#hudIt').addEventListener('click', e => {
+          const button = e.target.closest('[data-swap-slot]');
+          if (button) openSwap(button);
+        });
+        $('#swapOptions').addEventListener('click', e => {
+          const button = e.target.closest('[data-replacement]');
+          if (!button || swapSlot === null) return;
+          selectOption(swapSlot, Number(button.dataset.replacement));
+          closeSwap();
+        });
+        $('#swapClose').addEventListener('click', closeSwap);
+        dialog.addEventListener('cancel', e => { e.preventDefault(); closeSwap(); });
         renderCats();
         renderCategory();
 

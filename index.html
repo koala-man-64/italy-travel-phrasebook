@@ -749,7 +749,10 @@
     /* ==========================================================================
        QUICK VOCAB (tap to hear)
        ========================================================================== */
-    #panel-vocab .section-title:first-of-type { margin-top: 12px; }
+    .vocab-intro { margin: 16px 0 0; color: var(--muted); font-size: 0.875rem; }
+    .vocab-group { margin-top: 22px; }
+    .vocab-group .section-title { margin-top: 0; }
+    .vocab-group-count { color: var(--muted); font-size: 0.8125rem; font-weight: 500; }
 
     .vocab-grid {
       display: grid;
@@ -1194,50 +1197,25 @@
 
     <!-- TAB 3: QUICK VOCABULARY -->
     <section id="panel-vocab" class="panel" role="tabpanel" aria-labelledby="tab-vocab" hidden>
+      <div class="toolbar">
+        <div class="wrap">
+          <form class="search" id="vocabSearchForm" role="search">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="search" id="vocabSearchInput" class="search-input" placeholder="Search: train, acqua, receipt…" aria-label="Search vocabulary in Italian or English" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+            <button type="button" class="search-clear" id="vocabSearchClear" aria-label="Clear vocabulary search" hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </form>
+          <div class="rail" id="vocabCats" role="group" aria-label="Filter vocabulary by category"></div>
+        </div>
+      </div>
       <div class="wrap">
-        <p class="list-meta">Tap any word to hear it.</p>
-        <h2 class="section-title">⏱️ Time & Schedules</h2>
-        <div class="vocab-grid">
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Tra venti minuti</span><span class="vocab-en">In 20 minutes</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Tra un'ora</span><span class="vocab-en">In one hour</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Adesso / Ora</span><span class="vocab-en">Now</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Dopo / Più tardi</span><span class="vocab-en">Later / After</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Oggi / Stasera</span><span class="vocab-en">Today / Tonight</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Domani mattina</span><span class="vocab-en">Tomorrow morning</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Subito</span><span class="vocab-en">Right away / Immediately</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">In ritardo / In orario</span><span class="vocab-en">Delayed / On time</span></button>
-        </div>
-
-        <h2 class="section-title">📍 Directions & Transport Terms</h2>
-        <div class="vocab-grid">
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">A destra</span><span class="vocab-en">To the right</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">A sinistra</span><span class="vocab-en">To the left</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Sempre dritto</span><span class="vocab-en">Straight ahead</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Vicino / Lontano</span><span class="vocab-en">Near / Far</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Entrata / Uscita</span><span class="vocab-en">Entrance / Exit</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Binario</span><span class="vocab-en">Platform / Track</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Molo / Imbarco</span><span class="vocab-en">Pier / Boarding dock</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Traghetto / Aliscafo</span><span class="vocab-en">Ferry / Fast hydrofoil</span></button>
-        </div>
-
-        <h2 class="section-title">🔢 Essential Numbers</h2>
-        <div class="vocab-grid">
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Uno / Due / Tre</span><span class="vocab-en">1 / 2 / 3</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Quattro / Cinque</span><span class="vocab-en">4 / 5</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Sei / Sette / Otto</span><span class="vocab-en">6 / 7 / 8</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Nove / Dieci</span><span class="vocab-en">9 / 10</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Venti / Trenta</span><span class="vocab-en">20 / 30</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Cinquanta / Cento</span><span class="vocab-en">50 / 100</span></button>
-        </div>
-
-        <h2 class="section-title">🔗 Connecting Words & Courtesies</h2>
-        <div class="vocab-grid">
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">E / O</span><span class="vocab-en">And / Or</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Ma</span><span class="vocab-en">But</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Con / Senza</span><span class="vocab-en">With / Without</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Perché</span><span class="vocab-en">Because / Why</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Molto gentile</span><span class="vocab-en">Very kind of you</span></button>
-          <button type="button" class="vocab-item"><span class="vocab-it" lang="it">Scusi il disturbo</span><span class="vocab-en">Sorry to trouble you</span></button>
+        <p class="vocab-intro">Tap a word to hear it in Italian. Search works in either language.</p>
+        <p class="list-meta" id="vocabMeta" role="status" aria-live="polite"></p>
+        <div id="vocabList"></div>
+        <div class="empty" id="vocabEmpty" hidden>
+          <p id="vocabEmptyText"></p>
+          <button type="button" class="btn" id="vocabEmptyAction"></button>
         </div>
       </div>
     </section>
@@ -2607,16 +2585,223 @@
     })();
 
     // =========================================================================
-    // 10. QUICK VOCAB (tap a word to hear it)
+    // 10. VOCABULARY (browse, search in either language, tap to hear)
     // =========================================================================
-    $('#panel-vocab').addEventListener('click', e => {
-      const item = e.target.closest('.vocab-item');
-      if (item) Speech.speak($('.vocab-it', item).textContent, item);
-    });
+    const Vocab = (() => {
+      // Keep each spoken item separate: a combined "X / Y" card reads both aloud.
+      const categories = [
+        { id: 'essentials', icon: '👋', label: 'Essentials', words: [
+          ['Buongiorno', 'Good morning / hello'], ['Buonasera', 'Good evening'],
+          ['Buonanotte', 'Good night'], ['Ciao', 'Hi / bye (informal)'],
+          ['Arrivederci', 'Goodbye'], ['Per favore', 'Please'],
+          ['Grazie', 'Thank you'], ['Prego', 'You’re welcome'],
+          ['Scusi', 'Excuse me (formal)'], ['Mi dispiace', 'I’m sorry'],
+          ['Sì', 'Yes'], ['No', 'No'], ['Va bene', 'Okay / that’s fine'],
+          ['Non capisco', 'I don’t understand'], ['Parla inglese?', 'Do you speak English?'],
+          ['Più lentamente, per favore', 'More slowly, please']
+        ] },
+        { id: 'time', icon: '⏱️', label: 'Time & schedules', words: [
+          ['Adesso', 'Now'], ['Oggi', 'Today'], ['Domani', 'Tomorrow'],
+          ['Ieri', 'Yesterday'], ['Stasera', 'Tonight'], ['Domani mattina', 'Tomorrow morning'],
+          ['Presto', 'Early / soon'], ['Tardi', 'Late'], ['Subito', 'Right away'],
+          ['Tra venti minuti', 'In 20 minutes'], ['Tra un’ora', 'In one hour'],
+          ['Alle otto', 'At eight o’clock'], ['Apertura', 'Opening'],
+          ['Chiusura', 'Closing'], ['In ritardo', 'Delayed / late'],
+          ['In orario', 'On time']
+        ] },
+        { id: 'numbers', icon: '🔢', label: 'Numbers', words: [
+          ['Zero', '0'], ['Uno', '1'], ['Due', '2'], ['Tre', '3'],
+          ['Quattro', '4'], ['Cinque', '5'], ['Sei', '6'], ['Sette', '7'],
+          ['Otto', '8'], ['Nove', '9'], ['Dieci', '10'], ['Undici', '11'],
+          ['Dodici', '12'], ['Quindici', '15'], ['Venti', '20'],
+          ['Trenta', '30'], ['Cinquanta', '50'], ['Cento', '100']
+        ] },
+        { id: 'directions', icon: '📍', label: 'Directions', words: [
+          ['A destra', 'To the right'], ['A sinistra', 'To the left'],
+          ['Sempre dritto', 'Straight ahead'], ['Qui', 'Here'], ['Lì', 'There'],
+          ['Vicino', 'Near'], ['Lontano', 'Far'], ['Davanti', 'In front'],
+          ['Dietro', 'Behind'], ['Sopra', 'Above'],
+          ['Sotto', 'Below'], ['Entrata', 'Entrance'],
+          ['Uscita', 'Exit'], ['All’angolo', 'At the corner'],
+          ['Attraversare', 'To cross'], ['Fermata', 'Stop']
+        ] },
+        { id: 'transport', icon: '🚆', label: 'Transport', words: [
+          ['Stazione', 'Station'], ['Binario', 'Platform / track'],
+          ['Biglietto', 'Ticket'], ['Biglietteria', 'Ticket office'],
+          ['Orario', 'Timetable / schedule'], ['Partenza', 'Departure'],
+          ['Arrivo', 'Arrival'], ['Treno', 'Train'], ['Autobus', 'Bus'],
+          ['Metropolitana', 'Subway / metro'], ['Taxi', 'Taxi'],
+          ['Traghetto', 'Ferry'], ['Aliscafo', 'Fast hydrofoil'],
+          ['Molo', 'Pier'], ['Imbarco', 'Boarding'],
+          ['Coincidenza', 'Connection / transfer'],
+          ['Andata e ritorno', 'Round trip'], ['Solo andata', 'One way']
+        ] },
+        { id: 'lodging', icon: '🏨', label: 'Hotel & stay', words: [
+          ['Prenotazione', 'Reservation'], ['Camera', 'Room'],
+          ['Chiave', 'Key'], ['Reception', 'Front desk'],
+          ['Ascensore', 'Elevator'], ['Scale', 'Stairs'],
+          ['Colazione', 'Breakfast'], ['Passaporto', 'Passport'],
+          ['Documento', 'Identity document'], ['Aria condizionata', 'Air conditioning'],
+          ['Asciugamano', 'Towel'], ['Cuscino', 'Pillow'],
+          ['Coperta', 'Blanket'], ['Deposito bagagli', 'Luggage storage'],
+          ['Acqua calda', 'Hot water'], ['Wi-Fi', 'Wi-Fi']
+        ] },
+        { id: 'dining', icon: '🍽️', label: 'Dining & drinks', words: [
+          ['Menù', 'Menu'], ['Tavolo', 'Table'], ['Conto', 'Bill / check'],
+          ['Coperto', 'Cover charge'], ['Servizio', 'Service'],
+          ['Acqua naturale', 'Still water'], ['Acqua frizzante', 'Sparkling water'],
+          ['Caffè', 'Espresso / coffee'], ['Cappuccino', 'Cappuccino'],
+          ['Vino della casa', 'House wine'], ['Birra', 'Beer'],
+          ['Antipasto', 'Starter / appetizer'], ['Primo', 'First course'],
+          ['Secondo', 'Main course'], ['Contorno', 'Side dish'],
+          ['Dolce', 'Dessert'], ['Forchetta', 'Fork'], ['Coltello', 'Knife'],
+          ['Cucchiaio', 'Spoon'], ['Tovagliolo', 'Napkin'],
+          ['Da asporto', 'To take away'], ['Il resto', 'The change']
+        ] },
+        { id: 'dietary', icon: '🥗', label: 'Food needs', words: [
+          ['Senza glutine', 'Gluten-free'], ['Vegetariano', 'Vegetarian'],
+          ['Vegano', 'Vegan'], ['Allergia', 'Allergy'],
+          ['Arachidi', 'Peanuts'], ['Frutta a guscio', 'Tree nuts'],
+          ['Latticini', 'Dairy products'], ['Crostacei', 'Shellfish'],
+          ['Uova', 'Eggs'], ['Carne', 'Meat'], ['Pesce', 'Fish'],
+          ['Crudo', 'Raw'], ['Cotto', 'Cooked'], ['Piccante', 'Spicy'],
+          ['Senza', 'Without'], ['Con', 'With']
+        ] },
+        { id: 'shopping', icon: '🛍️', label: 'Shopping & money', words: [
+          ['Quanto costa?', 'How much does it cost?'], ['Prezzo', 'Price'],
+          ['Scontrino', 'Receipt'], ['Contanti', 'Cash'],
+          ['Carta di credito', 'Credit card'], ['Bancomat', 'ATM / debit card'],
+          ['Spiccioli', 'Small change'], ['Sconto', 'Discount'],
+          ['Taglia', 'Size'], ['Più grande', 'Bigger'],
+          ['Più piccolo', 'Smaller'], ['Aperto', 'Open'],
+          ['Chiuso', 'Closed'], ['Farmacia', 'Pharmacy'],
+          ['Supermercato', 'Supermarket'], ['Negozio', 'Shop']
+        ] },
+        { id: 'health', icon: '🆘', label: 'Health & help', words: [
+          ['Aiuto!', 'Help!'], ['Emergenza', 'Emergency'],
+          ['Medico', 'Doctor'], ['Ospedale', 'Hospital'],
+          ['Ambulanza', 'Ambulance'], ['Polizia', 'Police'],
+          ['Sto male', 'I feel unwell'], ['Ho dolore', 'I’m in pain'],
+          ['Febbre', 'Fever'], ['Mal di testa', 'Headache'],
+          ['Medicinale', 'Medicine'], ['Ricetta', 'Prescription'],
+          ['Cerotto', 'Bandage / plaster'], ['Bagno', 'Restroom'],
+          ['Perso', 'Lost (masculine)'], ['Persa', 'Lost (feminine)']
+        ] },
+        { id: 'outdoors', icon: '☀️', label: 'Weather & outdoors', words: [
+          ['Sole', 'Sun'], ['Pioggia', 'Rain'], ['Vento', 'Wind'],
+          ['Nuvoloso', 'Cloudy'], ['Caldo', 'Hot'], ['Freddo', 'Cold'],
+          ['Mare', 'Sea'], ['Spiaggia', 'Beach'], ['Sentiero', 'Trail'],
+          ['Collina', 'Hill'], ['Montagna', 'Mountain'],
+          ['Ombra', 'Shade'], ['Acqua', 'Water'], ['Bel panorama', 'Beautiful view']
+        ] },
+        { id: 'connectors', icon: '🔗', label: 'Connecting words', words: [
+          ['E', 'And'], ['O', 'Or'], ['Ma', 'But'],
+          ['Perché', 'Because / why'], ['Quindi', 'So / therefore'],
+          ['Anche', 'Also'], ['Solo', 'Only'], ['Ancora', 'Still / again'],
+          ['Prima', 'Before'], ['Dopo', 'After'],
+          ['Forse', 'Maybe'], ['Sempre', 'Always'],
+          ['Mai', 'Never'], ['Molto', 'Very / a lot']
+        ] }
+      ];
+
+      let category = 'all';
+      let cards = [];
+      const total = categories.reduce((count, group) => count + group.words.length, 0);
+
+      function render() {
+        $('#vocabCats').innerHTML = `
+          <button type="button" class="pill" data-cat="all" aria-pressed="true">All · ${total}</button>
+          ${categories.map(group => `<button type="button" class="pill" data-cat="${group.id}" aria-pressed="false"><span aria-hidden="true">${group.icon}</span>${escapeHtml(group.label)}</button>`).join('')}`;
+        $('#vocabList').innerHTML = categories.map(group => `
+          <section class="vocab-group" data-cat="${group.id}" aria-label="${escapeHtml(group.label)}">
+            <h2 class="section-title">${group.icon} ${escapeHtml(group.label)} <span class="vocab-group-count"></span></h2>
+            <div class="vocab-grid">${group.words.map(([it, en]) => `
+              <button type="button" class="vocab-item" aria-label="Hear ${escapeHtml(it)}: ${escapeHtml(en)}">
+                <span class="vocab-it" lang="it">${escapeHtml(it)}</span><span class="vocab-en">${escapeHtml(en)}</span>
+              </button>`).join('')}</div>
+          </section>`).join('');
+        cards = $$('#vocabList .vocab-group').map((section, i) => ({
+          section,
+          group: categories[i],
+          words: $$('.vocab-item', section).map((el, j) => ({
+            el,
+            haystack: fold(`${categories[i].words[j].join(' ')} ${categories[i].label}`).replace(/[’']/g, '')
+          }))
+        }));
+      }
+
+      function apply() {
+        const input = $('#vocabSearchInput');
+        const terms = fold(input.value.trim()).replace(/[’']/g, '').split(/\s+/).filter(Boolean);
+        let shown = 0;
+        cards.forEach(({ section, group, words }) => {
+          let inGroup = 0;
+          words.forEach(({ el, haystack }) => {
+            const match = (category === 'all' || group.id === category) && terms.every(term => haystack.includes(term));
+            el.hidden = !match;
+            if (match) inGroup++;
+          });
+          section.hidden = inGroup === 0;
+          $('.vocab-group-count', section).textContent = `${inGroup} word${inGroup === 1 ? '' : 's'}`;
+          shown += inGroup;
+        });
+        $('#vocabMeta').textContent = `${shown} of ${total} words · ${categories.length} categories`;
+        $('#vocabSearchClear').hidden = !input.value;
+        $('#vocabEmpty').hidden = shown > 0;
+        if (!shown) {
+          $('#vocabEmptyText').textContent = terms.length
+            ? `No vocabulary matches “${input.value.trim()}”${category !== 'all' ? ' in this category' : ''}.`
+            : 'No words in this category.';
+          $('#vocabEmptyAction').textContent = category !== 'all' ? 'Search all categories' : 'Clear search';
+        }
+      }
+
+      function setCategory(id) {
+        category = id;
+        $$('#vocabCats .pill').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.cat === id)));
+        scrollRailTo($(`#vocabCats [data-cat="${id}"]`));
+        apply();
+        const listTop = $('#panel-vocab').getBoundingClientRect().top + window.scrollY;
+        if (window.scrollY > listTop) window.scrollTo(0, listTop);
+      }
+
+      function clearSearch() {
+        $('#vocabSearchInput').value = '';
+        apply();
+      }
+
+      function init() {
+        render();
+        const input = $('#vocabSearchInput');
+        input.addEventListener('input', apply);
+        input.addEventListener('keydown', e => { if (e.key === 'Escape') clearSearch(); });
+        $('#vocabSearchForm').addEventListener('submit', e => { e.preventDefault(); input.blur(); });
+        $('#vocabSearchClear').addEventListener('click', () => { clearSearch(); input.focus(); });
+        $('#vocabCats').addEventListener('click', e => {
+          const pill = e.target.closest('[data-cat]');
+          if (pill) setCategory(pill.dataset.cat);
+        });
+        $('#vocabEmptyAction').addEventListener('click', () => {
+          if (category !== 'all') setCategory('all');
+          else { clearSearch(); input.focus(); }
+        });
+        $('#vocabList').addEventListener('click', e => {
+          const item = e.target.closest('.vocab-item');
+          if (item) Speech.speak($('.vocab-it', item).textContent, item);
+        });
+        document.addEventListener('tabshown', e => {
+          if (e.detail === 'vocab') scrollRailTo($(`#vocabCats [data-cat="${category}"]`), true);
+        });
+        apply();
+      }
+
+      return { init };
+    })();
 
     // Initialize on load
     Phrases.init();
     Builder.init();
+    Vocab.init();
     ShowCard.init();
     Speech.syncSlowButtons();
     Tabs.init();

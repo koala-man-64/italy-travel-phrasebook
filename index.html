@@ -802,6 +802,14 @@
       line-height: 1.3;
     }
 
+    .vocab-phon {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: var(--muted);
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+
     .vocab-en {
       font-size: 0.8125rem;
       line-height: 1.3;
@@ -1211,6 +1219,7 @@
       </div>
       <div class="wrap">
         <p class="vocab-intro">Tap a word to hear it in Italian. Search works in either language.</p>
+        <p class="list-meta">Pronunciation is approximate; CAPITALS mark stressed syllables. Tap a word to listen.</p>
         <p class="list-meta" id="vocabMeta" role="status" aria-live="polite"></p>
         <div id="vocabList"></div>
         <div class="empty" id="vocabEmpty" hidden>
@@ -2591,116 +2600,116 @@
       // Keep each spoken item separate: a combined "X / Y" card reads both aloud.
       const categories = [
         { id: 'essentials', icon: '👋', label: 'Essentials', words: [
-          ['Buongiorno', 'Good morning / hello'], ['Buonasera', 'Good evening'],
-          ['Buonanotte', 'Good night'], ['Ciao', 'Hi / bye (informal)'],
-          ['Arrivederci', 'Goodbye'], ['Per favore', 'Please'],
-          ['Grazie', 'Thank you'], ['Prego', 'You’re welcome'],
-          ['Scusi', 'Excuse me (formal)'], ['Mi dispiace', 'I’m sorry'],
-          ['Sì', 'Yes'], ['No', 'No'], ['Va bene', 'Okay / that’s fine'],
-          ['Non capisco', 'I don’t understand'], ['Parla inglese?', 'Do you speak English?'],
-          ['Più lentamente, per favore', 'More slowly, please']
+          ['Buongiorno', 'Good morning / hello', 'bwohn-JOHR-noh'], ['Buonasera', 'Good evening', 'bwoh-nah-SEH-rah'],
+          ['Buonanotte', 'Good night', 'bwoh-nah-NOHT-teh'], ['Ciao', 'Hi / bye (informal)', 'CHOW'],
+          ['Arrivederci', 'Goodbye', 'ahr-ree-veh-DEHR-chee'], ['Per favore', 'Please', 'pehr fah-VOH-reh'],
+          ['Grazie', 'Thank you', 'GRAH-tsyeh'], ['Prego', 'You’re welcome', 'PREH-goh'],
+          ['Scusi', 'Excuse me (formal)', 'SKOO-zee'], ['Mi dispiace', 'I’m sorry', 'mee dees-PYAH-cheh'],
+          ['Sì', 'Yes', 'SEE'], ['No', 'No', 'NOH'], ['Va bene', 'Okay / that’s fine', 'vah BEH-neh'],
+          ['Non capisco', 'I don’t understand', 'nohn kah-PEE-skoh'], ['Parla inglese?', 'Do you speak English?', 'PAR-lah een-GLEH-zeh'],
+          ['Più lentamente, per favore', 'More slowly, please', 'pyoo lehn-tah-MEHN-teh pehr fah-VOH-reh']
         ] },
         { id: 'time', icon: '⏱️', label: 'Time & schedules', words: [
-          ['Adesso', 'Now'], ['Oggi', 'Today'], ['Domani', 'Tomorrow'],
-          ['Ieri', 'Yesterday'], ['Stasera', 'Tonight'], ['Domani mattina', 'Tomorrow morning'],
-          ['Presto', 'Early / soon'], ['Tardi', 'Late'], ['Subito', 'Right away'],
-          ['Tra venti minuti', 'In 20 minutes'], ['Tra un’ora', 'In one hour'],
-          ['Alle otto', 'At eight o’clock'], ['Apertura', 'Opening'],
-          ['Chiusura', 'Closing'], ['In ritardo', 'Delayed / late'],
-          ['In orario', 'On time']
+          ['Adesso', 'Now', 'ah-DEHS-soh'], ['Oggi', 'Today', 'OHD-jee'], ['Domani', 'Tomorrow', 'doh-MAH-nee'],
+          ['Ieri', 'Yesterday', 'YEH-ree'], ['Stasera', 'Tonight', 'stah-SEH-rah'], ['Domani mattina', 'Tomorrow morning', 'doh-MAH-nee maht-TEE-nah'],
+          ['Presto', 'Early / soon', 'PREHS-toh'], ['Tardi', 'Late', 'TAR-dee'], ['Subito', 'Right away', 'SOO-bee-toh'],
+          ['Tra venti minuti', 'In 20 minutes', 'trah VEHN-tee mee-NOO-tee'], ['Tra un’ora', 'In one hour', 'trah oo-NOH-rah'],
+          ['Alle otto', 'At eight o’clock', 'AHL-leh OHT-toh'], ['Apertura', 'Opening', 'ah-pehr-TOO-rah'],
+          ['Chiusura', 'Closing', 'kyoo-ZOO-rah'], ['In ritardo', 'Delayed / late', 'een ree-TAR-doh'],
+          ['In orario', 'On time', 'een oh-RAH-ryoh']
         ] },
         { id: 'numbers', icon: '🔢', label: 'Numbers', words: [
-          ['Zero', '0'], ['Uno', '1'], ['Due', '2'], ['Tre', '3'],
-          ['Quattro', '4'], ['Cinque', '5'], ['Sei', '6'], ['Sette', '7'],
-          ['Otto', '8'], ['Nove', '9'], ['Dieci', '10'], ['Undici', '11'],
-          ['Dodici', '12'], ['Quindici', '15'], ['Venti', '20'],
-          ['Trenta', '30'], ['Cinquanta', '50'], ['Cento', '100']
+          ['Zero', '0', 'DZEH-roh'], ['Uno', '1', 'OO-noh'], ['Due', '2', 'DOO-eh'], ['Tre', '3', 'TREH'],
+          ['Quattro', '4', 'KWAHT-troh'], ['Cinque', '5', 'CHEEN-kweh'], ['Sei', '6', 'SAY'], ['Sette', '7', 'SEHT-teh'],
+          ['Otto', '8', 'OHT-toh'], ['Nove', '9', 'NOH-veh'], ['Dieci', '10', 'DYEH-chee'], ['Undici', '11', 'OON-dee-chee'],
+          ['Dodici', '12', 'DOH-dee-chee'], ['Quindici', '15', 'KWEEN-dee-chee'], ['Venti', '20', 'VEHN-tee'],
+          ['Trenta', '30', 'TREHN-tah'], ['Cinquanta', '50', 'cheen-KWAHN-tah'], ['Cento', '100', 'CHEHN-toh']
         ] },
         { id: 'directions', icon: '📍', label: 'Directions', words: [
-          ['A destra', 'To the right'], ['A sinistra', 'To the left'],
-          ['Sempre dritto', 'Straight ahead'], ['Qui', 'Here'], ['Lì', 'There'],
-          ['Vicino', 'Near'], ['Lontano', 'Far'], ['Davanti', 'In front'],
-          ['Dietro', 'Behind'], ['Sopra', 'Above'],
-          ['Sotto', 'Below'], ['Entrata', 'Entrance'],
-          ['Uscita', 'Exit'], ['All’angolo', 'At the corner'],
-          ['Attraversare', 'To cross'], ['Fermata', 'Stop']
+          ['A destra', 'To the right', 'ah DEHS-trah'], ['A sinistra', 'To the left', 'ah see-NEES-trah'],
+          ['Sempre dritto', 'Straight ahead', 'SEHM-preh DREET-toh'], ['Qui', 'Here', 'KWEE'], ['Lì', 'There', 'LEE'],
+          ['Vicino', 'Near', 'vee-CHEE-noh'], ['Lontano', 'Far', 'lohn-TAH-noh'], ['Davanti', 'In front', 'dah-VAHN-tee'],
+          ['Dietro', 'Behind', 'DYEH-troh'], ['Sopra', 'Above', 'SOH-prah'],
+          ['Sotto', 'Below', 'SOHT-toh'], ['Entrata', 'Entrance', 'ehn-TRAH-tah'],
+          ['Uscita', 'Exit', 'oo-SHEE-tah'], ['All’angolo', 'At the corner', 'ahl-LAHN-goh-loh'],
+          ['Attraversare', 'To cross', 'aht-trah-vehr-SAH-reh'], ['Fermata', 'Stop', 'fehr-MAH-tah']
         ] },
         { id: 'transport', icon: '🚆', label: 'Transport', words: [
-          ['Stazione', 'Station'], ['Binario', 'Platform / track'],
-          ['Biglietto', 'Ticket'], ['Biglietteria', 'Ticket office'],
-          ['Orario', 'Timetable / schedule'], ['Partenza', 'Departure'],
-          ['Arrivo', 'Arrival'], ['Treno', 'Train'], ['Autobus', 'Bus'],
-          ['Metropolitana', 'Subway / metro'], ['Taxi', 'Taxi'],
-          ['Traghetto', 'Ferry'], ['Aliscafo', 'Fast hydrofoil'],
-          ['Molo', 'Pier'], ['Imbarco', 'Boarding'],
-          ['Coincidenza', 'Connection / transfer'],
-          ['Andata e ritorno', 'Round trip'], ['Solo andata', 'One way']
+          ['Stazione', 'Station', 'staht-TSYOH-neh'], ['Binario', 'Platform / track', 'bee-NAH-ryoh'],
+          ['Biglietto', 'Ticket', 'bee-LYEHT-toh'], ['Biglietteria', 'Ticket office', 'bee-lyeht-teh-REE-ah'],
+          ['Orario', 'Timetable / schedule', 'oh-RAH-ryoh'], ['Partenza', 'Departure', 'par-TEHN-tsah'],
+          ['Arrivo', 'Arrival', 'ahr-REE-voh'], ['Treno', 'Train', 'TREH-noh'], ['Autobus', 'Bus', 'OW-toh-boos'],
+          ['Metropolitana', 'Subway / metro', 'meh-troh-poh-lee-TAH-nah'], ['Taxi', 'Taxi', 'TAHK-see'],
+          ['Traghetto', 'Ferry', 'trah-GEHT-toh'], ['Aliscafo', 'Fast hydrofoil', 'ah-LEE-skah-foh'],
+          ['Molo', 'Pier', 'MOH-loh'], ['Imbarco', 'Boarding', 'eem-BAR-koh'],
+          ['Coincidenza', 'Connection / transfer', 'koh-een-chee-DEHN-tsah'],
+          ['Andata e ritorno', 'Round trip', 'ahn-DAH-tah eh ree-TOHR-noh'], ['Solo andata', 'One way', 'SOH-loh ahn-DAH-tah']
         ] },
         { id: 'lodging', icon: '🏨', label: 'Hotel & stay', words: [
-          ['Prenotazione', 'Reservation'], ['Camera', 'Room'],
-          ['Chiave', 'Key'], ['Reception', 'Front desk'],
-          ['Ascensore', 'Elevator'], ['Scale', 'Stairs'],
-          ['Colazione', 'Breakfast'], ['Passaporto', 'Passport'],
-          ['Documento', 'Identity document'], ['Aria condizionata', 'Air conditioning'],
-          ['Asciugamano', 'Towel'], ['Cuscino', 'Pillow'],
-          ['Coperta', 'Blanket'], ['Deposito bagagli', 'Luggage storage'],
-          ['Acqua calda', 'Hot water'], ['Wi-Fi', 'Wi-Fi']
+          ['Prenotazione', 'Reservation', 'preh-noh-taht-TSYOH-neh'], ['Camera', 'Room', 'KAH-meh-rah'],
+          ['Chiave', 'Key', 'KYAH-veh'], ['Reception', 'Front desk', 'ree-SEHP-shohn'],
+          ['Ascensore', 'Elevator', 'ah-shehn-SOH-reh'], ['Scale', 'Stairs', 'SKAH-leh'],
+          ['Colazione', 'Breakfast', 'koh-laht-TSYOH-neh'], ['Passaporto', 'Passport', 'pahs-sah-POHR-toh'],
+          ['Documento', 'Identity document', 'doh-koo-MEHN-toh'], ['Aria condizionata', 'Air conditioning', 'AH-ryah kohn-dee-tsyoh-NAH-tah'],
+          ['Asciugamano', 'Towel', 'ah-shoo-gah-MAH-noh'], ['Cuscino', 'Pillow', 'koo-SHEE-noh'],
+          ['Coperta', 'Blanket', 'koh-PEHR-tah'], ['Deposito bagagli', 'Luggage storage', 'deh-POH-zee-toh bah-GAH-lyee'],
+          ['Acqua calda', 'Hot water', 'AHK-kwah KAHL-dah'], ['Wi-Fi', 'Wi-Fi', 'WHY-FY']
         ] },
         { id: 'dining', icon: '🍽️', label: 'Dining & drinks', words: [
-          ['Menù', 'Menu'], ['Tavolo', 'Table'], ['Conto', 'Bill / check'],
-          ['Coperto', 'Cover charge'], ['Servizio', 'Service'],
-          ['Acqua naturale', 'Still water'], ['Acqua frizzante', 'Sparkling water'],
-          ['Caffè', 'Espresso / coffee'], ['Cappuccino', 'Cappuccino'],
-          ['Vino della casa', 'House wine'], ['Birra', 'Beer'],
-          ['Antipasto', 'Starter / appetizer'], ['Primo', 'First course'],
-          ['Secondo', 'Main course'], ['Contorno', 'Side dish'],
-          ['Dolce', 'Dessert'], ['Forchetta', 'Fork'], ['Coltello', 'Knife'],
-          ['Cucchiaio', 'Spoon'], ['Tovagliolo', 'Napkin'],
-          ['Da asporto', 'To take away'], ['Il resto', 'The change']
+          ['Menù', 'Menu', 'meh-NOO'], ['Tavolo', 'Table', 'TAH-voh-loh'], ['Conto', 'Bill / check', 'KOHN-toh'],
+          ['Coperto', 'Cover charge', 'koh-PEHR-toh'], ['Servizio', 'Service', 'sehr-VEET-tsyoh'],
+          ['Acqua naturale', 'Still water', 'AHK-kwah nah-too-RAH-leh'], ['Acqua frizzante', 'Sparkling water', 'AHK-kwah freet-TSAHN-teh'],
+          ['Caffè', 'Espresso / coffee', 'kahf-FEH'], ['Cappuccino', 'Cappuccino', 'kahp-poo-CHEE-noh'],
+          ['Vino della casa', 'House wine', 'VEE-noh DEHL-lah KAH-zah'], ['Birra', 'Beer', 'BEER-rah'],
+          ['Antipasto', 'Starter / appetizer', 'ahn-tee-PAHS-toh'], ['Primo', 'First course', 'PREE-moh'],
+          ['Secondo', 'Main course', 'seh-KOHN-doh'], ['Contorno', 'Side dish', 'kohn-TOHR-noh'],
+          ['Dolce', 'Dessert', 'DOHL-cheh'], ['Forchetta', 'Fork', 'fohr-KEHT-tah'], ['Coltello', 'Knife', 'kohl-TEHL-loh'],
+          ['Cucchiaio', 'Spoon', 'kook-KYAH-yoh'], ['Tovagliolo', 'Napkin', 'toh-vah-LYOH-loh'],
+          ['Da asporto', 'To take away', 'dah ahs-POHR-toh'], ['Il resto', 'The change', 'eel REHS-toh']
         ] },
         { id: 'dietary', icon: '🥗', label: 'Food needs', words: [
-          ['Senza glutine', 'Gluten-free'], ['Vegetariano', 'Vegetarian'],
-          ['Vegano', 'Vegan'], ['Allergia', 'Allergy'],
-          ['Arachidi', 'Peanuts'], ['Frutta a guscio', 'Tree nuts'],
-          ['Latticini', 'Dairy products'], ['Crostacei', 'Shellfish'],
-          ['Uova', 'Eggs'], ['Carne', 'Meat'], ['Pesce', 'Fish'],
-          ['Crudo', 'Raw'], ['Cotto', 'Cooked'], ['Piccante', 'Spicy'],
-          ['Senza', 'Without'], ['Con', 'With']
+          ['Senza glutine', 'Gluten-free', 'SEHN-tsah GLOO-tee-neh'], ['Vegetariano', 'Vegetarian', 'veh-jeh-tah-RYAH-noh'],
+          ['Vegano', 'Vegan', 'veh-GAH-noh'], ['Allergia', 'Allergy', 'ahl-lehr-JEE-ah'],
+          ['Arachidi', 'Peanuts', 'ah-RAH-kee-dee'], ['Frutta a guscio', 'Tree nuts', 'FROOT-tah ah GOO-shoh'],
+          ['Latticini', 'Dairy products', 'laht-tee-CHEE-nee'], ['Crostacei', 'Shellfish', 'krohs-TAH-cheh-ee'],
+          ['Uova', 'Eggs', 'WOH-vah'], ['Carne', 'Meat', 'KAR-neh'], ['Pesce', 'Fish', 'PEH-sheh'],
+          ['Crudo', 'Raw', 'KROO-doh'], ['Cotto', 'Cooked', 'KOHT-toh'], ['Piccante', 'Spicy', 'peek-KAHN-teh'],
+          ['Senza', 'Without', 'SEHN-tsah'], ['Con', 'With', 'KOHN']
         ] },
         { id: 'shopping', icon: '🛍️', label: 'Shopping & money', words: [
-          ['Quanto costa?', 'How much does it cost?'], ['Prezzo', 'Price'],
-          ['Scontrino', 'Receipt'], ['Contanti', 'Cash'],
-          ['Carta di credito', 'Credit card'], ['Bancomat', 'ATM / debit card'],
-          ['Spiccioli', 'Small change'], ['Sconto', 'Discount'],
-          ['Taglia', 'Size'], ['Più grande', 'Bigger'],
-          ['Più piccolo', 'Smaller'], ['Aperto', 'Open'],
-          ['Chiuso', 'Closed'], ['Farmacia', 'Pharmacy'],
-          ['Supermercato', 'Supermarket'], ['Negozio', 'Shop']
+          ['Quanto costa?', 'How much does it cost?', 'KWAHN-toh KOHS-tah'], ['Prezzo', 'Price', 'PREHT-tsoh'],
+          ['Scontrino', 'Receipt', 'skohn-TREE-noh'], ['Contanti', 'Cash', 'kohn-TAHN-tee'],
+          ['Carta di credito', 'Credit card', 'KAR-tah dee KREH-dee-toh'], ['Bancomat', 'ATM / debit card', 'BAHN-koh-maht'],
+          ['Spiccioli', 'Small change', 'SPEET-choh-lee'], ['Sconto', 'Discount', 'SKOHN-toh'],
+          ['Taglia', 'Size', 'TAH-lyah'], ['Più grande', 'Bigger', 'pyoo GRAHN-deh'],
+          ['Più piccolo', 'Smaller', 'pyoo PEEK-koh-loh'], ['Aperto', 'Open', 'ah-PEHR-toh'],
+          ['Chiuso', 'Closed', 'KYOO-zoh'], ['Farmacia', 'Pharmacy', 'far-mah-CHEE-ah'],
+          ['Supermercato', 'Supermarket', 'soo-pehr-mehr-KAH-toh'], ['Negozio', 'Shop', 'neh-GOH-tsyoh']
         ] },
         { id: 'health', icon: '🆘', label: 'Health & help', words: [
-          ['Aiuto!', 'Help!'], ['Emergenza', 'Emergency'],
-          ['Medico', 'Doctor'], ['Ospedale', 'Hospital'],
-          ['Ambulanza', 'Ambulance'], ['Polizia', 'Police'],
-          ['Sto male', 'I feel unwell'], ['Ho dolore', 'I’m in pain'],
-          ['Febbre', 'Fever'], ['Mal di testa', 'Headache'],
-          ['Medicinale', 'Medicine'], ['Ricetta', 'Prescription'],
-          ['Cerotto', 'Bandage / plaster'], ['Bagno', 'Restroom'],
-          ['Perso', 'Lost (masculine)'], ['Persa', 'Lost (feminine)']
+          ['Aiuto!', 'Help!', 'ah-YOO-toh'], ['Emergenza', 'Emergency', 'eh-mehr-JEHN-tsah'],
+          ['Medico', 'Doctor', 'MEH-dee-koh'], ['Ospedale', 'Hospital', 'oh-speh-DAH-leh'],
+          ['Ambulanza', 'Ambulance', 'ahm-boo-LAHN-tsah'], ['Polizia', 'Police', 'poh-lee-TSEE-ah'],
+          ['Sto male', 'I feel unwell', 'stoh MAH-leh'], ['Ho dolore', 'I’m in pain', 'oh doh-LOH-reh'],
+          ['Febbre', 'Fever', 'FEHB-breh'], ['Mal di testa', 'Headache', 'mahl dee TEHS-tah'],
+          ['Medicinale', 'Medicine', 'meh-dee-chee-NAH-leh'], ['Ricetta', 'Prescription', 'ree-CHEHT-tah'],
+          ['Cerotto', 'Bandage / plaster', 'cheh-ROHT-toh'], ['Bagno', 'Restroom', 'BAH-nyoh'],
+          ['Perso', 'Lost (masculine)', 'PEHR-soh'], ['Persa', 'Lost (feminine)', 'PEHR-sah']
         ] },
         { id: 'outdoors', icon: '☀️', label: 'Weather & outdoors', words: [
-          ['Sole', 'Sun'], ['Pioggia', 'Rain'], ['Vento', 'Wind'],
-          ['Nuvoloso', 'Cloudy'], ['Caldo', 'Hot'], ['Freddo', 'Cold'],
-          ['Mare', 'Sea'], ['Spiaggia', 'Beach'], ['Sentiero', 'Trail'],
-          ['Collina', 'Hill'], ['Montagna', 'Mountain'],
-          ['Ombra', 'Shade'], ['Acqua', 'Water'], ['Bel panorama', 'Beautiful view']
+          ['Sole', 'Sun', 'SOH-leh'], ['Pioggia', 'Rain', 'PYOHD-jah'], ['Vento', 'Wind', 'VEHN-toh'],
+          ['Nuvoloso', 'Cloudy', 'noo-voh-LOH-zoh'], ['Caldo', 'Hot', 'KAHL-doh'], ['Freddo', 'Cold', 'FREHD-doh'],
+          ['Mare', 'Sea', 'MAH-reh'], ['Spiaggia', 'Beach', 'SPYAHD-jah'], ['Sentiero', 'Trail', 'sehn-TYEH-roh'],
+          ['Collina', 'Hill', 'kohl-LEE-nah'], ['Montagna', 'Mountain', 'mohn-TAH-nyah'],
+          ['Ombra', 'Shade', 'OHM-brah'], ['Acqua', 'Water', 'AHK-kwah'], ['Bel panorama', 'Beautiful view', 'behl pah-noh-RAH-mah']
         ] },
         { id: 'connectors', icon: '🔗', label: 'Connecting words', words: [
-          ['E', 'And'], ['O', 'Or'], ['Ma', 'But'],
-          ['Perché', 'Because / why'], ['Quindi', 'So / therefore'],
-          ['Anche', 'Also'], ['Solo', 'Only'], ['Ancora', 'Still / again'],
-          ['Prima', 'Before'], ['Dopo', 'After'],
-          ['Forse', 'Maybe'], ['Sempre', 'Always'],
-          ['Mai', 'Never'], ['Molto', 'Very / a lot']
+          ['E', 'And', 'EH'], ['O', 'Or', 'OH'], ['Ma', 'But', 'MAH'],
+          ['Perché', 'Because / why', 'pehr-KEH'], ['Quindi', 'So / therefore', 'KWEEN-dee'],
+          ['Anche', 'Also', 'AHN-keh'], ['Solo', 'Only', 'SOH-loh'], ['Ancora', 'Still / again', 'ahn-KOH-rah'],
+          ['Prima', 'Before', 'PREE-mah'], ['Dopo', 'After', 'DOH-poh'],
+          ['Forse', 'Maybe', 'FOHR-seh'], ['Sempre', 'Always', 'SEHM-preh'],
+          ['Mai', 'Never', 'MY'], ['Molto', 'Very / a lot', 'MOHL-toh']
         ] }
       ];
 
@@ -2715,9 +2724,9 @@
         $('#vocabList').innerHTML = categories.map(group => `
           <section class="vocab-group" data-cat="${group.id}" aria-label="${escapeHtml(group.label)}">
             <h2 class="section-title">${group.icon} ${escapeHtml(group.label)} <span class="vocab-group-count"></span></h2>
-            <div class="vocab-grid">${group.words.map(([it, en]) => `
-              <button type="button" class="vocab-item" aria-label="Hear ${escapeHtml(it)}: ${escapeHtml(en)}">
-                <span class="vocab-it" lang="it">${escapeHtml(it)}</span><span class="vocab-en">${escapeHtml(en)}</span>
+            <div class="vocab-grid">${group.words.map(([it, en, phon]) => `
+              <button type="button" class="vocab-item" aria-label="Hear ${escapeHtml(it)}: ${escapeHtml(en)}" aria-description="Pronunciation: ${escapeHtml(phon)}">
+                <span class="vocab-it" lang="it">${escapeHtml(it)}</span><span class="vocab-phon" lang="en">${escapeHtml(phon)}</span><span class="vocab-en">${escapeHtml(en)}</span>
               </button>`).join('')}</div>
           </section>`).join('');
         cards = $$('#vocabList .vocab-group').map((section, i) => ({

@@ -4,7 +4,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const html = fs.readFileSync(require('node:path').join(__dirname, '../index.html'), 'utf8');
 const data = html.slice(html.indexOf('const CATEGORIES ='), html.indexOf('// 4. HELPERS'));
-const source = html.slice(html.indexOf('const Builder ='), html.indexOf('// 10. QUICK VOCAB'));
+const builderStart = html.indexOf('const Builder =');
+const source = html.slice(builderStart, html.indexOf('    })();', builderStart) + '    })();'.length);
 
 function setup(saved) {
   const elements = new Map();

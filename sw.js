@@ -2,7 +2,7 @@
 // Cache-first: the app opens instantly with no signal. Whenever the network is available the
 // cached copy is refreshed in the background, so updates show up on the next launch.
 // Bump CACHE when APP_SHELL changes; old itguide-* caches are removed on activate.
-const CACHE = 'itguide-swipe-tabs-v1';
+const CACHE = 'itguide-vocab-v1';
 const APP_SHELL = [
   './',
   './manifest.webmanifest',

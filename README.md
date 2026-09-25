@@ -8,7 +8,7 @@ An Italian phrasebook and sentence builder for Rome, Sorrento and the Amalfi Coa
 
 - **Phrases:** 60 travel phrases with pronunciation guides and local tips. Search ignores accents, and you can filter by category.
 - **Builder:** assemble a sentence from four slots (intent, item, detail, closer) across 10 travel categories. The live preview color-codes each part and shows pronunciation and the English meaning.
-- **Vocab:** time, directions, numbers and connecting words. Tap a word to hear it.
+- **Vocab:** 12 categories covering essentials, time, numbers, directions, transport, hotels, food, shopping, health, weather and connecting words. Filter by category or search in Italian or English (accents optional), then tap a word to hear it.
 - **Show to staff:** a full-screen, high-contrast card for any phrase or built sentence. It can flip 180° for the person across the table and keeps the screen awake where the browser supports it.
 
 Audio uses the browser's built-in speech synthesis and needs an Italian voice on the device. It has a slow mode for practice.

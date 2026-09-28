@@ -1034,7 +1034,7 @@
         <div class="wrap">
           <form class="search" id="searchForm" role="search">
             <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="search" id="searchInput" class="search-input" placeholder="Search: ferry, spritz, beach…" aria-label="Search phrases" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+            <input type="search" id="searchInput" class="search-input" placeholder="Search: ferry, spritz, locals…" aria-label="Search phrases" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
             <button type="button" class="search-clear" id="searchClear" aria-label="Clear search" hidden>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
@@ -1297,11 +1297,19 @@
       { id: 'sights',    icon: '🏛️', label: 'Sights & Tours',   it: 'Monumenti & Tour',     desc: 'Colosseum, Vatican, Pompeii reservations & audio guides.' },
       { id: 'aperitivo', icon: '🍷', label: 'Aperitivo & Wine', it: 'Aperitivo & Bar',      desc: 'Spritz (Aperol/Limoncello), regional wines & bar snacks.' },
       { id: 'taxi',      icon: '🚕', label: 'Taxi & Scooter',   it: 'Taxi & Scooter',       desc: 'Airport flat rates, taxi meters & renting a Vespa in Sorrento.' },
-      { id: 'emergency', icon: '🚨', label: 'Urgent & Help',    it: 'Farmacia & Aiuto',     desc: 'Seasickness remedies, lost wallet/passport & urgent medical.' }
+      { id: 'emergency', icon: '🚨', label: 'Urgent & Help',    it: 'Farmacia & Aiuto',     desc: 'Seasickness remedies, lost wallet/passport & urgent medical.' },
+      // Conversation starters for locals, hosts, guides and drivers (Phrases tab only: no builder templates)
+      { id: 'local',     icon: '🗣️', label: 'Ask a local' },
+      { id: 'rome',      icon: '🏟️', label: 'Locals: Rome' },
+      { id: 'sorrento',  icon: '🍋', label: 'Locals: Sorrento' },
+      { id: 'amalfi',    icon: '🌊', label: 'Locals: Amalfi Coast' },
+      { id: 'capri',     icon: '🏝️', label: 'Locals: Capri' },
+      { id: 'naples',    icon: '🌋', label: 'Locals: Naples' },
+      { id: 'calcio',    icon: '⚽', label: 'Calcio (Football)' }
     ];
 
     // =========================================================================
-    // 2. PHRASES DATABASE (50+ HIGH-YIELD TRAVEL PHRASES)
+    // 2. PHRASES DATABASE (100+ TRAVEL PHRASES AND LOCAL CONVERSATION STARTERS)
     // =========================================================================
     const PHRASES = [
       // Basics & Courtesy
@@ -1349,7 +1357,7 @@
 
       // Hotel & Accommodation
       { cat: 'hotel', it: 'Possiamo lasciare i bagagli prima del check-in?', en: 'Can we leave our luggage before check-in?', phon: 'pohs-SYAH-moh lah-SHAH-reh ee bah-GAHL-yee PREE-mah dehl check-in?', note: 'Great when arriving in Rome or Sorrento early.' },
-      { cat: 'hotel', it: 'Qual è la password del Wi-Fi?', en: 'What is the Wi-Fi password?', phon: 'kwahl eh lah password dehl Wi-Fi?', note: 'Front desk essential.' },
+      { cat: 'hotel', it: 'Qual è la password del Wi-Fi?', en: 'What is the Wi-Fi password?', phon: 'kwahl eh lah PASS-word dehl wee-FEE?', note: 'Front desk essential.' },
       { cat: 'hotel', it: 'L\'aria condizionata non funziona bene.', en: 'The air conditioning isn\'t working properly.', phon: 'LAH-ryah kohn-dee-tsyo-NAH-tah nohn foon-TSYOH-nah BEH-neh.', note: 'Crucial for summer heat.' },
       { cat: 'hotel', it: 'È possibile avere due cuscini / asciugamani in più?', en: 'Is it possible to have two extra pillows / towels?', phon: 'eh pohs-SEE-bee-leh ah-VEH-reh DOO-eh koo-SHEE-nee / ah-shoo-gah-MAH-nee een pyoo?', note: 'Room service inquiry.' },
       { cat: 'hotel', it: 'A che ora dobbiamo fare il check-out?', en: 'What time is check-out?', phon: 'ah keh OH-rah dohb-BYAH-moh FAH-reh eel check-out?', note: 'Confirm before departure day.' },
@@ -1384,7 +1392,71 @@
       { cat: 'emergency', it: 'Dov\'è la farmacia più vicina?', en: 'Where is the nearest pharmacy?', phon: 'doh-VEH lah far-mah-CHEE-ah pyoo vee-CHEE-nah?', note: 'Look for glowing green cross sign.' },
       { cat: 'emergency', it: 'Cerco una medicina per il mal di mare / mal d\'auto.', en: 'I need medication for seasickness / car sickness.', phon: 'CHEHR-koh OO-nah meh-dee-CHEE-nah pehr eel mahl dee MAH-reh / mahl DOW-toh.', note: 'Ask for "Xamamina" at port pharmacies.' },
       { cat: 'emergency', it: 'Ho perso il portafoglio / il passaporto!', en: 'I lost my wallet / my passport!', phon: 'oh PEHR-soh eel pohr-tah-FOHL-yoh / eel pahs-sah-POHR-toh!', note: 'Report to Carabinieri or hotel reception.' },
-      { cat: 'emergency', it: 'Ho bisogno di aiuto / Chiami il centododici (112)!', en: 'I need help / Call 112 (European emergency number)!', phon: 'oh bee-ZOHN-yoh dee ah-YOO-toh / KYAH-mee eel chehn-toh-DOH-dee-chee!', note: '112 works for police, ambulance, and fire in Italy.' }
+      { cat: 'emergency', it: 'Ho bisogno di aiuto / Chiami il centododici (112)!', en: 'I need help / Call 112 (European emergency number)!', phon: 'oh bee-ZOHN-yoh dee ah-YOO-toh / KYAH-mee eel chehn-toh-DOH-dee-chee!', note: '112 works for police, ambulance, and fire in Italy.' },
+
+      // Ask a local (openers that work anywhere)
+      { cat: 'local', it: 'Lei è di qui?', en: 'Are you from here?', phon: 'LAY eh dee KWEE?', note: 'Many people working in tourist towns moved there; this opens that story.' },
+      { cat: 'local', it: 'Cosa non dovremmo perderci, che non è nelle guide?', en: 'What shouldn\'t we miss that isn\'t in the guidebooks?', phon: 'KOH-zah nohn doh-VREHM-moh PEHR-dehr-chee, keh nohn eh NEHL-leh GWEE-deh?', note: 'Invites a real tip instead of the brochure answer.' },
+      { cat: 'local', it: 'Lei dove mangia quando non lavora?', en: 'Where do you eat when you\'re not working?', phon: 'lay DOH-veh MAHN-jah KWAHN-doh nohn lah-VOH-rah?', note: 'Staff and guides usually name a family-run place tourists never find.' },
+      { cat: 'local', it: 'Com\'è cambiato questo posto negli ultimi anni?', en: 'How has this place changed in recent years?', phon: 'koh-MEH kahm-BYAH-toh KWEHS-toh POH-stoh NEHL-yee OOL-tee-mee AHN-nee?', note: 'Overtourism is a live topic on the coast; expect a strong opinion either way.' },
+      { cat: 'local', it: 'Come si dice questo in dialetto?', en: 'How do you say this in the local dialect?', phon: 'KOH-meh see DEE-cheh KWEHS-toh een dyah-LEHT-toh?', note: 'Romanesco and Neapolitan are proud dialects; point at something and ask.' },
+      { cat: 'local', it: 'Le piace vivere qui?', en: 'Do you like living here?', phon: 'leh PYAH-cheh VEE-veh-reh kwee?', note: 'Simple and genuine; people in busy tourist towns often have mixed feelings.' },
+
+      // Locals: Rome
+      { cat: 'rome', it: 'Se potesse scegliere, in quale quartiere di Roma vivrebbe?', en: 'If you could choose, which Rome neighborhood would you live in?', phon: 'seh poh-TEHS-seh SHEHL-yeh-reh, een KWAH-leh kwar-TYEH-reh dee ROH-mah vee-VREHB-beh?', note: 'Trastevere, Monti and Testaccio are common local picks over the tourist center.' },
+      { cat: 'rome', it: 'È vero che i romani lasciano la città ad agosto?', en: 'Is it true that Romans leave the city in August?', phon: 'eh VEH-roh keh ee roh-MAH-nee LAH-shah-noh lah cheet-TAH ahd ah-GOHS-toh?', note: 'Ferragosto (Aug 15) empties Rome; many family shops close for weeks.' },
+      { cat: 'rome', it: 'Com\'è stato l\'anno del Giubileo per Roma?', en: 'How was the Jubilee year for Rome?', phon: 'koh-MEH STAH-toh LAHN-noh dehl joo-bee-LEH-oh pehr ROH-mah?', note: 'The 2025 Holy Year brought record pilgrim crowds and years of roadworks; Romans have views.' },
+      { cat: 'rome', it: 'Preferisce la carbonara o la cacio e pepe?', en: 'Do you prefer carbonara or cacio e pepe?', phon: 'preh-feh-REE-sheh lah kar-boh-NAH-rah oh lah KAH-choh eh PEH-peh?', note: 'Romans are split; cacio e pepe is the older dish, carbonara the post-war one.' },
+      { cat: 'rome', it: 'Lei dove va al mare quando fa caldo in città?', en: 'Where do you go to the sea when the city gets hot?', phon: 'lay DOH-veh vah ahl MAH-reh KWAHN-doh fah KAHL-doh een cheet-TAH?', note: 'Ostia is the quick escape; many prefer Sabaudia or Sperlonga further south.' },
+      { cat: 'rome', it: 'Tifa Roma o Lazio?', en: 'Do you support Roma or Lazio?', phon: 'TEE-fah ROH-mah oh LAH-tsyoh?', note: 'The Derby della Capitale is one of Italy\'s fiercest rivalries; both share the Stadio Olimpico.' },
+      { cat: 'rome', it: 'Con tutto questo traffico, è facile vivere a Roma?', en: 'With all this traffic, is it easy to live in Rome?', phon: 'kohn TOOT-toh KWEHS-toh TRAHF-fee-koh, eh FAH-chee-leh VEE-veh-reh ah ROH-mah?', note: 'Traffic, scooters and the metro are a love-hate topic for every Roman.' },
+      { cat: 'rome', it: 'Qual è il punto panoramico preferito dai romani?', en: 'What\'s the Romans\' favorite viewpoint?', phon: 'kwahl eh eel POON-toh pah-noh-RAH-mee-koh preh-feh-REE-toh dah-ee roh-MAH-nee?', note: 'Gianicolo hill and the Orange Garden on the Aventine are local favorites at sunset.' },
+
+      // Locals: Sorrento
+      { cat: 'sorrento', it: 'Come si coltivano limoni così grandi?', en: 'How do you grow lemons this big?', phon: 'KOH-meh see kohl-TEE-vah-noh lee-MOH-nee koh-ZEE GRAHN-dee?', note: 'Sorrento IGP lemons grow under shaded pergolas; a natural lead into limoncello talk.' },
+      { cat: 'sorrento', it: 'I pescatori di Marina Grande escono ancora ogni giorno?', en: 'Do the fishermen at Marina Grande still go out every day?', phon: 'ee pehs-kah-TOH-ree dee mah-REE-nah GRAHN-deh EHS-koh-noh ahn-KOH-rah OHN-yee JOR-noh?', note: 'Marina Grande is still a working fishing hamlet; ask what came in today.' },
+      { cat: 'sorrento', it: 'Com\'è Sorrento in inverno rispetto all\'estate?', en: 'What is Sorrento like in winter compared to summer?', phon: 'koh-MEH sohr-REHN-toh een een-VEHR-noh ree-SPEHT-toh ahl-leh-STAH-teh?', note: 'Many hotels and restaurants close Nov–Mar; winter is a quiet, locals-only town.' },
+      { cat: 'sorrento', it: 'Cosa pensa della Circumvesuviana?', en: 'What do you think of the Circumvesuviana train?', phon: 'KOH-zah PEHN-sah DEHL-lah cheer-koom-veh-zoo-VYAH-nah?', note: 'Famously crowded and late; locals love to complain about it.' },
+      { cat: 'sorrento', it: 'Vale la pena arrivare fino a Nerano o Massa Lubrense?', en: 'Is it worth going out to Nerano or Massa Lubrense?', phon: 'VAH-leh lah PEH-nah ahr-ree-VAH-reh FEE-noh ah neh-RAH-noh oh MAHS-sah loo-BREHN-seh?', note: 'Quieter peninsula villages; Nerano is famous for spaghetti alla Nerano with zucchini.' },
+      { cat: 'sorrento', it: 'Gli gnocchi alla sorrentina si fanno davvero così a casa?', en: 'Are gnocchi alla sorrentina really made like this at home?', phon: 'lyee NYOHK-kee AHL-lah sohr-rehn-TEE-nah see FAHN-noh dahv-VEH-roh koh-ZEE ah KAH-zah?', note: 'The baked tomato-mozzarella gnocchi are named for Sorrento; ask for the family version.' },
+      { cat: 'sorrento', it: 'Segue il Sorrento o la Juve Stabia?', en: 'Do you follow Sorrento or Juve Stabia?', phon: 'SEH-gweh eel sohr-REHN-toh oh lah JOO-veh STAH-byah?', note: 'Lower-league clubs from Sorrento and nearby Castellammare; most locals also follow Napoli.' },
+
+      // Locals: Amalfi Coast
+      { cat: 'amalfi', it: 'Come si guida su una strada così stretta e piena di curve?', en: 'How do you drive on such a narrow, winding road?', phon: 'KOH-meh see GWEE-dah soo OO-nah STRAH-dah koh-ZEE STREHT-tah eh PYEH-nah dee KOOR-veh?', note: 'The SS163 coast road has summer traffic limits; local bus drivers are legendary.' },
+      { cat: 'amalfi', it: 'Com\'è la vita qui d\'inverno, quando i turisti se ne vanno?', en: 'What\'s life like here in winter, when the tourists leave?', phon: 'koh-MEH lah VEE-tah kwee deen-VEHR-noh, KWAHN-doh ee too-REE-stee seh neh VAHN-noh?', note: 'Positano and Amalfi nearly empty out Nov–Mar; many businesses shut until spring.' },
+      { cat: 'amalfi', it: 'La carta di Amalfi si produce ancora a mano?', en: 'Is Amalfi paper still made by hand?', phon: 'lah KAR-tah dee ah-MAHL-fee see proh-DOO-cheh ahn-KOH-rah ah MAH-noh?', note: 'Amalfi\'s medieval paper mills (Museo della Carta) are a quiet point of local pride.' },
+      { cat: 'amalfi', it: 'Il Ravello Festival è importante per la zona?', en: 'Is the Ravello Festival important for the area?', phon: 'eel rah-VEHL-loh FEH-stee-vahl eh eem-pohr-TAHN-teh pehr lah DZOH-nah?', note: 'Summer concerts on the Villa Rufolo terrace above the sea; ask who has played.' },
+      { cat: 'amalfi', it: 'Il Sentiero degli Dei è difficile?', en: 'Is the Path of the Gods difficult?', phon: 'eel sehn-TYEH-roh DEHL-yee DEH-ee eh dee-FEE-chee-leh?', note: 'The clifftop hike from Bomerano to Nocelle above Positano; locals know the best time of day.' },
+      { cat: 'amalfi', it: 'È vero che i sandali di Positano si fanno ancora su misura?', en: 'Is it true Positano sandals are still made to measure?', phon: 'eh VEH-roh keh ee sahn-DAH-lee dee poh-zee-TAH-noh see FAHN-noh ahn-KOH-rah soo mee-ZOO-rah?', note: 'Handmade sandals and "moda Positano" linen date from the Dolce Vita years.' },
+      { cat: 'amalfi', it: 'Come si prepara la colatura di alici di Cetara?', en: 'How is Cetara\'s anchovy colatura made?', phon: 'KOH-meh see preh-PAH-rah lah koh-lah-TOO-rah dee ah-LEE-chee dee cheh-TAH-rah?', note: 'Fermented anchovy sauce from Cetara, traditionally eaten on spaghetti on Christmas Eve.' },
+      { cat: 'amalfi', it: 'Qui in Costiera si tifa Napoli o Salernitana?', en: 'Here on the coast, is it Napoli or Salernitana?', phon: 'kwee een koh-STYEH-rah see TEE-fah NAH-poh-lee oh sah-lehr-nee-TAH-nah?', note: 'The coast is in Salerno province, so loyalties split between Salernitana and Napoli.' },
+
+      // Locals: Capri
+      { cat: 'capri', it: 'Quante persone vivono a Capri d\'inverno?', en: 'How many people live on Capri in winter?', phon: 'KWAHN-teh pehr-SOH-neh VEE-voh-noh ah KAH-pree deen-VEHR-noh?', note: 'A small year-round population; the island is remarkably quiet outside summer.' },
+      { cat: 'capri', it: 'Vale davvero la pena la Grotta Azzurra?', en: 'Is the Blue Grotto really worth it?', phon: 'VAH-leh dahv-VEH-roh lah PEH-nah lah GROHT-tah ahd-DZOOR-rah?', note: 'Long queues and sea closures are common; islanders have mixed feelings about the hype.' },
+      { cat: 'capri', it: 'Cosa cambia tra Anacapri e Capri?', en: 'What\'s different between Anacapri and Capri town?', phon: 'KOH-zah KAHM-byah trah ah-nah-KAH-pree eh KAH-pree?', note: 'Anacapri sits higher and quieter; the two towns have a friendly old rivalry.' },
+      { cat: 'capri', it: 'Si può nuotare tra i Faraglioni?', en: 'Can you swim through the Faraglioni?', phon: 'see pwoh nwoh-TAH-reh trah ee fah-rahl-YOH-nee?', note: 'Boats pass through the arch of the middle rock; swimming there is a local rite.' },
+      { cat: 'capri', it: 'È vero che l\'insalata caprese è nata qui?', en: 'Is it true caprese salad was born here?', phon: 'eh VEH-roh keh leen-sah-LAH-tah kah-PREH-zeh eh NAH-tah kwee?', note: 'Islanders credit the tomato-mozzarella-basil dish to a 1920s Capri hotel kitchen.' },
+      { cat: 'capri', it: 'Come gestite tutti i turisti che vengono in giornata?', en: 'How do you cope with all the day-trippers?', phon: 'KOH-meh jeh-STEE-teh TOOT-tee ee too-REE-stee keh VEHN-goh-noh een johr-NAH-tah?', note: 'Ferries land huge midday crowds; islanders have strong feelings about it.' },
+      { cat: 'capri', it: 'Dove si guarda il Napoli qui sull\'isola?', en: 'Where do people watch Napoli here on the island?', phon: 'DOH-veh see GWAR-dah eel NAH-poh-lee kwee sool-LEE-zoh-lah?', note: 'No stadium on Capri; match nights happen in the bars around the Piazzetta and in Anacapri.' },
+
+      // Locals: Naples & Pompeii
+      { cat: 'naples', it: 'Preferisce la pizza da Sorbillo, da Michele o da Starita?', en: 'Do you prefer pizza from Sorbillo, Da Michele or Starita?', phon: 'preh-feh-REE-sheh lah PEET-tsah dah sohr-BEEL-loh, dah mee-KEH-leh oh dah stah-REE-tah?', note: 'Neapolitan pizzeria loyalty is fierce; there is no neutral answer.' },
+      { cat: 'naples', it: 'Vivere così vicino al Vesuvio La preoccupa?', en: 'Does living so close to Vesuvius worry you?', phon: 'VEE-veh-reh koh-ZEE vee-CHEE-noh ahl veh-ZOO-vyoh lah preh-OHK-koo-pah?', note: 'Vesuvius is active; most locals live beside it with surprising calm.' },
+      { cat: 'naples', it: 'Cosa ha significato per Napoli vincere lo scudetto?', en: 'What did winning the league title mean for Naples?', phon: 'KOH-zah ah seen-yee-fee-KAH-toh pehr NAH-poh-lee VEEN-cheh-reh loh skoo-DEHT-toh?', note: 'Napoli won Serie A in 2023 and 2025, the first titles since Maradona\'s in 1987 and 1990.' },
+      { cat: 'naples', it: 'Perché questa strada si chiama Spaccanapoli?', en: 'Why is this street called Spaccanapoli?', phon: 'pehr-KEH KWEHS-tah STRAH-dah see KYAH-mah spahk-kah-NAH-poh-lee?', note: 'The dead-straight street "splits Naples" in two along the old Greek grid.' },
+      { cat: 'naples', it: 'Consiglia più Pompei o Ercolano?', en: 'Would you recommend Pompeii or Herculaneum more?', phon: 'kohn-SEEL-yah pyoo pohm-PEH-ee oh ehr-koh-LAH-noh?', note: 'Herculaneum is smaller and better preserved; Pompeii is bigger and more famous.' },
+      { cat: 'naples', it: 'Preferisce la sfogliatella riccia o la frolla?', en: 'Do you prefer the flaky sfogliatella or the shortcrust one?', phon: 'preh-feh-REE-sheh lah sfohl-yah-TEHL-lah REET-chah oh lah FROHL-lah?', note: 'Riccia is crisp and layered; frolla is soft shortcrust. A real local debate.' },
+      { cat: 'naples', it: 'Vale la pena vedere le Stazioni dell\'Arte della metro?', en: 'Are the art metro stations worth seeing?', phon: 'VAH-leh lah PEH-nah veh-DEH-reh leh stah-TSYOH-nee dehl-LAHR-teh DEHL-lah MEH-troh?', note: 'Toledo and Università on Line 1 are rated among Europe\'s most beautiful metro stops.' },
+
+      // Calcio (Football)
+      { cat: 'calcio', it: 'Per chi tifa?', en: 'Who do you support?', phon: 'pehr kee TEE-fah?', note: 'A near-universal Italian icebreaker; almost everyone has a team.' },
+      { cat: 'calcio', it: 'Ha visto la partita ieri sera?', en: 'Did you watch the match last night?', phon: 'ah VEES-toh lah pahr-TEE-tah YEH-ree SEH-rah?', note: 'Serie A runs August to May, with most matches on weekend evenings.' },
+      { cat: 'calcio', it: 'C\'è un bar qui dove si può guardare la partita?', en: 'Is there a bar here where we can watch the match?', phon: 'cheh oon bar kwee DOH-veh see pwoh gwar-DAH-reh lah pahr-TEE-tah?', note: 'The way to find real match-day atmosphere instead of a hotel TV.' },
+      { cat: 'calcio', it: 'Perché il calcio è così importante in Italia?', en: 'Why is football so important in Italy?', phon: 'pehr-KEH eel KAHL-choh eh koh-ZEE eem-pohr-TAHN-teh een ee-TAHL-yah?', note: 'Opens into city pride, family tradition and regional identity, not just sport.' },
+      { cat: 'calcio', it: 'Cosa pensa della Nazionale in questo momento?', en: 'What do you think of the national team right now?', phon: 'KOH-zah PEHN-sah DEHL-lah nah-tsyoh-NAH-leh een KWEHS-toh moh-MEHN-toh?', note: 'The Azzurri missed the 2018 and 2022 World Cups; a sore and lively subject.' },
+      { cat: 'calcio', it: 'Cosa pensa degli ultras?', en: 'What do you think of the ultras?', phon: 'KOH-zah PEHN-sah DEHL-yee OOL-trahs?', note: 'Organised fan groups; some see tradition and choreography, others see trouble.' },
+      { cat: 'calcio', it: 'Secondo Lei, chi è stato il più grande calciatore italiano di sempre?', en: 'In your opinion, who is the greatest Italian footballer ever?', phon: 'seh-KOHN-doh lay, kee eh STAH-toh eel pyoo GRAHN-deh kahl-chah-TOH-reh ee-tahl-YAH-noh dee SEHM-preh?', note: 'Expect Baggio, Totti, Maldini or Buffon depending on age and city; Totti in Rome.' }
     ];
 
     // =========================================================================

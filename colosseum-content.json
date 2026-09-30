@@ -1,0 +1,206 @@
+{
+  "format": "itguide-colosseum",
+  "schemaVersion": 1,
+  "checkedOn": "2026-09-30",
+  "title": "Inside the Colosseum",
+  "intro": "A little context changes everything. Follow six things to notice, or jump to whatever is in front of you.",
+  "heroPhotoId": "colosseum",
+  "eventId": "event_cdd2e9116a05",
+  "returnAnchor": "itinerary-day-2",
+  "sources": [
+    {
+      "title": "The Colosseum · history and architecture",
+      "url": "https://colosseo.it/en/area/the-colosseum/"
+    },
+    {
+      "title": "The underground levels",
+      "url": "https://colosseo.it/en/marvels/the-underground-levels-of-the-colosseum/"
+    },
+    {
+      "title": "Seating and spectators",
+      "url": "https://colosseo.it/en/marvels/the-cavea-of-the-colosseum-and-the-belvedere-terrace/"
+    },
+    {
+      "title": "Ancient seating and modern reconstruction",
+      "url": "https://colosseo.it/en/event/stories-from-the-colosseum-epigraphy-lessons-regarding-the-cavea-loca-and-the-spectators-that-filled-them/"
+    },
+    {
+      "title": "Current tickets and permitted areas",
+      "url": "https://colosseo.it/en/visit/orari-e-biglietti/"
+    }
+  ],
+  "stops": [
+    {
+      "id": "arches",
+      "title": "Read the arches",
+      "where": "Outside · before entry or after your visit",
+      "photoId": "colosseum-arches",
+      "caption": "The stacked arches of the outer façade. Look for the changing column details between levels.",
+      "lookFor": [
+        "Arches repeated in long, curved rows.",
+        "Engaged columns framing each arch, with different capitals on successive levels.",
+        "Numbered entrance arches where ancient numerals survive; they are easier to find on the northern side."
+      ],
+      "story": "This was the Flavian Amphitheatre: a building made to gather a huge crowd and display imperial power. Its repeated openings made the exterior both monumental and practical.",
+      "history": "Ancient spectators entered through numbered arches and followed assigned routes toward their seats. The famous name Colosseum refers to the colossal statue that once stood nearby. Notice how the surviving outer wall lets you compare the formal façade with the structural rings exposed where it is missing.",
+      "extra": "Start wherever your booked tour begins. This is a sequence of things to notice, not a prescribed walking route.",
+      "gallery": [
+        {
+          "photoId": "colosseum",
+          "caption": "Step back for the whole façade: the repeating arches form rings around an oval, rather than a straight frontage."
+        },
+        {
+          "photoId": "colosseum-context",
+          "caption": "Seen from the Palatine, the Colosseum sits beside the Arch of Constantine. This is an orientation photograph, not the view from the entry queue."
+        }
+      ]
+    },
+    {
+      "id": "corridors",
+      "title": "Walk through the engineering",
+      "where": "Inside · permitted circulation corridors",
+      "photoId": "colosseum-corridor",
+      "caption": "An interior passage. Historic photographs may show areas or barriers that differ from today’s route.",
+      "lookFor": [
+        "The curved ceiling: an arch extended into a vault.",
+        "Passages branching toward stairs and the seating bowl.",
+        "Changes in stone and brick that reveal a building repaired and altered over time."
+      ],
+      "story": "Before looking at the arena, look overhead. The corridors and vaults are the hidden framework of the spectacle, carrying the tiers above while moving people through the building.",
+      "history": "The amphitheatre combined rings of circulation with routes leading inward to the cavea, the seating area. A spectator’s ticket indicated an entrance and an assigned place. Architecture helped organize the audience according to Roman social rank, not simply first arrival.",
+      "extra": "Keep moving through narrow passages and use an open permitted viewpoint to read the next stop.",
+      "gallery": [
+        {
+          "photoId": "colosseum-vault",
+          "caption": "A comparison from the underground: these restricted working passages served a different purpose from the visitor corridors. Underground access needs the appropriate booking."
+        },
+        {
+          "photoId": "colosseum-middle",
+          "caption": "From farther back, look for the structural walls beneath the former seating. The passages belong to this larger supporting framework."
+        }
+      ]
+    },
+    {
+      "id": "arena",
+      "title": "Imagine the missing floor",
+      "where": "Inside · an arena overlook",
+      "photoId": "colosseum-arena",
+      "caption": "The exposed interior helps reveal the space below the former arena floor.",
+      "lookFor": [
+        "The oval outline of the performance space.",
+        "The exposed passages below the level where the arena floor once lay.",
+        "The relationship between the central spectacle and the surrounding audience."
+      ],
+      "story": "The ruins you see in the centre were not the surface on which the shows took place. A wooden floor covered the working spaces below, separating the spectacle from the people and machinery that produced it.",
+      "history": "Animal hunts and gladiatorial games were major attractions. Think of the arena as a carefully managed stage: entrances, scenery, people and animals had to arrive at the intended moment. These entertainments also involved coercion and violence; the architectural achievement should not obscure that human history.",
+      "extra": "Arena-floor extra · only if included in your ticket: from the floor, turn toward the rising tiers and imagine how the audience surrounded the performers. Otherwise, explore this idea from the overlook.",
+      "gallery": [
+        {
+          "photoId": "colosseum-floor",
+          "caption": "An alternate view of the arena. Reconstruct the missing floor in your mind before tracing the visible rooms below it."
+        },
+        {
+          "photoId": "colosseum-bowl",
+          "caption": "Look around as well as down: the audience surrounded the performance space on every side."
+        }
+      ]
+    },
+    {
+      "id": "underground",
+      "title": "Find the backstage world",
+      "where": "Inside · looking down from an overlook",
+      "photoId": "colosseum-underground",
+      "caption": "The hypogeum: passages and working spaces that were hidden beneath the arena.",
+      "lookFor": [
+        "The long central passage through the underground.",
+        "Narrower corridors arranged on either side.",
+        "The level difference between these spaces and the former arena floor."
+      ],
+      "story": "The hypogeum was the Colosseum’s backstage. Winches, pulleys and lifting platforms could bring animals, people and scenery up through trapdoors into the arena.",
+      "history": "The early underground structures were wooden; under Domitian they were rebuilt in masonry. Wood and rope still played vital roles in the machinery. Fire in 217 badly damaged the monument, and the underground changed repeatedly as the amphitheatre was repaired and reused.",
+      "extra": "Underground extra · a specific booking is required. Follow your guide and the permitted route; use the structures they identify to connect the machinery below with the stage above. General entry does not imply underground access.",
+      "gallery": [
+        {
+          "photoId": "colosseum-backstage",
+          "caption": "Inside the underground working spaces. This photograph takes you closer even if your ticket only permits a view from above."
+        },
+        {
+          "photoId": "colosseum-machinery",
+          "caption": "Another detail from the underground. Compare the confined backstage spaces with the broad arena above; access and displays may have changed since this photograph."
+        }
+      ]
+    },
+    {
+      "id": "seating",
+      "title": "See Rome’s social ladder",
+      "where": "Inside · a permitted view across the seating bowl",
+      "photoId": "colosseum-seats",
+      "caption": "A reconstructed bank of marble seats. This modern arrangement uses ancient fragments and helps make the lost seating easier to picture.",
+      "lookFor": [
+        "The lowest seating positions nearest the arena.",
+        "The successive levels rising behind them.",
+        "Surviving or reconstructed marble seating, where visible from your route."
+      ],
+      "story": "Your place in the crowd reflected your place in society. The imperial viewing position and senators’ seats had privileged views, with other social groups assigned their own sections above.",
+      "history": "Entry to the ancient spectacles was free, but seating was strictly ordered. Equestrians sat behind the senators, followed by other groups in higher sections. A section of marble seating was reconstructed in the 1930s using ancient fragments; it helps explain the arrangement, but is not an untouched block of ancient seats.",
+      "extra": "A useful question to carry with you: who could see and be seen from each part of this enormous room?",
+      "gallery": [
+        {
+          "photoId": "colosseum-bowl",
+          "caption": "The rising tiers show how distance from the arena could reinforce differences in status."
+        },
+        {
+          "photoId": "colosseum-gallery",
+          "caption": "Use this wider view to connect the reconstructed seating with the much larger, mostly missing audience area."
+        }
+      ]
+    },
+    {
+      "id": "panorama",
+      "title": "Put the whole building together",
+      "where": "Inside · first or second level, as your route permits",
+      "photoId": "colosseum-panorama",
+      "caption": "A broad view of the interior brings the arena, underground and seating structure into one picture.",
+      "lookFor": [
+        "The oval arena surrounded by the layered structure.",
+        "The corridors and walls that supported the lost seating.",
+        "The contrast between surviving fabric, missing sections and later repairs."
+      ],
+      "story": "Take one last wide view. You can now read three parts at once: the stage in the middle, the working world below it, and the audience rising around it.",
+      "history": "The Colosseum survived because its story continued after the spectacles ended. It was reused, damaged, stripped of material, studied and conserved. The ruin is a record of those changing uses as much as a reminder of ancient Rome.",
+      "extra": "Upper attic and special panoramic routes may require their own ticket. This stop works from the ordinary levels your booking permits.",
+      "gallery": [
+        {
+          "photoId": "colosseum-middle",
+          "caption": "A second angle reveals how much of the internal supporting structure is now exposed."
+        },
+        {
+          "photoId": "colosseum-context",
+          "caption": "The wider setting links the amphitheatre to the Forum and Palatine landscape you will explore next."
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "when": "1st century CE",
+      "text": "The Flavian emperors create the amphitheatre in the heart of Rome."
+    },
+    {
+      "when": "Under Domitian",
+      "text": "The underground is transformed from wooden structures into masonry working spaces."
+    },
+    {
+      "when": "217–222 CE",
+      "text": "A major fire damages the monument; repairs precede its reopening."
+    },
+    {
+      "when": "After antiquity",
+      "text": "New uses and the removal of building material reshape the amphitheatre."
+    },
+    {
+      "when": "Today",
+      "text": "Archaeology and conservation help visitors understand both the ancient building and its later history."
+    }
+  ]
+}

@@ -21,11 +21,33 @@ function setup(saved) {
   const store = { get: () => saved, set(_key, value) { this.saved = JSON.parse(JSON.stringify(value)); } };
   vm.runInNewContext(data + source + '\nBuilder.init();', {
     $, $$: () => [], store, escapeHtml: s => String(s), scrollRailTo() {},
+    SentenceCompiler: require('../sentence-compiler.js'),
     document: { createElement: () => $('#wordSwap'), body: { appendChild() {} }, addEventListener() {} },
   });
   const click = (selector, dataset) => $(selector).handlers.click({ target: { closest: () => ({ dataset, setAttribute() {} }) } });
   return { $, store, click };
 }
+
+test('every conversation formula has an English meaning alongside its Italian name', () => {
+  const templates = vm.runInNewContext(data + '\nTEMPLATES');
+  const all = Object.values(templates).flat();
+  assert.equal(all.length, 11);
+  for (const template of all) {
+    assert.ok(template.nameEn && template.nameEn.trim(), template.name);
+    assert.notEqual(template.nameEn, template.name);
+  }
+});
+
+test('Builder restore rejects inherited category names and invalid template indices', () => {
+  for (const cat of ['__proto__', 'constructor', 'toString', '', null]) {
+    const h = setup({ cat, tpl: 0, sel: [] });
+    assert.match(h.$('#hudEn').textContent, /espresso/);
+  }
+  for (const tpl of ['__proto__', 'constructor', -1, 1.5, 99999, null]) {
+    const h = setup({ cat: 'dining', tpl, sel: [] });
+    assert.match(h.$('#hudEn').textContent, /espresso/);
+  }
+});
 
 test('word replacement updates the whole phrase, translation, pronunciation and saved slot only', () => {
   const { $, store, click } = setup();

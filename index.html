@@ -8,10 +8,20 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Italy Guide">
-  <title>Italy Travel Pocket Guide | Offline Phrasebook & Sentence Engine</title>
+  <title>Italy Travel Pocket Guide | Phrases &amp; Itinerary</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3Cpath fill='%23009246' d='M0 0h1v2H0z'/%3E%3Cpath fill='%23fff' d='M1 0h1v2H1z'/%3E%3Cpath fill='%23ce2b37' d='M2 0h1v2H2z'/%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="conversation.css">
+  <link rel="stylesheet" href="today.css">
+  <link rel="stylesheet" href="speech-readiness.css">
+  <link rel="stylesheet" href="trip.css">
+  <link rel="stylesheet" href="saved.css">
+  <link rel="stylesheet" href="learning.css">
+  <link rel="stylesheet" href="attachments.css">
+  <link rel="stylesheet" href="places.css">
+  <link rel="stylesheet" href="destination-guide.css">
+  <link rel="stylesheet" href="colosseum-guide.css">
   <style>
     :root {
       color-scheme: light dark;
@@ -78,6 +88,7 @@
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
     }
+    dialog:not([open]) { display: none; }
     html:has(dialog[open]) { overflow: hidden; }
 
     body {
@@ -112,6 +123,7 @@
       user-select: none;
     }
 
+    main { overflow-x: clip; }
     svg { flex-shrink: 0; }
     :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
     [hidden] { display: none !important; }
@@ -198,9 +210,16 @@
 
     .tabbar-inner {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       height: var(--nav-h);
     }
+    .tabbar-shell { display: flex; align-items: stretch; }
+    .tabbar-shell .tabbar-inner { flex: 1; min-width: 0; }
+    #conversationNav { flex: 0 0 68px; font-size: 10px; padding-inline: 2px; }
+    .tabbar .tab-icon { width: min(44px, 100%); }
+    @media (max-width: 430px) { .tabbar .tab { font-size: 10px; min-width: 44px; } }
+    #builderConversation { grid-column: 1 / -1; }
+    #builderConversation[hidden], #conversationNav[hidden] { display: none; }
 
     .tab {
       display: flex;
@@ -225,6 +244,55 @@
     .tab[aria-selected="true"] { color: var(--accent-text); }
     .tab[aria-selected="true"] .tab-icon { background: var(--accent-soft); }
     .tab:active .tab-icon { transform: scale(0.94); }
+
+    /* The itinerary reads like a compact travel journal: dates lead, details follow. */
+    .itinerary-hero {
+      margin: 16px 0 8px;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: var(--brand-deep);
+      color: #fff;
+    }
+    .itinerary-kicker {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .itinerary-hero h2 { font-size: clamp(1.4rem, 5vw, 1.8rem); line-height: 1.2; margin: 6px 0; }
+    .itinerary-hero p:last-child { font-size: 0.875rem; opacity: 0.9; }
+    .itinerary-nav { margin-bottom: 12px; }
+    .itinerary-nav .pill { text-decoration: none; }
+    .itinerary-map-hint { color: var(--muted); font-size: 0.8125rem; margin: 0 0 12px; }
+    .map-link { color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
+    .itinerary-day { margin: 0 0 16px; scroll-margin-top: 16px; overflow: hidden; }
+    .itinerary-day-head { padding: 16px 18px; border-bottom: 1px solid var(--border); }
+    .itinerary-date { color: var(--accent-text); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; }
+    .itinerary-day h3 { font-size: 1.125rem; line-height: 1.3; margin-top: 4px; }
+    .itinerary-events { list-style: none; padding: 4px 18px 8px; }
+    .itinerary-events li { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 12px; padding: 12px 0; }
+    .itinerary-events li + li { border-top: 1px solid var(--border); }
+    .itinerary-time { color: var(--muted); font-size: 0.8125rem; font-weight: 700; line-height: 1.45; }
+    .itinerary-event { font-size: 0.875rem; min-width: 0; }
+    .itinerary-event strong { color: var(--text); }
+    .itinerary-event .detail { display: block; margin-top: 3px; color: var(--muted); }
+    .itinerary-language { border-top: 1px solid var(--border); }
+    .itinerary-language summary { padding: 14px 18px; color: var(--accent-text); font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+    .itinerary-language summary span { display: block; margin-top: 2px; color: var(--muted); font-size: 0.75rem; font-weight: 400; }
+    .itinerary-language-body { padding: 0 18px 16px; }
+    .itinerary-language h4 { margin: 12px 0 5px; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .itinerary-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; }
+    .itinerary-line + .itinerary-line { border-top: 1px solid var(--border); }
+    .itinerary-line-text { min-width: 0; }
+    .itinerary-it { display: block; color: var(--text); font-size: 0.875rem; font-weight: 700; }
+    .itinerary-en { display: block; margin-top: 2px; color: var(--muted); font-size: 0.8125rem; }
+    .itinerary-audio { flex: 0 0 44px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-text); font-size: 1.125rem; }
+    .itinerary-audio.is-speaking { background: var(--accent); color: var(--on-accent); }
+    @media (max-width: 360px) {
+      .itinerary-events li { grid-template-columns: 68px minmax(0, 1fr); gap: 8px; }
+      .tab { font-size: 0.6875rem; }
+    }
 
     /* ==========================================================================
        STICKY TOOLBARS (phrase search / builder HUD)
@@ -1023,9 +1091,14 @@
           <p class="app-sub">Rome · Sorrento · Amalfi Coast</p>
         </div>
       </div>
-      <span class="offline-badge">Offline</span>
+      <div class="header-actions">
+        <button type="button" id="conversationEntry" class="conversation-entry" hidden>Conversation</button>
+        <span class="offline-badge">Offline</span>
+      </div>
     </div>
   </header>
+  <div id="speech-readiness-root" hidden></div>
+  <p id="personal-status" role="status" aria-live="polite" hidden></p>
 
   <main>
     <!-- TAB 1: PHRASES -->
@@ -1044,6 +1117,7 @@
       </div>
 
       <div class="wrap">
+        <div id="saved-phrases-root" hidden></div>
         <p class="list-meta" id="phraseMeta" aria-live="polite"></p>
         <div id="phraseList"></div>
         <div class="empty" id="phraseEmpty" hidden>
@@ -1055,6 +1129,7 @@
 
     <!-- TAB 2: SENTENCE BUILDER + GRAMMAR -->
     <section id="panel-builder" class="panel" role="tabpanel" aria-labelledby="tab-builder">
+      <div id="saved-builder-root" hidden></div>
       <!-- The HUD only sticks while the builder deck is on screen -->
       <div class="builder">
         <div class="hud">
@@ -1077,6 +1152,7 @@
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                   <span>Show</span>
                 </button>
+                <button type="button" id="builderConversation" class="btn" data-action="conversation" hidden>Use in conversation</button>
               </div>
             </div>
           </div>
@@ -1205,6 +1281,7 @@
 
     <!-- TAB 3: QUICK VOCABULARY -->
     <section id="panel-vocab" class="panel" role="tabpanel" aria-labelledby="tab-vocab" hidden>
+      <details class="learning-pack"><summary>Listening practice</summary><div id="learning-root"></div></details>
       <div class="toolbar">
         <div class="wrap">
           <form class="search" id="vocabSearchForm" role="search">
@@ -1228,10 +1305,110 @@
         </div>
       </div>
     </section>
+    <!-- TAB 4: TRIP ITINERARY -->
+    <section id="panel-itinerary" class="panel" role="tabpanel" aria-labelledby="tab-itinerary" hidden>
+      <div class="wrap">
+        <div id="today-root" hidden></div>
+        <div id="transport-root" hidden></div>
+        <div id="wallet-root"></div>
+        <div class="itinerary-hero">
+          <p class="itinerary-kicker">September 29 – October 6, 2026</p>
+          <h2>Eight days in Italy</h2>
+          <p>Rome → Sorrento &amp; the Amalfi Coast → Rome</p>
+        </div>
+        <nav class="rail itinerary-nav" aria-label="Jump to itinerary day">
+          <a class="pill" href="#itinerary-day-1">Sep 29</a><a class="pill" href="#itinerary-day-2">Sep 30</a>
+          <a class="pill" href="#itinerary-day-3">Oct 1</a><a class="pill" href="#itinerary-day-4">Oct 2</a>
+          <a class="pill" href="#itinerary-day-5">Oct 3</a><a class="pill" href="#itinerary-day-6">Oct 4</a>
+          <a class="pill" href="#itinerary-day-7">Oct 5</a><a class="pill" href="#itinerary-day-8">Oct 6</a>
+        </nav>
+        <p class="itinerary-map-hint">Tap an underlined place to open Google Maps. Maps may need a connection.</p>
+
+        <article class="card itinerary-day" id="itinerary-day-1" aria-labelledby="itinerary-title-1">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-09-29">Day 1 · Tuesday, September 29</time></p><h3 id="itinerary-title-1">Arrival in Rome &amp; the Pantheon</h3></div>
+          <ol class="itinerary-events">
+            <li><span class="itinerary-time">12:00 PM</span><div class="itinerary-event"><strong>Arrive at <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Rome+Fiumicino+Airport">Rome FCO</a>.</strong><span class="detail">Pick up bags and take the Leonardo Express to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Roma+Termini+station">Roma Termini</a> (30 minutes).</span></div></li>
+            <li><span class="itinerary-time">Lunch</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mercato+Centrale+Roma+Termini">Mercato Centrale</a></strong> inside Roma Termini station.</div></li>
+            <li><span class="itinerary-time">After 2 PM</span><div class="itinerary-event"><strong>Check in at <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=The+Talent+Hotel+Rome">The Talent Hotel</a>.</strong><span class="detail">Taxi from Termini (€9–11). Stay September 29, 30 and October 1.</span></div></li>
+            <li><span class="itinerary-time">5–6 PM</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Pantheon+Rome">Pantheon</a></strong> entry.</div></li>
+            <li><span class="itinerary-time">Dinner</span><div class="itinerary-event">Explore nearby; <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=All+Antico+Vinaio+Rome+Pantheon">All'Antico Vinaio</a></strong> is one option.</div></li>
+          </ol>
+        </article>
+
+        <article class="card itinerary-day" id="itinerary-day-2" aria-labelledby="itinerary-title-2">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-09-30">Day 2 · Wednesday, September 30</time></p><h3 id="itinerary-title-2">Colosseum &amp; Roman Forum</h3></div>
+          <ol class="itinerary-events">
+            <li><span class="itinerary-time">Morning</span><div class="itinerary-event">Breakfast at the hotel (included).</div></li>
+            <li id="colosseum-itinerary-event"><span class="itinerary-time">Midday</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Colosseum+Rome">Colosseum</a> tour.</strong><span class="detail">Arrive 15 minutes early. Afterward, take a break for snacks around <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mercato+Rionale+Monti+Rome">Mercato Rionale Monti</a> or <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mizios+street+food+Rome">Mizio’s street food</a>.</span></div></li>
+            <li><span class="itinerary-time">Afternoon</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Roman+Forum+Rome">Roman Forum</a> &amp; <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Palatine+Hill+Rome">Palatine Hill</a>.</strong><span class="detail">Ticket is valid within 24 hours of the Colosseum visit.</span></div></li>
+            <li><span class="itinerary-time">7:30 PM</span><div class="itinerary-event"><strong>Dinner reservation: <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=La+Taverna+dei+Fori+Imperiali+Via+della+Madonna+dei+Monti+9+Rome">La Taverna dei Fori Imperiali</a>.</strong><span class="detail">Via della Madonna Dei Monti 9.</span></div></li>
+          </ol>
+        </article>
+
+        <article class="card itinerary-day" id="itinerary-day-3" aria-labelledby="itinerary-title-3">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-10-01">Day 3 · Thursday, October 1</time></p><h3 id="itinerary-title-3">Vatican, Spanish Steps &amp; Trevi Fountain</h3></div>
+          <ol class="itinerary-events">
+            <li><span class="itinerary-time">7:30 AM</span><div class="itinerary-event"><strong>Meet the Vatican tour at <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Antico+Cafe+Candia+Rome">Antico Cafe Candia</a>.</strong><span class="detail">25-minute taxi ride from the hotel.</span></div></li>
+            <li><span class="itinerary-time">8–11:45 AM</span><div class="itinerary-event"><strong>Guided <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Vatican+Museums+Rome">Vatican</a> &amp; <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=St+Peters+Basilica+Vatican+City">St. Peter's Basilica</a> tour.</strong></div></li>
+            <li><span class="itinerary-time">Lunch</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Becco+Piazzale+degli+Eroi+7+Rome">Becco</a></strong> (Piazzale degli Eroi 7), then browse <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mercato+Trionfale+Rome">Mercato Trionfale</a> for desserts.</div></li>
+            <li><span class="itinerary-time">Afternoon</span><div class="itinerary-event">Taxi back to the hotel to rest, then walk to the <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Spanish+Steps+Rome">Spanish Steps</a></strong> and finish at the <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Trevi+Fountain+Rome">Trevi Fountain</a></strong>.</div></li>
+            <li><span class="itinerary-time">Dinner</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Pinsitaly+Trevi+Rome">Pinsitaly Trevi</a></strong> by the fountain.</div></li>
+          </ol>
+        </article>
+
+        <article class="card itinerary-day" id="itinerary-day-4" aria-labelledby="itinerary-title-4">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-10-02">Day 4 · Friday, October 2</time></p><h3 id="itinerary-title-4">Train to Naples &amp; ferry to Sorrento</h3></div>
+          <ol class="itinerary-events">
+            <li><span class="itinerary-time">Morning</span><div class="itinerary-event">Breakfast at the hotel, then taxi to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Roma+Termini+station">Roma Termini</a>.</div></li>
+            <li><span class="itinerary-time">11:40 AM<br>– 1:00 PM</span><div class="itinerary-event"><strong>Italo First Class train #9998</strong> from Roma Termini to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Napoli+Centrale+station">Naples Central</a>.</div></li>
+            <li><span class="itinerary-time">3:05–<br>3:45 PM</span><div class="itinerary-event"><strong>Alilauro ferry</strong> from <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Alilauro+ferry+Naples+port">Naples Port</a> to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Sorrento+ferry+port">Sorrento</a>.</div></li>
+            <li><span class="itinerary-time">Check-in</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Al+Centro+Suites+Sorrento">Al Centro Suites</a>.</strong><span class="detail">Seven-minute walk from the port. Stay October 2, 3 and 4.</span></div></li>
+            <li><span class="itinerary-time">Evening</span><div class="itinerary-event">Grab bites from <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=A+Marenna+Bakery+Sorrento">A’Marenna Bakery</a></strong> or <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Piennolo+Sorrento">Piennolo</a></strong>, stroll <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Villa+Comunale+di+Sorrento">Villa Comunale di Sorrento</a> park, then have limoncello and gelato at <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=I+Giardini+di+Cataldo+Sorrento">I Giardini di Cataldo</a></strong>.</div></li>
+          </ol>
+        </article>
+
+        <article class="card itinerary-day" id="itinerary-day-5" aria-labelledby="itinerary-title-5">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-10-03">Day 5 · Saturday, October 3</time></p><h3 id="itinerary-title-5">Pompeii day trip</h3></div>
+          <ol class="itinerary-events">
+            <li><span class="itinerary-time">10:00 AM</span><div class="itinerary-event"><strong>Pick up rental car at <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Corso+Italia+261%2FB+Sorrento">Hertz</a>.</strong><span class="detail">Corso Italia 261/B. International Driving Permit required; return car by 7:00 PM.</span></div></li>
+            <li><span class="itinerary-time">Daytime</span><div class="itinerary-event">Drive to and explore <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Pompeii+Archaeological+Park">Pompeii Archaeological Park</a>.</strong><span class="detail">Bring snacks and water; use the free booklet.</span></div></li>
+            <li><span class="itinerary-time">4:30 PM</span><div class="itinerary-event"><strong>Dinner reservation: <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Caupona+Via+Masseria+Curato+2+Pompeii">Caupona</a>.</strong><span class="detail">Via Masseria Curato 2, Pompeii.</span></div></li>
+            <li><span class="itinerary-time">By 7 PM</span><div class="itinerary-event">Return the rental car to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Corso+Italia+261%2FB+Sorrento">Hertz in Sorrento</a>.</div></li>
+          </ol>
+        </article>
+
+        <article class="card itinerary-day" id="itinerary-day-6" aria-labelledby="itinerary-title-6">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-10-04">Day 6 · Sunday, October 4</time></p><h3 id="itinerary-title-6">Amalfi Coast tour</h3></div>
+          <ol class="itinerary-events">
+            <li><span class="itinerary-time">7:50 AM</span><div class="itinerary-event"><strong>Meet the group tour at <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Piazza+Angelina+Lauro+Sorrento">Piazza Angelina Lauro</a>.</strong><span class="detail">Eight-hour excursion: <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Positano+Italy">Positano</a> (1 hour), <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Amalfi+Italy">Amalfi</a> (1 hour) and <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Ravello+Italy">Ravello</a> (2 hours).</span></div></li>
+            <li><span class="itinerary-time">Evening</span><div class="itinerary-event">Explore <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Piazza+Torquato+Tasso+Sorrento">Piazza Torquato Tasso</a></strong> (antiques and crafts market open until 8:00 PM), visit <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Stinga+Tarsia+Sorrento">Stinga Tarsia</a></strong> woodcrafts, then dine at <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Annare+Corso+Italia+198%2FB+Sorrento">Annaré</a></strong> (Corso Italia 198/B).</div></li>
+          </ol>
+        </article>
+
+        <article class="card itinerary-day" id="itinerary-day-7" aria-labelledby="itinerary-title-7">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-10-05">Day 7 · Monday, October 5</time></p><h3 id="itinerary-title-7">Return to Rome Airport</h3></div>
+          <ol class="itinerary-events">
+            <li><span class="itinerary-time">12:00–<br>12:45 PM</span><div class="itinerary-event"><strong>Ferry</strong> from <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Sorrento+ferry+port">Sorrento</a> back to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Alilauro+ferry+Naples+port">Naples</a>.</div></li>
+            <li><span class="itinerary-time">3:35–<br>4:45 PM</span><div class="itinerary-event"><strong>Italo First Class train</strong> from <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Napoli+Centrale+station">Naples</a> to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Roma+Termini+station">Roma Termini</a>.<span class="detail">Includes train lounge access.</span></div></li>
+            <li><span class="itinerary-time">5:20 PM</span><div class="itinerary-event"><strong>Leonardo Express</strong> from Roma Termini to <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Rome+Fiumicino+Airport">FCO Airport</a>.</div></li>
+            <li><span class="itinerary-time">Overnight</span><div class="itinerary-event"><strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Hilton+Rome+Airport+Hotel">Hilton Rome Airport Hotel</a>.</strong></div></li>
+          </ol>
+        </article>
+
+        <article class="card itinerary-day" id="itinerary-day-8" aria-labelledby="itinerary-title-8">
+          <div class="itinerary-day-head"><p class="itinerary-date"><time datetime="2026-10-06">Day 8 · Tuesday, October 6</time></p><h3 id="itinerary-title-8">Flight home</h3></div>
+          <ol class="itinerary-events"><li><span class="itinerary-time">10:00 AM</span><div class="itinerary-event"><strong>Flight departs <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Rome+Fiumicino+Airport">Rome (FCO)</a>.</strong></div></li></ol>
+        </article>
+      </div>
+    </section>
+    <section id="panel-guide" class="panel" role="tabpanel" aria-labelledby="tab-guide" hidden>
+      <div id="colosseum-root" class="wrap"><h2>Colosseum companion</h2><p>Loading your offline guide…</p></div>
+    </section>
   </main>
 
   <nav class="tabbar" aria-label="Sections">
-    <div class="wrap tabbar-inner" role="tablist">
+    <div class="wrap tabbar-shell">
+    <div class="tabbar-inner" role="tablist">
       <button type="button" class="tab" role="tab" id="tab-phrases" data-tab="phrases" aria-controls="panel-phrases" aria-selected="false" tabindex="-1">
         <span class="tab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
         <span>Phrases</span>
@@ -1244,6 +1421,15 @@
         <span class="tab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
         <span>Vocab</span>
       </button>
+      <button type="button" class="tab" role="tab" id="tab-itinerary" data-tab="itinerary" aria-controls="panel-itinerary" aria-selected="false" tabindex="-1">
+        <span class="tab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h4M7 17h7"/></svg></span>
+        <span>Itinerary</span>
+      </button>
+      <button type="button" class="tab" role="tab" id="tab-guide" data-tab="guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1">
+        <span class="tab-icon" aria-hidden="true">🏛</span><span>Guide</span>
+      </button>
+    </div>
+    <button type="button" class="tab" id="conversationNav" aria-haspopup="dialog" aria-controls="conversationDialog" hidden><span class="tab-icon" aria-hidden="true">↔</span><span>Conversation</span></button>
     </div>
   </nav>
 
@@ -1277,9 +1463,165 @@
     </div>
   </dialog>
 
+<dialog id="conversationDialog" class="conversation-dialog" aria-labelledby="conversationTitle">
+  <div class="conversation-shell">
+    <header class="conversation-top">
+      <button type="button" id="conversationBack" class="conversation-icon" aria-label="Back" title="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <h2 id="conversationTitle" tabindex="-1">Your turn</h2>
+      <button type="button" id="conversationNeedsSetup" aria-label="Offline setup needed" hidden>Setup</button>
+      <button type="button" id="conversationFlip" class="conversation-icon" aria-label="Rotate screen" title="Rotate screen" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+      <button type="button" id="conversationMore" aria-label="More conversation options">More</button>
+      <button type="button" id="conversationClose" class="conversation-icon" aria-label="Close conversation" title="Close conversation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    </header>
+    <section class="conversation-screen" data-screen="draft">
+      <div class="conversation-body"><p id="conversationDraftPreview" class="conversation-text"></p></div>
+      <div class="conversation-actions">
+        <button type="button" id="conversationEdit" title="Edit English message">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+          <span>Edit</span>
+        </button>
+        <button type="button" id="conversationChoose" title="Choose from travel phrases">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>Phrases</span>
+        </button>
+        <button type="button" id="conversationShow" class="conversation-primary" title="Translate and show in Italian">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <span>Show in Italian</span>
+        </button>
+      </div>
+    </section>
+    <section class="conversation-screen" data-screen="italian" lang="it" hidden>
+      <div class="conversation-body">
+        <div id="conversationItalianUserCard" class="conversation-user-card" aria-label="Italian message, your side" hidden>
+          <p class="conversation-user-eyebrow">Your side · Italiano</p>
+          <p id="conversationItalianUser" class="conversation-user-text"></p>
+        </div>
+        <p id="conversationItalian" class="conversation-text" aria-live="polite"></p>
+        <p id="conversationItalianAttribution" class="conversation-attribution" hidden><a href="https://translate.google.com/"><img src="icons/google-translate-attribution.png" width="150" alt="Tradotto con Google Translate"></a></p>
+      </div>
+      <div class="conversation-actions">
+        <button type="button" id="conversationSpeakItalian" title="Ascolta audio in italiano">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <span>Ascolta</span>
+        </button>
+        <button type="button" id="conversationSpeakItalianSlow" title="Ascolta più piano">
+          <span class="conversation-btn-icon" aria-hidden="true">🐢</span>
+          <span>Più piano</span>
+        </button>
+        <button type="button" id="conversationRecord" class="conversation-primary" title="Rispondi parlando al microfono">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+          <span>Parla</span>
+        </button>
+        <button type="button" id="conversationTypeItalian" class="conversation-primary" title="Rispondi scrivendo con la tastiera">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="8" x2="6.01" y2="8"></line><line x1="10" y1="8" x2="10.01" y2="8"></line><line x1="14" y1="8" x2="14.01" y2="8"></line><line x1="18" y1="8" x2="18.01" y2="8"></line><line x1="6" y1="12" x2="6.01" y2="12"></line><line x1="10" y1="12" x2="10.01" y2="12"></line><line x1="14" y1="12" x2="14.01" y2="12"></line><line x1="18" y1="12" x2="18.01" y2="12"></line><line x1="7" y1="16" x2="17" y2="16"></line></svg>
+          <span>Scrivi</span>
+        </button>
+      </div>
+    </section>
+    <section class="conversation-screen" data-screen="reply" id="conversationReplyCard" hidden>
+      <div class="conversation-body">
+        <p id="conversationReply" class="conversation-text" aria-live="polite"></p>
+        <p id="conversationReplyAttribution" class="conversation-attribution" hidden><a href="https://translate.google.com/"><img src="icons/google-translate-attribution.png" width="150" alt="Powered by Google Translate"></a></p>
+      </div>
+      <div class="conversation-actions">
+        <button type="button" id="conversationNextMessage" class="conversation-primary" title="Start next message">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <span>Next message</span>
+        </button>
+      </div>
+    </section>
+    <section class="conversation-screen" data-screen="editor" hidden>
+      <div class="conversation-body"><textarea id="conversationEditor" maxlength="2000" aria-label="Edit message, current page" spellcheck="true"></textarea></div>
+      <div class="conversation-actions">
+        <button type="button" id="conversationEditorDone" class="conversation-primary" title="Done">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span id="conversationEditorDoneText">Done</span>
+        </button>
+      </div>
+    </section>
+    <section class="conversation-screen" data-screen="choices" hidden>
+      <div class="conversation-body">
+        <div id="conversationCategories" class="conversation-choices" role="group" aria-label="Category"></div>
+        <div id="conversationTemplates" class="conversation-choices" role="group" aria-label="Sentence template" hidden></div>
+        <div id="conversationSlots" class="conversation-choices" hidden></div>
+      </div>
+      <div class="conversation-actions"><button type="button" id="conversationChoiceDone">Use phrase</button></div>
+    </section>
+    <section class="conversation-screen" data-screen="busy" hidden>
+      <div class="conversation-body"><p id="conversationStatus" class="conversation-text" role="status" aria-live="polite"></p></div>
+      <div class="conversation-actions">
+        <button type="button" id="conversationCancelOperation" title="Cancel current operation">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <span>Cancel</span>
+        </button>
+        <button type="button" id="conversationStop" class="conversation-primary" hidden title="Stop recording">
+          <svg class="conversation-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg>
+          <span>Ferma</span>
+        </button>
+      </div>
+    </section>
+    <section class="conversation-screen" data-screen="error" hidden>
+      <div class="conversation-body" data-small><p id="conversationError" class="conversation-text" role="alert"></p></div>
+      <div class="conversation-actions"><button type="button" id="conversationRecover" class="conversation-primary">Back to conversation</button></div>
+    </section>
+    <section class="conversation-screen" data-screen="more" hidden>
+      <div class="conversation-body"><div id="conversationMenu" class="conversation-choices">
+        <button type="button" id="conversationReturnItalian">Show Italian message</button>
+        <button type="button" id="conversationReturnReply">Read their reply</button>
+        <button type="button" id="conversationSpeakEnglish">Speak English</button>
+        <button type="button" id="conversationReplay">Replay Italian recording</button>
+        <button type="button" id="conversationCorrect">Correct transcript</button>
+        <button type="button" id="conversationOpenSetup">Setup</button>
+        <button type="button" id="conversationClear">Clear conversation</button>
+      </div></div><div></div>
+    </section>
+    <section class="conversation-screen" data-screen="setup" hidden>
+      <div class="conversation-body" data-small><p id="conversationSetupText" class="conversation-text"></p></div>
+      <div class="conversation-actions">
+        <button type="button" id="conversationSetup">Prepare models</button>
+        <button type="button" id="conversationCancelSetup" hidden>Cancel setup</button>
+        <button type="button" id="conversationInstallVoice" hidden>Install voice</button>
+        <button type="button" id="conversationLicenses">Licenses</button>
+      </div>
+    </section>
+    <section class="conversation-screen" data-screen="licenses" hidden>
+      <div class="conversation-body" data-small><p id="conversationLicenseText" class="conversation-text"></p></div><div></div>
+    </section>
+    <nav class="conversation-pager" aria-label="Conversation pages">
+      <button type="button" id="conversationPrevious">Previous</button>
+      <span id="conversationPage" role="status" aria-live="polite">1 / 1</span>
+      <button type="button" id="conversationNext">Next</button>
+    </nav>
+    <!-- Canonical controller fields retain the whole exchange, never the displayed page. -->
+    <div hidden aria-hidden="true">
+      <textarea id="conversationDraft" maxlength="2000"></textarea>
+      <textarea id="conversationTranscript" maxlength="2000"></textarea>
+      <button type="button" id="conversationTranslateReply">Translate correction</button>
+      <p id="conversationReady"></p><p id="conversationReadiness"></p><p id="conversationProgress"></p>
+      <p id="conversationPublishedEnglish"></p><p id="conversationItalianStatus"></p><p id="conversationItalianError"></p>
+      <p id="conversationTimer"></p><p id="conversationUnsupported"></p>
+    </div>
+  </div>
+</dialog>
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <script src="sentence-compiler.js"></script>
+  <script src="user-data.js"></script>
+  <script src="personal.js"></script>
+  <script src="saved.js"></script>
+  <script src="learning.js"></script>
+  <script src="json-transfer.js"></script>
+  <script src="wallet-web-port.js"></script>
+  <script src="wallet-channel.js"></script>
+  <script src="wallet-host.js"></script>
+  <script src="wallet.js"></script>
+  <script src="wallet-ui.js"></script>
+  <script src="attachments.js"></script>
+  <script src="places.js"></script>
+  <script src="destination-guide.js"></script>
+  <script src="colosseum-guide.js"></script>
   <script>
     'use strict';
 
@@ -1467,6 +1809,7 @@
         {
           id: 'order_food',
           name: 'Ordinare al tavolo / banco',
+          nameEn: 'Order at a table or counter',
           slots: [
             {
               key: 'slot1',
@@ -1518,6 +1861,7 @@
         {
           id: 'dining_payment',
           name: 'Pagamento, Conto & Coperto',
+          nameEn: 'Payment, bill & cover charge',
           slots: [
             {
               key: 'slot1',
@@ -1566,6 +1910,7 @@
         {
           id: 'dietary_allergies',
           name: 'Celiachia, Glutine & Latticini',
+          nameEn: 'Celiac disease, gluten & dairy',
           slots: [
             {
               key: 'slot1',
@@ -1614,6 +1959,7 @@
         {
           id: 'ferry_coastal',
           name: 'Aliscafi & Traghetti Costiera',
+          nameEn: 'Coastal hydrofoils & ferries',
           slots: [
             {
               key: 'slot1',
@@ -1664,6 +2010,7 @@
         {
           id: 'transit_trains',
           name: 'Treni, Metro & Bus SITA',
+          nameEn: 'Trains, metro & SITA buses',
           slots: [
             {
               key: 'slot1',
@@ -1711,6 +2058,7 @@
         {
           id: 'hotel_stay',
           name: 'Check-In, Bagagli & Camera',
+          nameEn: 'Check-in, luggage & room',
           slots: [
             {
               key: 'slot1',
@@ -1759,6 +2107,7 @@
         {
           id: 'beach_lido',
           name: 'Lettini, Ombrelloni & Barche',
+          nameEn: 'Sun loungers, beach umbrellas & boats',
           slots: [
             {
               key: 'slot1',
@@ -1805,6 +2154,7 @@
         {
           id: 'sights_tours',
           name: 'Musei, Pompei & Chiese',
+          nameEn: 'Museums, Pompeii & churches',
           slots: [
             {
               key: 'slot1',
@@ -1852,6 +2202,7 @@
         {
           id: 'aperitivo_wine',
           name: 'Spritz, Vino & Stuzzichini',
+          nameEn: 'Spritz, wine & snacks',
           slots: [
             {
               key: 'slot1',
@@ -1897,6 +2248,7 @@
         {
           id: 'taxi_rides',
           name: 'Tariffa Taxi & Noleggio Scooter',
+          nameEn: 'Taxi fares & scooter rental',
           slots: [
             {
               key: 'slot1',
@@ -1943,6 +2295,7 @@
         {
           id: 'emergency_pharmacy',
           name: 'Farmacia, Mal di Mare & Aiuto',
+          nameEn: 'Pharmacy, seasickness & help',
           slots: [
             {
               key: 'slot1',
@@ -1999,21 +2352,64 @@
     // Accent-insensitive search: "caffe" finds "caffè", "perche" finds "perché"
     const fold = str => str.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
-    // Remembers tab, builder sentence and audio speed across reloads (mobile browsers
-    // discard background tabs). Storage can be unavailable (private mode), so never throw.
-    const store = {
-      get(key, fallback) {
-        try {
-          const raw = localStorage.getItem('itguide.' + key);
-          return raw === null ? fallback : JSON.parse(raw);
-        } catch (e) {
-          return fallback;
-        }
-      },
-      set(key, value) {
-        try { localStorage.setItem('itguide.' + key, JSON.stringify(value)); } catch (e) {}
-      }
+    function personalNotice(message) {
+      const node = document.getElementById('personal-status');
+      node.hidden = false; node.textContent = message;
+    }
+    let restorePersonalUI = () => {};
+    // Restricted storage is reported by the adapter as a typed load failure.
+    const personalStorage = {
+      getItem: key => window.localStorage.getItem(key),
+      setItem: (key, value) => window.localStorage.setItem(key, value),
+      removeItem: key => window.localStorage.removeItem(key)
     };
+    const nativeWallet = location.origin === 'https://appassets.androidplatform.net';
+    let walletHost = null;
+    let currentTripContent = null;
+    let tripDocumentActive = true, disposeTripUI = null;
+    window.addEventListener('pagehide', () => {
+      tripDocumentActive = false; currentTripContent = null;
+      if (disposeTripUI) { disposeTripUI(); disposeTripUI = null; }
+    }, { once: true });
+    function bindTripContent(content) {
+      if (!tripDocumentActive) return () => {};
+      currentTripContent = content;
+      return () => { if (currentTripContent === content) currentTripContent = null; };
+    }
+    const basePersonalStore = ItalyUserData.create({ storage: personalStorage, crypto: window.crypto, now: () => new Date(),
+      isCurrentRelation: relation => currentTripContent !== null && ItalyTrip.currentRelation(currentTripContent, relation),
+      ...(nativeWallet ? { coordinator: { mutate: (revision, change) => walletHost
+        ? walletHost.mutate(revision, change) : Promise.resolve({ status: 'FAILED', code: 'RECOVERY_REQUIRED' }) } } : {}) });
+    if (nativeWallet) {
+      try {
+        walletHost = ItalyWalletHostFactory.create({ store: basePersonalStore, bridge: window.ItalyWalletRecovery, crypto: window.crypto, lifecycle: window });
+        Object.defineProperty(window, 'ItalyWalletHost', { value: walletHost, configurable: false, writable: false });
+      } catch (_) { basePersonalStore.gateStartup();personalNotice('Personal data could not start safely. Restart the app to retry recovery.'); }
+    }
+    const personalStore = Object.freeze({ ...basePersonalStore,
+      async replaceConfirmed(revision, candidate) {
+        const result = await store.replaceConfirmed(revision, candidate);
+        if (result.status === 'SAVED') {
+          try { restorePersonalUI(); }
+          catch (_) { personalNotice('Personal data was restored. Reload to refresh the displayed controls.'); }
+        }
+        return result;
+      }
+    });
+    const store = ItalyPersonal.create(basePersonalStore, personalNotice);
+    const walletFacade = ItalyWallet.create({ store: basePersonalStore, host: walletHost });
+    window.addEventListener('pagehide', () => walletFacade.dispose(), { once: true });
+    if (nativeWallet) {
+      let restored = false;
+      basePersonalStore.subscribe(state => {
+        if (state.state === 'RECOVERY_REQUIRED') {
+          personalNotice('Personal data is read-only. Restart the app to retry recovery; existing data has been preserved.');
+        }
+        if (!restored && state.state === 'READY' && state.writable) {
+          restored = true;queueMicrotask(() => restorePersonalUI());
+        }
+      });
+    }
 
     const ICONS = {
       speaker: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>',
@@ -2086,6 +2482,7 @@
     // 5. OFFLINE SPEECH (Web Speech API, Italian voice, shared slow mode)
     // =========================================================================
     const Speech = (() => {
+      const nativeSpeech = window.AndroidSpeech || null;
       const synth = 'speechSynthesis' in window ? window.speechSynthesis : null;
       let voices = [];
       let slow = store.get('slow', false) === true;
@@ -2121,6 +2518,11 @@
       }
 
       function speak(text, btn) {
+        if (nativeSpeech) {
+          if (nativeSpeech.speak(speakable(text), slow)) setActive(btn);
+          else toast('Install an Italian text-to-speech voice to play audio');
+          return;
+        }
         if (!synth) {
           toast('Audio isn’t supported in this browser');
           return;
@@ -2153,8 +2555,11 @@
       function stop() {
         seq++;
         setActive(null);
+        if (nativeSpeech) nativeSpeech.stop();
         if (synth && (synth.speaking || synth.pending)) synth.cancel();
       }
+
+      if (nativeSpeech) window.nativeSpeechEnded = () => setActive(null);
 
       function syncSlowButtons() {
         $$('[data-action="slow"]').forEach(b => b.setAttribute('aria-pressed', String(slow)));
@@ -2172,24 +2577,29 @@
         synth.onvoiceschanged = loadVoices;
       }
 
-      return { speak, stop, toggleSlow, syncSlowButtons };
+      return { speak, stop, toggleSlow, syncSlowButtons, restoreSlow() { slow = store.get('slow', false) === true; syncSlowButtons(); } };
     })();
 
     // =========================================================================
     // 6. BOTTOM TAB NAVIGATION
     // =========================================================================
     const Tabs = (() => {
-      const ids = ['phrases', 'builder', 'vocab'];
+      const ids = ['phrases', 'builder', 'vocab', 'itinerary', 'guide'];
       const scrollPos = {};
       let current = null;
+      let transition = null;
 
-      function show(id) {
+      function show(id, direction = 0) {
         if (!ids.includes(id)) id = 'builder';
         if (id === current) {
           window.scrollTo({ top: 0, behavior: 'smooth' }); // re-tap the active tab: back to top
           return;
         }
         if (current) scrollPos[current] = window.scrollY;
+        if (transition) {
+          transition.cancel();
+          transition = null;
+        }
         ids.forEach(t => {
           const on = t === id;
           const tab = $('#tab-' + t);
@@ -2198,9 +2608,16 @@
           $('#panel-' + t).hidden = !on;
         });
         current = id;
-        store.set('tab', id);
+        // Guide navigation is session-only; keep the frozen personal-data grammar intact.
+        if (id !== 'guide') store.set('tab', id);
         window.scrollTo(0, scrollPos[id] || 0);
         document.dispatchEvent(new CustomEvent('tabshown', { detail: id }));
+        if (direction && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          transition = $('#panel-' + id).animate([
+            { transform: `translateX(${direction * 24}px)`, opacity: 0.94 },
+            { transform: 'translateX(0)', opacity: 1 }
+          ], { duration: 160, easing: 'ease-out' });
+        }
       }
 
       function init() {
@@ -2230,7 +2647,7 @@
           const dy = touch.clientY - start.y;
           if (Math.abs(dx) < 60 || Math.abs(dy) > 40 || Math.abs(dx) < Math.abs(dy) * 2) return;
           const next = ids.indexOf(current) + (dx < 0 ? 1 : -1);
-          if (next >= 0 && next < ids.length) show(ids[next]);
+          if (next >= 0 && next < ids.length) show(ids[next], dx < 0 ? 1 : -1);
         }, { passive: true });
         list.addEventListener('click', e => {
           const tab = e.target.closest('[role="tab"]');
@@ -2248,7 +2665,7 @@
         show(store.get('tab', 'builder'));
       }
 
-      return { init };
+      return { init, show };
     })();
 
     // =========================================================================
@@ -2437,7 +2854,7 @@
     // =========================================================================
     const Builder = (() => {
       const CATS = CATEGORIES.filter(c => TEMPLATES[c.id]);
-      const state = { cat: CATS[0].id, tpl: 0, sel: [0, 0, 0, 0] };
+      const state = { cat: CATS[0].id, tpl: 0, sel: [0, 0, 0, 0], phrase: null };
       let compiled = null;
       let swapSlot = null;
       let swapTrigger = null;
@@ -2450,7 +2867,8 @@
           swapTrigger.setAttribute('aria-expanded', 'false');
           swapTrigger.focus();
         } else if (slot !== null) {
-          $(`#hudIt [data-swap-slot="${slot}"]`)?.focus();
+          const previousSlot = $(`#hudIt [data-swap-slot="${slot}"]`);
+          if (previousSlot) previousSlot.focus();
         }
         swapTrigger = null;
       }
@@ -2476,9 +2894,12 @@
       // Restore the last sentence; validate it because the data may have changed since
       function restore() {
         const saved = store.get('builder', null);
-        if (!saved || !TEMPLATES[saved.cat]) return;
+        if (!saved || typeof saved !== 'object' || !CATS.some(category => category.id === saved.cat)) return;
         state.cat = saved.cat;
-        state.tpl = TEMPLATES[saved.cat][saved.tpl] ? saved.tpl : 0;
+        if (saved.phrase && typeof saved.phrase.it === 'string' && typeof saved.phrase.en === 'string') {
+          state.phrase = { it: saved.phrase.it, en: saved.phrase.en, phon: '' };
+        }
+        state.tpl = Number.isInteger(saved.tpl) && saved.tpl >= 0 && saved.tpl < TEMPLATES[saved.cat].length ? saved.tpl : 0;
         state.sel = template().slots.map((slot, i) => {
           const v = Array.isArray(saved.sel) ? saved.sel[i] : 0;
           return Number.isInteger(v) && slot.options[v] ? v : 0;
@@ -2489,28 +2910,17 @@
       const chipText = s => s.replace(/^[,.!?]\s+(?=\S)/, '');
 
       function compile() {
-        const parts = template().slots.map((slot, i) => slot.options[state.sel[i]] || slot.options[0]);
-        // Smart grammatical glue: no space after an elision (dov'…) or before a closer
-        // that starts with punctuation (", per favore", "?")
-        const tokens = parts.map((p, i) => {
-          const next = parts[i + 1];
-          return p.it + (!next || p.it.endsWith("'") || /^[,.!?]/.test(next.it) ? '' : ' ');
-        });
-        return {
-          tokens,
-          it: tokens.join(''),
-          en: parts.map(p => p.en).join(' ').replace(/\s+/g, ' ').replace(/\s+([?,!.])/g, '$1'),
-          phon: parts.map(p => p.phon).filter(ph => /[a-z]/i.test(ph)).join(' · ')
-        };
+        return SentenceCompiler.compile(template(), state.sel);
       }
 
       function renderHud() {
-        compiled = compile();
+        compiled = state.phrase ? { ...state.phrase, tokens: [state.phrase.it] } : compile();
         $('#hudIt').innerHTML = compiled.tokens
           .map((t, i) => `<span class="tok tok-${i + 1}">${t.split(/(\s+)/).map(word =>
-            /[a-zà-ÿ]/i.test(word) && template().slots[i].options.length > 1
+            !state.phrase && /[a-zà-ÿ]/i.test(word) && template().slots[i].options.length > 1
               ? `<button type="button" class="word-swap" data-swap-slot="${i}" aria-haspopup="dialog" aria-controls="wordSwap" aria-expanded="false" aria-label="${escapeHtml('Replace ' + word)}">${escapeHtml(word)}</button>`
               : escapeHtml(word)).join('')}</span>`).join('');
+        $('.swap-hint').hidden = Boolean(state.phrase);
         $('#hudPhon').textContent = compiled.phon;
         $('#hudEn').textContent = compiled.en;
       }
@@ -2522,6 +2932,10 @@
       }
 
       function renderSlots() {
+        if (state.phrase) {
+          $('#slots').innerHTML = '<p class="section-label">Loaded from your itinerary. Choose a category or Reset to build a new sentence.</p>';
+          return;
+        }
         $('#slots').innerHTML = template().slots.map((slot, si) => `
           <div class="slot" role="group" aria-labelledby="slot-label-${si}" style="--slot-color: var(--tok-${si + 1})">
             <h3 class="slot-label" id="slot-label-${si}">${escapeHtml(slot.label)}</h3>
@@ -2540,7 +2954,8 @@
         const cat = CATS.find(c => c.id === state.cat);
         $('#catDesc').innerHTML = `<strong lang="it">${escapeHtml(cat.it)}</strong> · ${escapeHtml(cat.desc)}`;
         const list = TEMPLATES[state.cat];
-        $('#tplBlock').hidden = list.length < 2;
+        $('#tplBlock').hidden = !!state.phrase || list.length < 2;
+        $('#panel-builder [data-action="shuffle"]').hidden = !!state.phrase;
         $('#tplSwitch').innerHTML = list.length < 2 ? '' : list.map((t, i) => `
           <button type="button" data-tpl="${i}" aria-pressed="${i === state.tpl}" lang="it">${escapeHtml(t.name)}</button>
         `).join('');
@@ -2556,7 +2971,8 @@
       }
 
       function selectCategory(id, pill) {
-        if (id === state.cat) return;
+        if (id === state.cat && !state.phrase) return;
+        state.phrase = null;
         state.cat = id;
         state.tpl = 0;
         state.sel = [0, 0, 0, 0];
@@ -2597,10 +3013,19 @@
       }
 
       function reset() {
+        state.phrase = null;
         state.sel = [0, 0, 0, 0];
-        syncChips();
-        renderHud();
+        renderCategory();
         persist();
+      }
+
+      function loadPhrase(phrase) {
+        state.phrase = { it: phrase.it, en: phrase.en, phon: '' };
+        renderCategory();
+        persist();
+        Tabs.show('builder');
+        window.scrollTo(0, 0);
+        $('#panel-builder [data-action="speak"]').focus({ preventScroll: true });
       }
 
       function init() {
@@ -2651,6 +3076,7 @@
             case 'slow': Speech.toggleSlow(); break;
             case 'copy': copyText(compiled.it); break;
             case 'show': ShowCard.open({ it: compiled.it, phon: compiled.phon, en: compiled.en }); break;
+            case 'conversation': if (window.FaceConversation) window.FaceConversation.open({ it: compiled.it, en: compiled.en }); break;
             case 'shuffle': shuffle(); break;
             case 'reset': reset(); break;
           }
@@ -2662,11 +3088,107 @@
         });
       }
 
-      return { init };
+      return { init, loadPhrase,
+        getPhrase: () => compiled ? { italian: compiled.it, english: compiled.en } : null,
+        restorePersonal() {
+          closeSwap();
+          Object.assign(state, { cat: CATS[0].id, tpl: 0, sel: [0, 0, 0, 0], phrase: null });
+          restore(); renderCats(); renderCategory();
+        }
+      };
     })();
 
     // =========================================================================
-    // 10. VOCABULARY (browse, search in either language, tap to hear)
+    // 10. ITINERARY LANGUAGE (day-specific phrases and signs)
+    // =========================================================================
+    const ITINERARY_LANGUAGE = [
+      {
+        say: [
+          ["Dov'è il Leonardo Express?", 'Where is the Leonardo Express?'],
+          ['Vorrei fare il check-in, per favore.', "I'd like to check in, please."],
+          ["Dov'è l'ingresso del Pantheon?", 'Where is the Pantheon entrance?']
+        ],
+        cues: [['Ritiro bagagli', 'Baggage claim'], ['Binario', 'Train platform'], ['Uscita', 'Exit']]
+      },
+      {
+        say: [
+          ["Dov'è l'ingresso per il Colosseo?", 'Where is the Colosseum entrance?'],
+          ['Questo biglietto vale anche per il Foro Romano?', 'Is this ticket also valid for the Roman Forum?'],
+          ['Abbiamo una prenotazione per le diciannove e trenta.', 'We have a reservation for 7:30 PM.']
+        ],
+        cues: [['Ingresso', 'Entrance'], ['Controlli di sicurezza', 'Security checks'], ['Biglietteria', 'Ticket office']]
+      },
+      {
+        say: [
+          ['Siamo qui per la visita guidata del Vaticano.', "We're here for the Vatican guided tour."],
+          ["Dov'è il punto d'incontro?", 'Where is the meeting point?'],
+          ['Può portarci al nostro hotel, per favore?', 'Can you take us to our hotel, please?']
+        ],
+        cues: [["Punto d'incontro", 'Meeting point'], ['Visita guidata', 'Guided tour'], ['Basilica', 'Basilica']]
+      },
+      {
+        say: [
+          ['Da quale binario parte il treno per Napoli?', 'Which platform does the Naples train leave from?'],
+          ["Dov'è l'imbarco per il traghetto per Sorrento?", 'Where do we board the ferry to Sorrento?'],
+          ['Il traghetto è in orario?', 'Is the ferry on time?']
+        ],
+        cues: [['Binario', 'Train platform'], ['Imbarco', 'Boarding'], ['In ritardo', 'Delayed']]
+      },
+      {
+        say: [
+          ["Abbiamo una prenotazione per un'auto a noleggio.", 'We have a rental car reservation.'],
+          ['Dove possiamo parcheggiare per visitare Pompei?', 'Where can we park to visit Pompeii?'],
+          ["Dobbiamo restituire l'auto entro le diciannove.", 'We need to return the car by 7:00 PM.']
+        ],
+        cues: [['Parcheggio', 'Parking'], ['Ingresso', 'Entrance'], ['Uscita', 'Exit']]
+      },
+      {
+        say: [
+          ["È questo il punto d'incontro per il tour della Costiera Amalfitana?", 'Is this the meeting point for the Amalfi Coast tour?'],
+          ['A che ora dobbiamo tornare qui?', 'What time do we need to return here?'],
+          ['Quanto tempo libero abbiamo a Ravello?', 'How much free time do we have in Ravello?']
+        ],
+        cues: [['Ritrovo', 'Meeting place'], ['Partenza', 'Departure'], ['Tempo libero', 'Free time']]
+      },
+      {
+        say: [
+          ['Da dove parte il traghetto per Napoli?', 'Where does the ferry to Naples leave from?'],
+          ["Dov'è la lounge Italo?", 'Where is the Italo lounge?'],
+          ["Dov'è il Leonardo Express per l'aeroporto?", 'Where is the Leonardo Express to the airport?']
+        ],
+        cues: [['Imbarco', 'Boarding'], ['Binario', 'Train platform'], ['In ritardo', 'Delayed']]
+      },
+      {
+        say: [
+          ["Dov'è il banco del check-in per il nostro volo?", 'Where is the check-in desk for our flight?'],
+          ['Dove si trova il controllo di sicurezza?', 'Where is the security checkpoint?'],
+          ['Da quale gate parte il nostro volo?', 'Which gate does our flight depart from?']
+        ],
+        cues: [['Partenze', 'Departures'], ['Controlli di sicurezza', 'Security checks'], ['Imbarco', 'Boarding']]
+      }
+    ];
+
+    function itineraryLine([it, en]) {
+      return `<button type="button" class="itinerary-line" data-itinerary-load style="width:100%; text-align:left" aria-label="Open in Builder: ${escapeHtml(it)}"><span class="itinerary-line-text"><span class="itinerary-it" lang="it">${escapeHtml(it)}</span><span class="itinerary-en">${escapeHtml(en)}</span></span><span class="itinerary-audio" aria-hidden="true">→</span></button>`;
+    }
+
+    ITINERARY_LANGUAGE.forEach(({ say, cues }, index) => {
+      $(`#itinerary-day-${index + 1}`).insertAdjacentHTML('beforeend', `
+        <details class="itinerary-language">
+          <summary>Useful Italian for this day <span>Things to say · Words to listen or look for</span></summary>
+          <div class="itinerary-language-body">
+            <h4>Say</h4>${say.map(itineraryLine).join('')}
+            <h4>Listen / look for</h4>${cues.map(itineraryLine).join('')}
+          </div>
+        </details>`);
+    });
+    $('#panel-itinerary').addEventListener('click', e => {
+      const btn = e.target.closest('[data-itinerary-load]');
+      if (btn) Builder.loadPhrase({ it: $('.itinerary-it', btn).textContent, en: $('.itinerary-en', btn).textContent });
+    });
+
+    // =========================================================================
+    // 11. VOCABULARY (browse, search in either language, tap to hear)
     // =========================================================================
     const Vocab = (() => {
       // Keep each spoken item separate: a combined "X / Y" card reads both aloud.
@@ -2879,25 +3401,75 @@
       return { init };
     })();
 
-    // Initialize on load
-    Phrases.init();
-    Builder.init();
-    Vocab.init();
-    ShowCard.init();
-    Speech.syncSlowButtons();
-    Tabs.init();
+    // Restore the shell only after migration and storage authority checks.
+    function initializeApp() {
+      Phrases.init(); Builder.init(); Vocab.init(); ShowCard.init();
+      Speech.restoreSlow(); Tabs.init();
+      const disposeGuide = ItalyColosseumGuide.mount(document, window, Tabs.show);
+      window.addEventListener('pagehide', disposeGuide, { once: true });
+      restorePersonalUI = () => { Speech.restoreSlow(); Builder.restorePersonal(); Tabs.show(store.get('tab', 'builder')); };
+    }
 
     // =========================================================================
     // 11. OFFLINE SUPPORT (sw.js caches the app on the first online visit)
     // =========================================================================
     // Service workers need http(s); a page opened from disk simply skips this.
-    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http') && location.hostname !== 'appassets.androidplatform.net') {
       const firstInstall = !navigator.serviceWorker.controller;
       navigator.serviceWorker.register('sw.js')
         .then(() => navigator.serviceWorker.ready)
         .then(() => { if (firstInstall) toast('✓ Saved for offline use'); })
         .catch(() => { /* e.g. private browsing: the app still works online */ });
     }
+  </script>
+  <script>window.ConversationBuilder = { categories: CATEGORIES.filter(c => TEMPLATES[c.id]), templates: TEMPLATES, compile: SentenceCompiler.compile };</script>
+  <script src="today.js"></script>
+  <script src="speech-readiness.js"></script>
+  <script src="conversation-view.js"></script>
+  <script src="conversation.js"></script>
+  <script src="trip.js"></script>
+  <script>
+    store.ready.then(async loaded => {
+      initializeApp();
+      if (!nativeWallet && !loaded.writable) personalNotice('Personal data is read-only. Existing phrases remain available; changes cannot be saved.');
+      ItalyTrip.mount(document, window, {
+        bindContent(content) {
+          const unbind = bindTripContent(content);
+          const removeGuide = window.ItalyDestinationGuide
+            ? window.ItalyDestinationGuide.mount(document, window, content) : () => {};
+          return () => { removeGuide(); unbind(); };
+        },
+        mountEvent(element, content, eventId) {
+          const removePlaces = ItalyPlaces.mount(element, { trip: content.trip, eventId });
+          const removeAttachments = nativeWallet ? ItalyAttachments.mount(element, { tripId: content.trip.tripId, eventId, wallet: walletFacade }) : () => {};
+          return () => { removePlaces(); removeAttachments(); };
+        },
+        today: ItalyToday, readiness: ItalySpeechReadiness, speech: FaceConversation.speech,
+        openTab: Tabs.show, listen: Speech.speak, stop: Speech.stop,
+        toggleSlow: Speech.toggleSlow, syncSlow: Speech.syncSlowButtons, show: ShowCard.open
+      }).then(dispose => { if (tripDocumentActive) disposeTripUI = dispose; else dispose(); });
+      const disposeWallet = ItalyWalletUI.mount(document.getElementById('wallet-root'), { wallet: walletFacade,
+        reload: () => location.reload(), relationLabel: relation => {
+          const event = currentTripContent?.trip.tripId === relation.tripId && currentTripContent.trip.events.find(row => row.id === relation.eventId);
+          return event ? event.title : 'Linked to an unavailable itinerary item';
+        } });
+      window.addEventListener('pagehide', disposeWallet, { once: true });
+      const speech = { listen: text => Speech.speak(text), stop: Speech.stop,
+        show: (italian, english) => ShowCard.open({ it: italian, en: english, phon: '' }) };
+      const savedHost = document.getElementById('saved-phrases-root');
+      const builderHost = document.getElementById('saved-builder-root');
+      savedHost.hidden = false; builderHost.hidden = false;
+      const transfer = ItalyJsonTransferClient.create();
+      ItalySaved.mount(savedHost, { store: personalStore, speech, transfer: transfer.available ? transfer : undefined });
+      ItalySaved.mountBuilder(builderHost, { store: personalStore, getPhrase: Builder.getPhrase });
+      try {
+        const response = await fetch('learning-content.json');
+        if (!response.ok) throw new Error('content unavailable');
+        ItalyLearning.mount(document.getElementById('learning-root'), {
+          store: personalStore, speech, clock: { now: () => new Date() }, content: await response.json()
+        });
+      } catch (_) { document.getElementById('learning-root').textContent = 'Learning content could not be loaded. Reload to try again.'; }
+    }).catch(() => personalNotice('App initialization could not finish. Reload to try again.'));
   </script>
 </body>
 </html>

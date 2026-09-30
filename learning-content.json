@@ -1,0 +1,133 @@
+{
+  "contentVersion": "learning-hotel-dining-1",
+  "provenance": "Original AI-assisted phrases authored for Wave 2C on 2026-09-27. Independently reviewed by the root AI assistant for Italian, English and context. No human fluency or audio review is claimed.",
+  "phrases": [
+    {
+      "id": "phrase_hotel_reservation",
+      "version": 1,
+      "snapshot": {
+        "it": "Buonasera, ho una prenotazione.",
+        "en": "Good evening, I have a reservation."
+      },
+      "context": "Hotel check-in; add your name when asked.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_hotel_checkin",
+      "version": 1,
+      "snapshot": {
+        "it": "A che ora posso fare il check-in?",
+        "en": "What time can I check in?"
+      },
+      "context": "Ask reception about arrival time.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_hotel_luggage",
+      "version": 1,
+      "snapshot": {
+        "it": "Posso lasciare qui i bagagli?",
+        "en": "Can I leave my luggage here?"
+      },
+      "context": "Ask reception before leaving bags.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_hotel_breakfast",
+      "version": 1,
+      "snapshot": {
+        "it": "La colazione è inclusa?",
+        "en": "Is breakfast included?"
+      },
+      "context": "Confirm what your booking includes.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_hotel_towels",
+      "version": 1,
+      "snapshot": {
+        "it": "Potrei avere degli asciugamani puliti, per favore?",
+        "en": "Could I have some clean towels, please?"
+      },
+      "context": "Polite request to reception or housekeeping.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_hotel_checkout",
+      "version": 1,
+      "snapshot": {
+        "it": "A che ora devo lasciare la camera?",
+        "en": "What time do I need to vacate the room?"
+      },
+      "context": "Confirm checkout time with reception.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_dining_table",
+      "version": 1,
+      "snapshot": {
+        "it": "Avete un tavolo per due?",
+        "en": "Do you have a table for two?"
+      },
+      "context": "Restaurant arrival without a reservation.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_dining_menu",
+      "version": 1,
+      "snapshot": {
+        "it": "Posso vedere il menù, per favore?",
+        "en": "May I see the menu, please?"
+      },
+      "context": "Ask before ordering.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_dining_water",
+      "version": 1,
+      "snapshot": {
+        "it": "Una bottiglia d'acqua naturale, per favore.",
+        "en": "A bottle of still water, please."
+      },
+      "context": "Naturale means still, not sparkling.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_dining_recommendation",
+      "version": 1,
+      "snapshot": {
+        "it": "Che cosa ci consiglia?",
+        "en": "What do you recommend for us?"
+      },
+      "context": "Polite request to one server on behalf of your group.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_dining_bill",
+      "version": 1,
+      "snapshot": {
+        "it": "Il conto, per favore.",
+        "en": "The bill, please."
+      },
+      "context": "Ask when you are ready to pay.",
+      "review": "reviewed"
+    },
+    {
+      "id": "phrase_dining_card",
+      "version": 1,
+      "snapshot": {
+        "it": "Posso pagare con la carta?",
+        "en": "Can I pay by card?"
+      },
+      "context": "Confirm payment method.",
+      "review": "reviewed"
+    }
+  ],
+  "reviewEvidence": {
+    "kind": "independent-ai-bilingual-text-review",
+    "reviewedOn": "2026-09-27",
+    "sourceSha256": "952896fdd8d8882bdb31c28d6382391e8f7ebd10a6d1b6e9f10f2ad5a59fb220",
+    "canonicalPhrasesSha256": "03bc48531bed9a99fdbfab2e57e1573de77d35b32fad4a70c4251d1776e116cd",
+    "humanReview": "not-performed"
+  }
+}

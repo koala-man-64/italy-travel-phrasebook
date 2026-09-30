@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Colosseum layout checks</title>
+<style>body{font:16px sans-serif}button{padding:12px;margin:4px}iframe{display:block;border:0;height:740px;max-width:100%}pre{white-space:pre-wrap}</style>
+<h1>Colosseum layout checks</h1>
+<p>Runs the real app in a sized frame. Conversation visibility here is a layout simulation, not native-device evidence.</p>
+<button id="run">Run layout checks</button><pre id="result">Ready</pre>
+<iframe id="app" src="../index.html" title="Actual application"></iframe>
+<script>
+const frame = document.getElementById('app');
+frame.style.width = (Number(new URLSearchParams(location.search).get('width')) || 320) + 'px';
+document.getElementById('run').onclick = async () => {
+  const doc = frame.contentDocument, win = frame.contentWindow, result = [];
+  try {
+    doc.querySelector('#tab-guide').click();
+    doc.querySelector('#conversationNav').hidden = false;
+    for (const scale of ['100%', '200%']) {
+      doc.documentElement.style.fontSize = scale;
+      await new Promise(resolve => win.requestAnimationFrame(resolve));
+      const overflow = doc.documentElement.scrollWidth > win.innerWidth;
+      const targets = [...doc.querySelectorAll('.tabbar .tab')].filter(node => !node.hidden).map(node => ({label:node.innerText.trim(),width:node.getBoundingClientRect().width,height:node.getBoundingClientRect().height}));
+      if (overflow || targets.some(t => t.width < 44 || t.height < 44)) throw Error(JSON.stringify({scale,overflow,targets}));
+      result.push(scale + ': no overflow; all navigation targets at least 44 × 44');
+    }
+    document.getElementById('result').textContent = result.join('\n') + '\nPASS';
+  } catch (error) { document.getElementById('result').textContent = 'FAIL: ' + error.message; }
+};
+</script></html>

@@ -1,0 +1,10 @@
+.italy-saved { margin-block: 1rem; }
+.italy-saved button { min-height: 44px; min-width: 44px; margin: .25rem .5rem .25rem 0; padding: .6rem .85rem; cursor: pointer; }
+.italy-saved button:disabled { cursor: default; opacity: .55; }
+.italy-saved button:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.saved-list { list-style: none; padding: 0; }
+.saved-list > li, .saved-preview { border: 1px solid currentColor; border-radius: .6rem; padding: .8rem; margin-block: .75rem; }
+.saved-italian { font-weight: 700; }
+.saved-list p, .saved-status, .saved-disclosure, .saved-preview p { overflow-wrap: anywhere; white-space: pre-wrap; }
+.saved-warning { border-inline-start: .25rem solid currentColor; padding-inline-start: .75rem; }
+.saved-status { min-height: 1.5em; }

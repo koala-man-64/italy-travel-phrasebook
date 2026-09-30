@@ -1,0 +1,37 @@
+.italy-today {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border, #cfd8e3);
+  border-radius: 1rem;
+  background: var(--surface, #fff);
+  color: var(--text, #0f172a);
+  overflow-wrap: anywhere;
+}
+.italy-today .italy-today-heading { margin: 0 0 1rem; font-size: 1.25rem; }
+.italy-today .italy-today-controls { display: flex; align-items: end; flex-wrap: wrap; gap: .75rem; }
+.italy-today .italy-today-picker { display: grid; flex: 1 1 14rem; gap: .4rem; min-width: 0; }
+.italy-today button,
+.italy-today select {
+  min-height: 44px;
+  min-width: 44px;
+  padding: .65rem .8rem;
+  border: 1px solid var(--border-strong, #64748b);
+  border-radius: .65rem;
+  background: var(--surface, #fff);
+  color: var(--text, #0f172a);
+  font: inherit;
+}
+.italy-today select { width: 100%; max-width: 100%; }
+.italy-today button { cursor: pointer; white-space: normal; }
+.italy-today button:focus-visible,
+.italy-today select:focus-visible { outline: 3px solid var(--accent-text, #00733a); outline-offset: 3px; }
+.italy-today .italy-today-reset[aria-pressed="true"] { background: var(--accent-soft, #e2f2e8); }
+.italy-today .italy-today-status { color: var(--muted, #566276); line-height: 1.5; }
+.italy-today .italy-today-summary { border-top: 1px solid var(--border, #cfd8e3); padding-top: 1rem; }
+.italy-today .italy-today-day-title { margin: 0 0 .35rem; font-size: 1.1rem; }
+.italy-today .italy-today-date { margin: 0 0 .75rem; color: var(--muted, #566276); }
+.italy-today .italy-today-events { margin: 0; padding-inline-start: 1.5rem; }
+.italy-today .italy-today-event { padding-block: .5rem; line-height: 1.5; }
+.italy-today .italy-today-time { display: block; font-weight: 700; }
+.italy-today .italy-today-open { margin-top: 1rem; }
+.italy-today [hidden] { display: none !important; }

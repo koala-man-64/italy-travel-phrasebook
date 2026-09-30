@@ -1,0 +1,4 @@
+android/gradlew text eol=lf
+tests/fixtures/trip-contracts/* -text
+# This immutable regression fixture intentionally preserves its original CRLF bytes.
+tests/fixtures/trip-source/index.html -text whitespace=cr-at-eol

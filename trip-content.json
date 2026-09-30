@@ -1,0 +1,828 @@
+{
+  "format": "itguide-trip",
+  "schemaVersion": 1,
+  "contentVersion": "wave1-content-1",
+  "tripId": "trip_306765238f88",
+  "timeZone": "Europe/Rome",
+  "title": "Eight days in Italy",
+  "days": [
+    {
+      "id": "day_1bca3ae59da2",
+      "date": "2026-09-29",
+      "label": "Arrival in Rome & the Pantheon",
+      "order": 0,
+      "eventIds": [
+        "event_07f37de9666a",
+        "event_d6b7f467321c",
+        "event_8dde8012ba30",
+        "event_02fa46067011",
+        "event_9ff6e3a9dc08"
+      ]
+    },
+    {
+      "id": "day_fb6528c95d3c",
+      "date": "2026-09-30",
+      "label": "Colosseum & Roman Forum",
+      "order": 1,
+      "eventIds": [
+        "event_a66bad4aee3b",
+        "event_cdd2e9116a05",
+        "event_dbb73a37ace4",
+        "event_030b2676a0fe"
+      ]
+    },
+    {
+      "id": "day_e788d030175b",
+      "date": "2026-10-01",
+      "label": "Vatican, Spanish Steps & Trevi Fountain",
+      "order": 2,
+      "eventIds": [
+        "event_99363984fa7c",
+        "event_1a43604727ed",
+        "event_947dc6df556c",
+        "event_9343b024948b",
+        "event_0902e06f1518"
+      ]
+    },
+    {
+      "id": "day_ab2a690b820d",
+      "date": "2026-10-02",
+      "label": "Train to Naples & ferry to Sorrento",
+      "order": 3,
+      "eventIds": [
+        "event_8af15a044e7a",
+        "event_60e900b085c6",
+        "event_3a9006824ba1",
+        "event_1bb62194c62e",
+        "event_29a69bfb47c7"
+      ]
+    },
+    {
+      "id": "day_3bf42682cbed",
+      "date": "2026-10-03",
+      "label": "Pompeii day trip",
+      "order": 4,
+      "eventIds": [
+        "event_a1020d8a668d",
+        "event_0ecb1373ff6a",
+        "event_2b7049aa5f5b",
+        "event_7307904d3e10"
+      ]
+    },
+    {
+      "id": "day_56b7a3bb49ca",
+      "date": "2026-10-04",
+      "label": "Amalfi Coast tour",
+      "order": 5,
+      "eventIds": [
+        "event_bfccb7dbca60",
+        "event_9c963b6de244"
+      ]
+    },
+    {
+      "id": "day_a8b378f6b86c",
+      "date": "2026-10-05",
+      "label": "Return to Rome Airport",
+      "order": 6,
+      "eventIds": [
+        "event_42b29dc6291e",
+        "event_6b76de505549",
+        "event_16875db47767",
+        "event_e3798453c1e7"
+      ]
+    },
+    {
+      "id": "day_fedb026f091b",
+      "date": "2026-10-06",
+      "label": "Flight home",
+      "order": 7,
+      "eventIds": [
+        "event_5070e93567f1"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event_07f37de9666a",
+      "dayId": "day_1bca3ae59da2",
+      "title": "Arrive at Rome FCO. Pick up bags and take the Leonardo Express to Roma Termini (30 minutes).",
+      "timeLabel": "12:00 PM",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [
+        "place_b2ab0ae1e6bb",
+        "place_433ea12df8a5"
+      ],
+      "phraseIds": [
+        "phrase_050060d62054",
+        "phrase_de4f189d6ae6",
+        "phrase_8398bb0db907"
+      ]
+    },
+    {
+      "id": "event_d6b7f467321c",
+      "dayId": "day_1bca3ae59da2",
+      "title": "Mercato Centrale inside Roma Termini station.",
+      "timeLabel": "Lunch",
+      "order": 1,
+      "exactLocal": null,
+      "placeIds": [
+        "place_190582fb62e8"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_8dde8012ba30",
+      "dayId": "day_1bca3ae59da2",
+      "title": "Check in at The Talent Hotel. Taxi from Termini (€9–11). Stay September 29, 30 and October 1.",
+      "timeLabel": "After 2 PM",
+      "order": 2,
+      "exactLocal": null,
+      "placeIds": [
+        "place_0540a7a4f822"
+      ],
+      "phraseIds": [
+        "phrase_06059e96ed2a"
+      ]
+    },
+    {
+      "id": "event_02fa46067011",
+      "dayId": "day_1bca3ae59da2",
+      "title": "Pantheon entry.",
+      "timeLabel": "5–6 PM",
+      "order": 3,
+      "exactLocal": null,
+      "placeIds": [
+        "place_c50ffb7dff15"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_9ff6e3a9dc08",
+      "dayId": "day_1bca3ae59da2",
+      "title": "Explore nearby; All'Antico Vinaio is one option.",
+      "timeLabel": "Dinner",
+      "order": 4,
+      "exactLocal": null,
+      "placeIds": [
+        "place_cca5875d7be1"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_a66bad4aee3b",
+      "dayId": "day_fb6528c95d3c",
+      "title": "Breakfast at the hotel (included).",
+      "timeLabel": "Morning",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [],
+      "phraseIds": []
+    },
+    {
+      "id": "event_cdd2e9116a05",
+      "dayId": "day_fb6528c95d3c",
+      "title": "Colosseum tour. Arrive 15 minutes early. Afterward, take a break for snacks around Mercato Rionale Monti or Mizio’s street food.",
+      "timeLabel": "Midday",
+      "order": 1,
+      "exactLocal": null,
+      "placeIds": [
+        "place_25639056d75f",
+        "place_6c93d2f363d5",
+        "place_014d6f437ac2"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_dbb73a37ace4",
+      "dayId": "day_fb6528c95d3c",
+      "title": "Roman Forum & Palatine Hill. Ticket is valid within 24 hours of the Colosseum visit.",
+      "timeLabel": "Afternoon",
+      "order": 2,
+      "exactLocal": null,
+      "placeIds": [
+        "place_92854a16f273",
+        "place_5adb36f6e1fc"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_030b2676a0fe",
+      "dayId": "day_fb6528c95d3c",
+      "title": "Dinner reservation: La Taverna dei Fori Imperiali. Via della Madonna Dei Monti 9.",
+      "timeLabel": "7:30 PM",
+      "order": 3,
+      "exactLocal": null,
+      "placeIds": [
+        "place_4d7f67c0f53f"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_99363984fa7c",
+      "dayId": "day_e788d030175b",
+      "title": "Meet the Vatican tour at Antico Cafe Candia. 25-minute taxi ride from the hotel.",
+      "timeLabel": "7:30 AM",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [
+        "place_995d04937bca"
+      ],
+      "phraseIds": [
+        "phrase_06059e96ed2a"
+      ]
+    },
+    {
+      "id": "event_1a43604727ed",
+      "dayId": "day_e788d030175b",
+      "title": "Guided Vatican & St. Peter's Basilica tour.",
+      "timeLabel": "8–11:45 AM",
+      "order": 1,
+      "exactLocal": null,
+      "placeIds": [
+        "place_495ed9b850fb",
+        "place_3408605fcacd"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_947dc6df556c",
+      "dayId": "day_e788d030175b",
+      "title": "Becco (Piazzale degli Eroi 7), then browse Mercato Trionfale for desserts.",
+      "timeLabel": "Lunch",
+      "order": 2,
+      "exactLocal": null,
+      "placeIds": [
+        "place_8aa1fde4aa14",
+        "place_d8e5aa6a4941"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_9343b024948b",
+      "dayId": "day_e788d030175b",
+      "title": "Taxi back to the hotel to rest, then walk to the Spanish Steps and finish at the Trevi Fountain.",
+      "timeLabel": "Afternoon",
+      "order": 3,
+      "exactLocal": null,
+      "placeIds": [
+        "place_bd7e27c05ca6",
+        "place_caf6d90f782a"
+      ],
+      "phraseIds": [
+        "phrase_06059e96ed2a"
+      ]
+    },
+    {
+      "id": "event_0902e06f1518",
+      "dayId": "day_e788d030175b",
+      "title": "Pinsitaly Trevi by the fountain.",
+      "timeLabel": "Dinner",
+      "order": 4,
+      "exactLocal": null,
+      "placeIds": [
+        "place_937007c9f65b"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_8af15a044e7a",
+      "dayId": "day_ab2a690b820d",
+      "title": "Breakfast at the hotel, then taxi to Roma Termini.",
+      "timeLabel": "Morning",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [
+        "place_433ea12df8a5"
+      ],
+      "phraseIds": [
+        "phrase_050060d62054",
+        "phrase_06059e96ed2a"
+      ]
+    },
+    {
+      "id": "event_60e900b085c6",
+      "dayId": "day_ab2a690b820d",
+      "title": "Italo First Class train #9998 from Roma Termini to Naples Central.",
+      "timeLabel": "11:40 AM– 1:00 PM",
+      "order": 1,
+      "exactLocal": null,
+      "placeIds": [
+        "place_b44868941bf8"
+      ],
+      "phraseIds": [
+        "phrase_de4f189d6ae6",
+        "phrase_8398bb0db907"
+      ]
+    },
+    {
+      "id": "event_3a9006824ba1",
+      "dayId": "day_ab2a690b820d",
+      "title": "Alilauro ferry from Naples Port to Sorrento.",
+      "timeLabel": "3:05–3:45 PM",
+      "order": 2,
+      "exactLocal": null,
+      "placeIds": [
+        "place_5a1475d8d99b",
+        "place_22e1fc332d00"
+      ],
+      "phraseIds": [
+        "phrase_6f76e1828026",
+        "phrase_56fc66cc0ed0"
+      ]
+    },
+    {
+      "id": "event_1bb62194c62e",
+      "dayId": "day_ab2a690b820d",
+      "title": "Al Centro Suites. Seven-minute walk from the port. Stay October 2, 3 and 4.",
+      "timeLabel": "Check-in",
+      "order": 3,
+      "exactLocal": null,
+      "placeIds": [
+        "place_3db177128804"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_29a69bfb47c7",
+      "dayId": "day_ab2a690b820d",
+      "title": "Grab bites from A’Marenna Bakery or Piennolo, stroll Villa Comunale di Sorrento park, then have limoncello and gelato at I Giardini di Cataldo.",
+      "timeLabel": "Evening",
+      "order": 4,
+      "exactLocal": null,
+      "placeIds": [
+        "place_35c15b81442e",
+        "place_a7d652c0667d",
+        "place_c73a6b537e9e",
+        "place_bb055ffb499d"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_a1020d8a668d",
+      "dayId": "day_3bf42682cbed",
+      "title": "Pick up rental car at Hertz. Corso Italia 261/B. International Driving Permit required; return car by 7:00 PM.",
+      "timeLabel": "10:00 AM",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [
+        "place_e8bfa591d44f"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_0ecb1373ff6a",
+      "dayId": "day_3bf42682cbed",
+      "title": "Drive to and explore Pompeii Archaeological Park. Bring snacks and water; use the free booklet.",
+      "timeLabel": "Daytime",
+      "order": 1,
+      "exactLocal": null,
+      "placeIds": [
+        "place_e7c1fbaea461"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_2b7049aa5f5b",
+      "dayId": "day_3bf42682cbed",
+      "title": "Dinner reservation: Caupona. Via Masseria Curato 2, Pompeii.",
+      "timeLabel": "4:30 PM",
+      "order": 2,
+      "exactLocal": null,
+      "placeIds": [
+        "place_6e938bf70991"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_7307904d3e10",
+      "dayId": "day_3bf42682cbed",
+      "title": "Return the rental car to Hertz in Sorrento.",
+      "timeLabel": "By 7 PM",
+      "order": 3,
+      "exactLocal": null,
+      "placeIds": [
+        "place_e8bfa591d44f"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_bfccb7dbca60",
+      "dayId": "day_56b7a3bb49ca",
+      "title": "Meet the group tour at Piazza Angelina Lauro. Eight-hour excursion: Positano (1 hour), Amalfi (1 hour) and Ravello (2 hours).",
+      "timeLabel": "7:50 AM",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [
+        "place_d6d4678fdf33",
+        "place_2a04a2c0130a",
+        "place_5162f6968adf",
+        "place_c097cd9a2566"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_9c963b6de244",
+      "dayId": "day_56b7a3bb49ca",
+      "title": "Explore Piazza Torquato Tasso (antiques and crafts market open until 8:00 PM), visit Stinga Tarsia woodcrafts, then dine at Annaré (Corso Italia 198/B).",
+      "timeLabel": "Evening",
+      "order": 1,
+      "exactLocal": null,
+      "placeIds": [
+        "place_4197d336548c",
+        "place_0bf087c4dac5",
+        "place_e5b94ca8ee7e"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_42b29dc6291e",
+      "dayId": "day_a8b378f6b86c",
+      "title": "Ferry from Sorrento back to Naples.",
+      "timeLabel": "12:00–12:45 PM",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [
+        "place_22e1fc332d00",
+        "place_5a1475d8d99b"
+      ],
+      "phraseIds": [
+        "phrase_56fc66cc0ed0"
+      ]
+    },
+    {
+      "id": "event_6b76de505549",
+      "dayId": "day_a8b378f6b86c",
+      "title": "Italo First Class train from Naples to Roma Termini. Includes train lounge access.",
+      "timeLabel": "3:35–4:45 PM",
+      "order": 1,
+      "exactLocal": null,
+      "placeIds": [
+        "place_b44868941bf8",
+        "place_433ea12df8a5"
+      ],
+      "phraseIds": [
+        "phrase_de4f189d6ae6",
+        "phrase_8398bb0db907"
+      ]
+    },
+    {
+      "id": "event_16875db47767",
+      "dayId": "day_a8b378f6b86c",
+      "title": "Leonardo Express from Roma Termini to FCO Airport.",
+      "timeLabel": "5:20 PM",
+      "order": 2,
+      "exactLocal": null,
+      "placeIds": [
+        "place_b2ab0ae1e6bb"
+      ],
+      "phraseIds": [
+        "phrase_de4f189d6ae6",
+        "phrase_8398bb0db907"
+      ]
+    },
+    {
+      "id": "event_e3798453c1e7",
+      "dayId": "day_a8b378f6b86c",
+      "title": "Hilton Rome Airport Hotel.",
+      "timeLabel": "Overnight",
+      "order": 3,
+      "exactLocal": null,
+      "placeIds": [
+        "place_cf095639cb02"
+      ],
+      "phraseIds": []
+    },
+    {
+      "id": "event_5070e93567f1",
+      "dayId": "day_fedb026f091b",
+      "title": "Flight departs Rome (FCO).",
+      "timeLabel": "10:00 AM",
+      "order": 0,
+      "exactLocal": null,
+      "placeIds": [
+        "place_b2ab0ae1e6bb"
+      ],
+      "phraseIds": []
+    }
+  ],
+  "places": [
+    {
+      "id": "place_b2ab0ae1e6bb",
+      "name": "Rome FCO",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_433ea12df8a5",
+      "name": "Roma Termini",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_190582fb62e8",
+      "name": "Mercato Centrale",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_0540a7a4f822",
+      "name": "The Talent Hotel",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_c50ffb7dff15",
+      "name": "Pantheon",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_cca5875d7be1",
+      "name": "All'Antico Vinaio",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_25639056d75f",
+      "name": "Colosseum",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_6c93d2f363d5",
+      "name": "Mercato Rionale Monti",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_014d6f437ac2",
+      "name": "Mizio’s street food",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_92854a16f273",
+      "name": "Roman Forum",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_5adb36f6e1fc",
+      "name": "Palatine Hill",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_4d7f67c0f53f",
+      "name": "La Taverna dei Fori Imperiali",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_995d04937bca",
+      "name": "Antico Cafe Candia",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_495ed9b850fb",
+      "name": "Vatican",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_3408605fcacd",
+      "name": "St. Peter's Basilica",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_8aa1fde4aa14",
+      "name": "Becco",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_d8e5aa6a4941",
+      "name": "Mercato Trionfale",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_bd7e27c05ca6",
+      "name": "Spanish Steps",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_caf6d90f782a",
+      "name": "Trevi Fountain",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_937007c9f65b",
+      "name": "Pinsitaly Trevi",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_b44868941bf8",
+      "name": "Naples Central",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_5a1475d8d99b",
+      "name": "Naples Port",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_22e1fc332d00",
+      "name": "Sorrento",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_3db177128804",
+      "name": "Al Centro Suites",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_35c15b81442e",
+      "name": "A’Marenna Bakery",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_a7d652c0667d",
+      "name": "Piennolo",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_c73a6b537e9e",
+      "name": "Villa Comunale di Sorrento",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_bb055ffb499d",
+      "name": "I Giardini di Cataldo",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_e8bfa591d44f",
+      "name": "Hertz",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_e7c1fbaea461",
+      "name": "Pompeii Archaeological Park",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_6e938bf70991",
+      "name": "Caupona",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_d6d4678fdf33",
+      "name": "Piazza Angelina Lauro",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_2a04a2c0130a",
+      "name": "Positano",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_5162f6968adf",
+      "name": "Amalfi",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_c097cd9a2566",
+      "name": "Ravello",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_4197d336548c",
+      "name": "Piazza Torquato Tasso",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_0bf087c4dac5",
+      "name": "Stinga Tarsia",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_e5b94ca8ee7e",
+      "name": "Annaré",
+      "checkedOn": "2026-09-27"
+    },
+    {
+      "id": "place_cf095639cb02",
+      "name": "Hilton Rome Airport Hotel",
+      "checkedOn": "2026-09-27"
+    }
+  ],
+  "phrases": [
+    {
+      "id": "phrase_050060d62054",
+      "version": 1,
+      "snapshot": {
+        "it": "Dov'è la stazione ferroviaria?",
+        "en": "Where is the train station?"
+      },
+      "review": "reviewed",
+      "context": "Ask for directions to the train station."
+    },
+    {
+      "id": "phrase_0313b2f2e4d0",
+      "version": 1,
+      "snapshot": {
+        "it": "È in fondo a questa strada.",
+        "en": "It's at the end of this street."
+      },
+      "review": "reviewed",
+      "context": "Example reply only. Illustrative language, not a confirmed direction, schedule, ticket rule or service promise."
+    },
+    {
+      "id": "phrase_de4f189d6ae6",
+      "version": 1,
+      "snapshot": {
+        "it": "Da quale binario parte questo treno?",
+        "en": "Which platform does this train leave from?"
+      },
+      "review": "reviewed",
+      "context": "Ask station staff about the departure platform for the train you indicate."
+    },
+    {
+      "id": "phrase_6c9677b4f411",
+      "version": 1,
+      "snapshot": {
+        "it": "Il binario è indicato sul tabellone.",
+        "en": "The platform is shown on the departure board."
+      },
+      "review": "reviewed",
+      "context": "Example reply only. Illustrative language, not a confirmed direction, schedule, ticket rule or service promise."
+    },
+    {
+      "id": "phrase_8398bb0db907",
+      "version": 1,
+      "snapshot": {
+        "it": "Devo convalidare questo biglietto?",
+        "en": "Do I need to validate this ticket?"
+      },
+      "review": "reviewed",
+      "context": "Show your ticket and ask staff; the phrase does not establish a ticket-validation rule."
+    },
+    {
+      "id": "phrase_ecbb2d00ba86",
+      "version": 1,
+      "snapshot": {
+        "it": "Può chiedere alla biglietteria.",
+        "en": "You can ask at the ticket office."
+      },
+      "review": "reviewed",
+      "context": "Example reply only. Illustrative language, not a confirmed direction, schedule, ticket rule or service promise."
+    },
+    {
+      "id": "phrase_6f76e1828026",
+      "version": 1,
+      "snapshot": {
+        "it": "Questo traghetto va a Sorrento?",
+        "en": "Does this ferry go to Sorrento?"
+      },
+      "review": "reviewed",
+      "context": "Ask before boarding; the destination in the question does not confirm the ferry's route."
+    },
+    {
+      "id": "phrase_03f10297c095",
+      "version": 1,
+      "snapshot": {
+        "it": "No, deve andare all'altro imbarco.",
+        "en": "No, you need to go to the other boarding point."
+      },
+      "review": "reviewed",
+      "context": "Example reply only. Illustrative language, not a confirmed direction, schedule, ticket rule or service promise."
+    },
+    {
+      "id": "phrase_56fc66cc0ed0",
+      "version": 1,
+      "snapshot": {
+        "it": "Dove posso comprare il biglietto per il traghetto?",
+        "en": "Where can I buy a ticket for the ferry?"
+      },
+      "review": "reviewed",
+      "context": "Ask where to buy a ferry ticket; no operator, fare or availability is assumed."
+    },
+    {
+      "id": "phrase_4771e5d48e5d",
+      "version": 1,
+      "snapshot": {
+        "it": "La biglietteria è vicino all'imbarco.",
+        "en": "The ticket office is near the boarding point."
+      },
+      "review": "reviewed",
+      "context": "Example reply only. Illustrative language, not a confirmed direction, schedule, ticket rule or service promise."
+    },
+    {
+      "id": "phrase_06059e96ed2a",
+      "version": 1,
+      "snapshot": {
+        "it": "Può portarmi a questo indirizzo, per favore?",
+        "en": "Can you take me to this address, please?"
+      },
+      "review": "reviewed",
+      "context": "Show the driver the address you intend to use; no address or fare is supplied."
+    },
+    {
+      "id": "phrase_53f1737d6536",
+      "version": 1,
+      "snapshot": {
+        "it": "Certo, mi mostri l'indirizzo.",
+        "en": "Certainly, show me the address."
+      },
+      "review": "reviewed",
+      "context": "Example reply only. Illustrative language, not a confirmed direction, schedule, ticket rule or service promise."
+    }
+  ]
+}

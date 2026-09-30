@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3B simulated wallet acceptance</title>
+<link rel="stylesheet" href="../../../attachments.css"><link rel="stylesheet" href="../../../places.css">
+<style>
+body{font:16px/1.5 system-ui;background:#f5f2e9;color:#202c29;margin:0;padding:16px}main{max-width:850px;margin:auto}h1{font-size:1.5rem}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-block:12px}.tools button,.tools select{font:inherit;min-height:44px;padding:8px;border:1px solid #526b5e;border-radius:6px;background:white}
+#frame{box-sizing:border-box;width:320px;max-width:100%;padding:12px;background:white;border:1px solid #718478;border-radius:12px}#frame h2{font-size:1.2rem}
+#report{white-space:pre-wrap;overflow-wrap:anywhere}#audit{border-left:4px solid #176148;padding-left:12px}.fixture-note{font-weight:650}#sandbox{max-width:320px}
+</style></head><body><main>
+<h1>3B simulated wallet acceptance</h1><p class="fixture-note">SYNTHETIC ADAPTER — no native storage, picker, viewer or device proof.</p>
+<p>Actual attachment/place modules, authored itinerary facts, synthetic document names. Production four-tab shell is unchanged and is not mounted here.</p>
+<div class="tools"><button id="reset">Reset READY fixture</button><label>Facade state <select id="state"><option>READY</option><option>READ_ONLY</option><option>UNSUPPORTED</option><option>RECOVERY_REQUIRED</option><option>LOADING</option></select></label>
+<button id="replace">Simulate replacement</button><button id="uncertain">Next open uncertain</button><button id="cancel">Next import cancelled</button><button id="import">Next import succeeds</button>
+<button id="zoom">Toggle 200% text size</button><button id="run">Run rendered checks</button><button id="measure">Measure visible controls</button></div>
+<div id="audit" role="status">No simulated commands yet.</div>
+<div id="frame"><h2>Pantheon entry · 5–6 PM</h2><div id="attachments"></div><div id="places"></div></div>
+<pre id="report" role="status">Checks not run.</pre><div id="sandbox"></div>
+</main><script src="../../../attachments.js"></script><script src="../../../places.js"></script><script src="facade.js"></script><script src="browser.js"></script></body></html>

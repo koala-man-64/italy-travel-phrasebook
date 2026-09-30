@@ -1,0 +1,60 @@
+import com.android.build.api.artifact.SingleArtifact
+
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.koalaman64.italytravelpocketguide'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.koalaman64.italytravelpocketguide'
+        minSdk 26
+        targetSdk 34
+        versionCode 20
+        versionName '1.19'
+        testInstrumentationRunner providers.gradleProperty('deviceTestRunner')
+            .getOrElse('com.koalaman64.italytravelpocketguide.ConversationDeviceChecks')
+    }
+
+    buildTypes {
+        release {
+            // A private, non-debuggable sideload signed with this workstation's Android key.
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    testOptions {
+        unitTests.all {
+            // Actual Java/JavaScript adapter tests resolve checked-in web fixtures.
+            workingDir rootProject.projectDir.parentFile
+        }
+    }
+    // Exercise the same private, non-debuggable variant that is shipped.
+    testBuildType 'release'
+
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.16.0'
+    implementation 'com.alphacephei:vosk-android:0.3.75'
+    implementation 'com.google.mlkit:translate:17.0.3'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+apply from: rootProject.file('asset-boundary.gradle')
+
+androidComponents {
+    onVariants(selector().withBuildType('release')) { variant ->
+        registerReleaseBoundary(variant.name,
+            variant.artifacts.get(SingleArtifact.APK.INSTANCE),
+            variant.artifacts.get(SingleArtifact.MERGED_MANIFEST.INSTANCE))
+    }
+}

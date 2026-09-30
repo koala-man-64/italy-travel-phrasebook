@@ -1,0 +1,341 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileSystemOperations
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.tasks.*
+import org.w3c.dom.Element
+import javax.inject.Inject
+import javax.xml.parsers.DocumentBuilderFactory
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import java.util.zip.ZipFile
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
+// Build tooling only. This policy and verifier are never included in the APK.
+class WebAssetBoundary {
+    static final String ANDROID = 'http://schemas.android.com/apk/res/android'
+
+    static void require(boolean condition, String message) {
+        if (!condition) throw new GradleException("Asset boundary: ${message}")
+    }
+
+    static String sha(byte[] bytes) {
+        MessageDigest.getInstance('SHA-256').digest(bytes).encodeHex().toString()
+    }
+
+    static Map policy(File file) {
+        def value = new JsonSlurper().parse(file)
+        require(value.schemaVersion == 1 && value.audience == 'private-local-only', 'unsupported policy')
+        def names = value.applicationAssets + value.generatedAssets
+        require(names.size() == names.toSet().size(), 'duplicate approved asset')
+        names.each { name ->
+            require(name instanceof String && name ==~ /[a-zA-Z0-9][a-zA-Z0-9._\/-]*/
+                && !name.split('/').any { it in ['.', '..', ''] }, 'noncanonical approved path')
+        }
+        require(value.applicationAssets.containsAll(['index.html', 'sw.js', 'manifest.webmanifest']), 'missing shell')
+        value
+    }
+
+    static Map<String, byte[]> sources(File root, Map policy) {
+        def result = new LinkedHashMap<String, byte[]>()
+        policy.applicationAssets.each { name ->
+            File file = new File(root, name)
+            require(file.canonicalFile.toPath().startsWith(root.canonicalFile.toPath()) && file.isFile(), "missing source ${name}")
+            result[name] = file.bytes
+        }
+        references(result, policy.inlineImageSha256)
+        result
+    }
+
+    static String resolve(String owner, String raw) {
+        String value = raw.trim()
+        if (value.startsWith('#')) return null
+        require(!value.contains('\\') && !value.contains('%') && !value.contains('?')
+            && !(value ==~ /(?i)^[a-z][a-z0-9+.-]*:.*/) && !value.startsWith('/'), "unsupported local reference in ${owner}")
+        String clean = value.split('#', 2)[0]
+        def base = java.nio.file.Paths.get(owner).parent ?: java.nio.file.Paths.get('')
+        String resolved = base.resolve(clean ?: '.').normalize().toString().replace('\\', '/')
+        if (resolved in ['', '.']) resolved = 'index.html'
+        require(!resolved.startsWith('../'), "escaping reference in ${owner}")
+        resolved
+    }
+
+    static void references(Map<String, byte[]> files, List<String> inlineImages) {
+        def check = { String owner, String raw, boolean image = false ->
+            if (raw.startsWith('data:')) {
+                require(image && raw.startsWith('data:image/svg+xml,')
+                    && inlineImages.contains(sha(raw.getBytes(StandardCharsets.UTF_8))), "unapproved inline image in ${owner}")
+                return null
+            }
+            String name = resolve(owner, raw)
+            require(name == null || files.containsKey(name), "unbundled reference ${raw} in ${owner}")
+            name
+        }
+        def scriptReferences = { String owner, String script ->
+            (script =~ /\b(?:import|export)\s+(?:[^;'"\n]{0,200}?\s+from\s*)?(['"])([^'"]+)\1/).each { check(owner, it[2]) }
+            (script =~ /\b(?:import|fetch|importScripts)\s*\(\s*(['"])([^'"]+)\1/).each { check(owner, it[2]) }
+        }
+        files.each { name, bytes ->
+            if (!(name.endsWith('.html') || name.endsWith('.css') || name.endsWith('.js'))) return
+            String text = new String(bytes, StandardCharsets.UTF_8)
+            if (name.endsWith('.html')) {
+                (text =~ /(?is)<([a-z][a-z0-9-]*)\b([^>]*)>/).each { match ->
+                    String tag = match[1].toLowerCase(Locale.ROOT), attributes = match[2]
+                    require(!(attributes =~ /(?i)\bsrcset\s*=/).find(), "srcset needs an explicit asset contract in ${name}")
+                    def refs = (attributes =~ /(?is)\b(src|href|poster)\s*=\s*(['"])(.*?)\2/).findAll()
+                    require((attributes =~ /(?i)\b(?:src|href|poster)\s*=/).count == refs.size(), "unquoted asset reference in ${name}")
+                    refs.each { refMatch ->
+                        String attribute = refMatch[1].toLowerCase(Locale.ROOT), ref = refMatch[3]
+                        if (!(tag == 'a' && attribute == 'href' && ref ==~ /(?i)https?:\/\/.*/))
+                            check(name, ref, tag in ['img', 'link', 'source', 'video'])
+                    }
+                }
+                (text =~ /(?is)<script\b[^>]*>(.*?)<\/script\s*>/).each { scriptReferences(name, it[1]) }
+            }
+            if (name.endsWith('.html') || name.endsWith('.css')) {
+                (text =~ /(?i)url\(\s*(?:"([^"]*)"|'([^']*)'|([^\s)]+))\s*\)/).each { check(name, it[1] ?: it[2] ?: it[3], true) }
+                (text =~ /(?i)@import\s+(['"])(.*?)\1/).each { check(name, it[2]) }
+            }
+            if (name.endsWith('.js')) {
+                scriptReferences(name, text)
+            }
+        }
+        def manifest = new JsonSlurper().parse(files['manifest.webmanifest'])
+        manifest.icons.each { check('manifest.webmanifest', it.src as String, true) }
+        check('manifest.webmanifest', manifest.start_url as String)
+        String worker = new String(files['sw.js'], StandardCharsets.UTF_8)
+        def shell = worker =~ /(?s)const\s+APP_SHELL\s*=\s*\[([^\]]*)\]/
+        require(shell.find(), 'missing literal service-worker shell')
+        String body = shell.group(1)
+        def entries = []
+        (body =~ /(['"])([^'"]+)\1/).each { entries.add(check('sw.js', it[2])) }
+        require(body.replaceAll(/(['"])([^'"]+)\1/, '').replaceAll(/[\s,]/, '') == '', 'nonliteral service-worker shell')
+        require(entries.size() == entries.toSet().size()
+            && entries.toSet() == (files.keySet() - ['sw.js']).toSet(), 'service-worker shell differs from bundled assets')
+    }
+
+    static Map manifest(String xml, Map policy) {
+        def factory = DocumentBuilderFactory.newInstance()
+        factory.namespaceAware = true
+        factory.setFeature('http://apache.org/xml/features/disallow-doctype-decl', true)
+        factory.setFeature('http://xml.org/sax/features/external-general-entities', false)
+        factory.setFeature('http://xml.org/sax/features/external-parameter-entities', false)
+        def doc = factory.newDocumentBuilder().parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)))
+        def all = { String tag ->
+            def nodes = doc.getElementsByTagName(tag)
+            (0..<nodes.length).collect { nodes.item(it) as Element }
+        }
+        def attr = { Element node, String key -> node.getAttributeNS(ANDROID, key) }
+        require(doc.documentElement.getAttribute('package') == policy.applicationId, 'package identity changed')
+        def apps = all('application')
+        require(apps.size() == 1, 'ambiguous application')
+        Element app = apps[0]
+        ['allowBackup', 'fullBackupContent', 'usesCleartextTraffic'].each {
+            require(attr(app, it) == 'false', "unsafe ${it}")
+        }
+        require(attr(app, 'debuggable') in ['', 'false'], 'debuggable release')
+        require(attr(app, 'networkSecurityConfig') == '', 'unreviewed network security override')
+        require(attr(app, 'dataExtractionRules') == '@xml/data_extraction_rules', 'backup exclusions changed')
+        def permissions = all('uses-permission').collect { attr(it, 'name') }
+        require(all('uses-permission-sdk-23').empty && permissions.size() == permissions.toSet().size()
+            && permissions.toSet() == policy.permissions.toSet(), 'permission set changed')
+        def definitions = all('permission')
+        require(definitions.size() == 1 && attr(definitions[0], 'name') == policy.applicationId + '.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
+            && attr(definitions[0], 'protectionLevel') == 'signature', 'receiver permission protection changed')
+        def actual = [:]
+        ['activity', 'activity-alias', 'service', 'receiver', 'provider'].each { tag ->
+            all(tag).each { node ->
+                String name = attr(node, 'name')
+                if (name.startsWith('.')) name = policy.applicationId + name
+                require(!actual.containsKey(name), 'duplicate component')
+                def record = [type: tag, exported: attr(node, 'exported')]
+                ['permission', 'authorities', 'isolatedProcess', 'process', 'externalService'].each { key -> if (attr(node, key)) record[key] = attr(node, key) }
+                actual[name] = record
+            }
+        }
+        require(actual == policy.components, 'component exposure changed')
+        [permissions: permissions.sort(), components: actual]
+    }
+
+    static Map packaged(File apk, Map policy, Map<String, byte[]> sources) {
+        def hashes = [:]
+        new ZipFile(apk).withCloseable { archive ->
+            def entries = Collections.list(archive.entries()).findAll { !it.directory && it.name.startsWith('assets/') }
+            def names = entries.collect { it.name.substring(7) }
+            require(names.size() == names.toSet().size()
+                && names.toSet() == (policy.applicationAssets + policy.generatedAssets).toSet(), 'unexpected or missing packaged assets')
+            sources.each { name, bytes ->
+                byte[] packaged = archive.getInputStream(archive.getEntry('assets/' + name)).withCloseable { it.readAllBytes() }
+                require(Arrays.equals(bytes, packaged), "packaged source differs: ${name}")
+                hashes[name] = sha(packaged)
+            }
+        }
+        hashes
+    }
+
+    static int exercise(Map policy, Map<String, byte[]> sources, String xml, File directory) {
+        int passed = 0
+        def reject = { String label, Closure operation ->
+            boolean rejected = false
+            try { operation.call() } catch (GradleException expected) { rejected = true }
+            require(rejected, "negative test accepted: ${label}")
+            passed++
+        }
+        references(sources, policy.inlineImageSha256)
+        manifest(xml, policy)
+        passed += 2
+        def append = { String name, String text ->
+            def changed = new LinkedHashMap(sources)
+            changed[name] = (new String(sources[name], StandardCharsets.UTF_8) + text).getBytes(StandardCharsets.UTF_8)
+            changed
+        }
+        reject('missing local script') { references(append('index.html', '<script src="missing.js"></script>'), policy.inlineImageSha256) }
+        reject('remote script') { references(append('index.html', '<script src="https://example.invalid/code.js"></script>'), policy.inlineImageSha256) }
+        reject('unquoted script') { references(append('index.html', '<script src=missing.js></script>'), policy.inlineImageSha256) }
+        reject('undeclared responsive image') { references(append('index.html', '<img srcset="missing.png 2x">'), policy.inlineImageSha256) }
+        reject('CSS escape') { references(append('conversation.css', '.x{background:url(../outside.png)}'), policy.inlineImageSha256) }
+        reject('unapproved embedded image') { references(append('index.html', '<img src="data:image/svg+xml,%3Csvg/%3E">'), policy.inlineImageSha256) }
+        reject('unbundled module') { references(append('conversation.js', '\nimport("missing.js");'), policy.inlineImageSha256) }
+        reject('inline missing asset') { references(append('index.html', '<script>fetch("missing.json");</script>'), policy.inlineImageSha256) }
+        reject('inline remote fetch') { references(append('index.html', '<script>fetch ("https://example.invalid/private");</script>'), policy.inlineImageSha256) }
+        reject('spaced external fetch') { references(append('conversation.js', '\nfetch ("missing.json");'), policy.inlineImageSha256) }
+        reject('multiline external import') { references(append('conversation.js', '\nimport \n ("missing.js");'), policy.inlineImageSha256) }
+        reject('spaced worker import') { references(append('sw.js', '\nimportScripts ("missing.js");'), policy.inlineImageSha256) }
+        references(append('index.html', '<script>fetch ("./manifest.webmanifest");</script>'), policy.inlineImageSha256)
+        passed++
+        def staleCache = new LinkedHashMap(sources)
+        staleCache['sw.js'] = new String(sources['sw.js'], StandardCharsets.UTF_8).replace("'./sentence-compiler.js',", '').getBytes(StandardCharsets.UTF_8)
+        reject('stale service-worker shell') { references(staleCache, policy.inlineImageSha256) }
+        def replaceXml = { String before, String after ->
+            require(xml.contains(before), 'manifest test fixture drift')
+            xml.replace(before, after)
+        }
+        ['allowBackup', 'fullBackupContent', 'usesCleartextTraffic'].each { key ->
+            reject("unsafe ${key}") { manifest(replaceXml("android:${key}=\"false\"", "android:${key}=\"true\""), policy) }
+        }
+        reject('debuggable release') { manifest(replaceXml('<application', '<application android:debuggable="true"'), policy) }
+        reject('extra permission') { manifest(replaceXml('<application', '<uses-permission android:name="android.permission.READ_CONTACTS"/><application'), policy) }
+        reject('new component') { manifest(replaceXml('</application>', '<receiver android:name="example.Unapproved" android:exported="false"/></application>'), policy) }
+        reject('renderer isolation disabled') { manifest(replaceXml('android:isolatedProcess="true"', 'android:isolatedProcess="false"'), policy) }
+        reject('renderer process removed') { manifest(replaceXml('android:process=":wallet_renderer"', ''), policy) }
+        reject('external renderer service') { manifest(replaceXml('android:isolatedProcess="true"', 'android:isolatedProcess="true" android:externalService="true"'), policy) }
+        reject('exported SDK component') { manifest(replaceXml('android:exported="false"', 'android:exported="true"'), policy) }
+        reject('weakened receiver permission') { manifest(replaceXml('android:protectionLevel="signature"', 'android:protectionLevel="normal"'), policy) }
+        def archive = { String name, Map files ->
+            File file = new File(directory, name + '.apk')
+            new ZipOutputStream(file.newOutputStream()).withCloseable { zip ->
+                files.each { path, bytes ->
+                    zip.putNextEntry(new ZipEntry('assets/' + path))
+                    zip.write(bytes as byte[])
+                    zip.closeEntry()
+                }
+            }
+            file
+        }
+        def packagedFiles = new LinkedHashMap(sources)
+        policy.generatedAssets.each { packagedFiles[it] = new byte[0] }
+        packaged(archive('accepted', packagedFiles), policy, sources)
+        passed++
+        ['private-ticket.pdf', 'icons/unapproved.png', 'downloaded-model.bin'].eachWithIndex { name, index ->
+            def extra = new LinkedHashMap(packagedFiles)
+            extra[name] = 'synthetic'.getBytes(StandardCharsets.UTF_8)
+            reject("unexpected ${name}") { packaged(archive('extra-' + index, extra), policy, sources) }
+        }
+        def missing = new LinkedHashMap(packagedFiles)
+        missing.remove('sentence-compiler.js')
+        reject('omitted compiler') { packaged(archive('missing', missing), policy, sources) }
+        def altered = new LinkedHashMap(packagedFiles)
+        altered['index.html'] = 'synthetic changed payload'.getBytes(StandardCharsets.UTF_8)
+        reject('changed packaged source') { packaged(archive('altered', altered), policy, sources) }
+        passed
+    }
+}
+
+abstract class CopyApprovedWebAssets extends DefaultTask {
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE) abstract RegularFileProperty getBoundaryFile()
+    @InputFiles @PathSensitive(PathSensitivity.RELATIVE) abstract ConfigurableFileCollection getSourceFiles()
+    @Internal abstract DirectoryProperty getSourceRoot()
+    @OutputDirectory abstract DirectoryProperty getOutputDirectory()
+    @Inject abstract FileSystemOperations getFileSystemOperations()
+
+    @TaskAction void copyAssets() {
+        def policy = WebAssetBoundary.policy(boundaryFile.get().asFile)
+        WebAssetBoundary.sources(sourceRoot.get().asFile, policy)
+        fileSystemOperations.sync { from(sourceFiles); into(outputDirectory.get().asFile) }
+    }
+}
+
+abstract class VerifyReleaseBoundary extends DefaultTask {
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE) abstract RegularFileProperty getBoundaryFile()
+    @InputFile @PathSensitive(PathSensitivity.RELATIVE) abstract RegularFileProperty getMergedManifest()
+    @InputDirectory @PathSensitive(PathSensitivity.RELATIVE) abstract DirectoryProperty getApkDirectory()
+    @InputFiles @PathSensitive(PathSensitivity.RELATIVE) abstract ConfigurableFileCollection getSourceFiles()
+    @Internal abstract DirectoryProperty getSourceRoot()
+    @OutputFile abstract RegularFileProperty getReportFile()
+
+    @TaskAction void verifyBoundary() {
+        def policy = WebAssetBoundary.policy(boundaryFile.get().asFile)
+        def sources = WebAssetBoundary.sources(sourceRoot.get().asFile, policy)
+        def result = WebAssetBoundary.manifest(mergedManifest.get().asFile.getText('UTF-8'), policy)
+        File directory = apkDirectory.get().asFile
+        def metadata = new JsonSlurper().parse(new File(directory, 'output-metadata.json'))
+        WebAssetBoundary.require(metadata.elements && metadata.applicationId == policy.applicationId, 'missing APK metadata')
+        result.apks = metadata.elements.collect { element ->
+            String name = element.outputFile
+            WebAssetBoundary.require(name == new File(name).name && name.endsWith('.apk'), 'invalid APK output path')
+            File apk = new File(directory, name)
+            [name: name, sha256: WebAssetBoundary.sha(apk.bytes), assets: WebAssetBoundary.packaged(apk, policy, sources)]
+        }
+        result.audience = policy.audience
+        result.proof = 'Source, merged manifest and APK asset boundary only; no signing, installation or runtime acceptance.'
+        File report = reportFile.get().asFile
+        report.parentFile.mkdirs()
+        report.setText(JsonOutput.prettyPrint(JsonOutput.toJson(result)) + '\n', 'UTF-8')
+        logger.lifecycle('Verified private APK asset/manifest boundary; report: {}', report)
+    }
+}
+
+def boundary = layout.projectDirectory.file('asset-boundary.json')
+def webRoot = rootProject.layout.projectDirectory.dir('..')
+def approved = WebAssetBoundary.policy(boundary.asFile).applicationAssets
+def webSources = fileTree(webRoot) { include approved }
+def copyWebAssets = tasks.register('copyWebAssets', CopyApprovedWebAssets) {
+    boundaryFile.set(boundary)
+    sourceFiles.from(webSources)
+    sourceRoot.set(webRoot)
+}
+
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        variant.sources.assets.addGeneratedSourceDirectory(copyWebAssets) { it.outputDirectory }
+    }
+}
+
+// AGP artifact types are resolved by the plugin-owning app script, whose classpath
+// contains AGP. This applied script consumes only ordinary Gradle providers.
+ext.registerReleaseBoundary = { String variantName, apkProvider, manifestProvider ->
+    String capitalized = variantName.capitalize()
+    def verify = tasks.register("verify${capitalized}Boundary", VerifyReleaseBoundary) {
+        boundaryFile.set(boundary)
+        sourceRoot.set(webRoot)
+        sourceFiles.from(webSources)
+        apkDirectory.set(apkProvider)
+        mergedManifest.set(manifestProvider)
+        reportFile.set(layout.buildDirectory.file("reports/asset-boundary/${variantName}.json"))
+    }
+    tasks.matching { it.name == "assemble${capitalized}" }.configureEach { dependsOn(verify) }
+    tasks.register("test${capitalized}Boundary") {
+        inputs.file(boundary)
+        inputs.files(webSources)
+        inputs.file(manifestProvider)
+        doLast {
+            def policy = WebAssetBoundary.policy(boundary.asFile)
+            def sources = WebAssetBoundary.sources(webRoot.asFile, policy)
+            int count = WebAssetBoundary.exercise(policy, sources, manifestProvider.get().asFile.getText('UTF-8'), temporaryDir)
+            logger.lifecycle('Asset boundary: {} positive/negative checks passed; synthetic ZIPs are not Android runtime proof.', count)
+        }
+    }
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning isolated fixture</title>
+<link rel="stylesheet" href="../learning.css">
+<style>body{font:18px system-ui;max-width:48rem;margin:1rem auto;padding:1rem}button,select{min-height:44px}#fixture-state{white-space:pre-wrap}</style>
+<h1>Learning isolated fixture</h1>
+<p>Synthetic reviewed content and injected store/speech. This is not the integrated app or native audio.</p>
+<label>Next save result <select id="outcome"><option>SAVED</option><option>FAILED</option><option>UNCERTAIN</option></select></label>
+<button id="dispose">Dispose practice</button><button id="mount">Mount practice</button>
+<div id="practice"><p>Owner content retained.</p></div>
+<pre id="fixture-state" role="status"></pre>
+<script src="../learning.js"></script>
+<script>
+'use strict';
+const fixtureState = document.getElementById('fixture-state');
+const listeners = new Set();
+let writes = 0, lastSpeech = '', dispose;
+let state = { state: 'READY', writable: true, snapshot: { revision: '0', progress: [] } };
+const content = { phrases: [
+  { id: 'phrase_example', review: 'reviewed', snapshot: { it: 'Buongiorno.', en: 'Good morning.' } },
+  { id: 'phrase_thanks', review: 'reviewed', snapshot: { it: 'Grazie.', en: 'Thank you.' } },
+  { id: 'phrase_pending', review: 'draft', snapshot: { it: 'Bozza.', en: 'Draft.' } }
+] };
+function report() { fixtureState.textContent = JSON.stringify({ writes, lastSpeech, subscriptions: listeners.size, state }, null, 2); }
+const services = { content, clock: { now: () => new Date('2026-09-27T23:59:59Z') },
+  speech: { listen(text) { lastSpeech = text; report(); }, stop() { lastSpeech = ''; report(); } },
+  store: { async load() { return state; }, async getSnapshot() { return state; },
+    subscribe(fn) { listeners.add(fn); report(); return () => { listeners.delete(fn); report(); }; },
+    async mutate(expectedRevision, change) {
+      writes++; const status = document.getElementById('outcome').value;
+      if (status !== 'SAVED') { report(); return { status, code: 'FIXTURE_FAILURE' }; }
+      if (expectedRevision !== state.snapshot.revision) return { status: 'FAILED', code: 'REVISION_CONFLICT' };
+      state = structuredClone(state); state.snapshot.revision = String(BigInt(expectedRevision) + 1n);
+      const prior = state.snapshot.progress.find(x => x.phraseId === change.phraseId);
+      if (prior) { prior.reviewCount++; prior.lastReviewedAtUtc = change.reviewedAtUtc; }
+      else state.snapshot.progress.push({ phraseId: change.phraseId, reviewCount: 1, lastReviewedAtUtc: change.reviewedAtUtc });
+      listeners.forEach(fn => fn(state)); report(); return { status: 'SAVED', revision: state.snapshot.revision };
+    }
+  }
+};
+function mount() { if (dispose) dispose(); dispose = ItalyLearning.mount(document.getElementById('practice'), services); report(); }
+document.getElementById('mount').addEventListener('click', mount);
+document.getElementById('dispose').addEventListener('click', () => { if (dispose) dispose(); dispose = null; report(); });
+mount();
+</script>
+</html>

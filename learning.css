@@ -1,0 +1,14 @@
+.italy-learning { border: 1px solid currentColor; border-radius: .75rem; padding: 1rem; margin-block: 1rem; }
+.italy-learning p { line-height: 1.5; overflow-wrap: anywhere; }
+.italy-learning select { display: block; width: 100%; max-width: 100%; margin-block: .5rem; }
+.italy-learning button, .italy-learning select { min-height: 44px; min-width: 44px; font: inherit; padding: .6rem; }
+.italy-learning button { margin: .25rem; }
+.italy-learning :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.italy-learning [data-learning="transcript"] { border-inline-start: 3px solid currentColor; padding-inline-start: 1rem; }
+.italy-learning [data-learning="transcript"] [lang="it"] { font-size: 1.15em; font-weight: 600; }
+.italy-learning [data-learning="draft"] { font-style: italic; }
+.italy-learning [data-learning="status"] { min-height: 3em; }
+.italy-learning [hidden] { display: none !important; }
+.learning-pack { margin: 1rem 0; }
+.learning-pack > summary { min-height: 44px; padding: .75rem; cursor: pointer; }
+#personal-status { margin: .75rem; padding: .75rem; border: 1px solid currentColor; }

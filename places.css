@@ -1,0 +1,7 @@
+.italy-places { min-width: 0; margin-block: 1rem; overflow-wrap: anywhere; }
+.itinerary-events > li > .italy-places { grid-column: 1 / -1; }
+.place-card { border: 1px solid var(--border, #748079); border-radius: .6rem; padding: .75rem; margin-block: .75rem; }
+.place-card summary { min-height: 44px; min-width: 44px; box-sizing: border-box; padding-block: .65rem; cursor: pointer; font-weight: 650; }
+.place-card summary:focus-visible { outline: 3px solid var(--accent-text, #14624d); outline-offset: 3px; }
+.place-card ul { padding-inline-start: 1.25rem; }
+.place-notice { line-height: 1.5; }

@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Wallet UI integration fixture</title>
+<link rel="stylesheet" href="../../attachments.css"><style>body{font:16px system-ui;max-width:720px;margin:24px auto;padding:16px}button{padding:10px;margin:4px}</style>
+<h1>Wallet UI integration fixture</h1><p>Synthetic native transport. No device, picker, document or backup runtime proof.</p><main id="overview"></main><section id="event"><h2>Example train journey</h2></section><p id="operations" role="status"></p>
+<script src="../../wallet.js"></script><script src="../../wallet-ui.js"></script><script src="../../attachments.js"></script>
+<script>
+'use strict';
+const documentId='doc_'+'a'.repeat(32),generationId='gen_'+'b'.repeat(32),token='preview_'+'c'.repeat(32);
+let revision='1',attachments=[],notify;
+const pair=()=>({userRevision:revision,walletGenerationId:generationId,walletRevision:'1'});
+const state=()=>({state:'READY',writable:true,snapshot:{revision,wallet:{generationId,revision:'1'},attachments}});
+const store={subscribe(fn){notify=fn;fn(state());return()=>{};},getSnapshot:async()=>state()};
+const host={subscribeIdle(){return()=>{};},async wallet(op,expected,args){
+ if(op==='snapshot')return{status:'OK',value:{...pair(),documents:[{documentId,displayName:'Example train ticket',mediaType:'application/pdf',byteLength:1200}]}};
+ document.getElementById('operations').textContent='Synthetic command: '+op;
+ if(op==='archive-preview')return{status:'OK',value:{token,documents:1}};
+ if(op==='archive-cancel'||op==='import-document')return{status:'CANCELLED',value:{}};
+ if(op==='open-document')return{status:'OPENED',value:{}};
+ if(op==='archive-export')return{status:'OK',value:{}};
+ if(op==='attach')attachments=[args.relation];else if(op==='unlink')attachments=[];else return{status:'FAILED',code:'UNSUPPORTED'};
+ revision=String(BigInt(revision)+1n);notify(state());return{status:'SAVED',value:pair()};
+}};
+const wallet=ItalyWallet.create({store,host});
+ItalyWalletUI.mount(document.getElementById('overview'),{wallet,reload:()=>location.reload(),relationLabel:()=> 'Example train journey'});
+ItalyAttachments.mount(document.getElementById('event'),{tripId:'trip_example',eventId:'event_train',wallet});
+</script></html>

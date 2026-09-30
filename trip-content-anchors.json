@@ -1,0 +1,604 @@
+{
+  "format": "itguide-trip-anchors",
+  "schemaVersion": 1,
+  "tripId": "trip_306765238f88",
+  "contentVersion": "wave1-content-1",
+  "source": {
+    "archiveSha256": "af4127dd917c61d3fb6b1409e4e7ed79940dfc45dd6151a71f543a216ff88094",
+    "indexSha256": "55946e482b1f4eab136201de54aa35c8a618eec27948b1564e3cf79524b54271",
+    "member": "index.html",
+    "extractedOn": "2026-09-27"
+  },
+  "days": [
+    {
+      "dayId": "day_1bca3ae59da2",
+      "legacyAnchor": "itinerary-day-1",
+      "legacyTitleAnchor": "itinerary-title-1"
+    },
+    {
+      "dayId": "day_fb6528c95d3c",
+      "legacyAnchor": "itinerary-day-2",
+      "legacyTitleAnchor": "itinerary-title-2"
+    },
+    {
+      "dayId": "day_e788d030175b",
+      "legacyAnchor": "itinerary-day-3",
+      "legacyTitleAnchor": "itinerary-title-3"
+    },
+    {
+      "dayId": "day_ab2a690b820d",
+      "legacyAnchor": "itinerary-day-4",
+      "legacyTitleAnchor": "itinerary-title-4"
+    },
+    {
+      "dayId": "day_3bf42682cbed",
+      "legacyAnchor": "itinerary-day-5",
+      "legacyTitleAnchor": "itinerary-title-5"
+    },
+    {
+      "dayId": "day_56b7a3bb49ca",
+      "legacyAnchor": "itinerary-day-6",
+      "legacyTitleAnchor": "itinerary-title-6"
+    },
+    {
+      "dayId": "day_a8b378f6b86c",
+      "legacyAnchor": "itinerary-day-7",
+      "legacyTitleAnchor": "itinerary-title-7"
+    },
+    {
+      "dayId": "day_fedb026f091b",
+      "legacyAnchor": "itinerary-day-8",
+      "legacyTitleAnchor": "itinerary-title-8"
+    }
+  ],
+  "events": [
+    {
+      "eventId": "event_07f37de9666a",
+      "dayId": "day_1bca3ae59da2",
+      "legacyDayAnchor": "itinerary-day-1",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Arrive at Rome FCO. Pick up bags and take the Leonardo Express to Roma Termini (30 minutes)."
+    },
+    {
+      "eventId": "event_d6b7f467321c",
+      "dayId": "day_1bca3ae59da2",
+      "legacyDayAnchor": "itinerary-day-1",
+      "legacyEventOrdinal": 2,
+      "sourceText": "Mercato Centrale inside Roma Termini station."
+    },
+    {
+      "eventId": "event_8dde8012ba30",
+      "dayId": "day_1bca3ae59da2",
+      "legacyDayAnchor": "itinerary-day-1",
+      "legacyEventOrdinal": 3,
+      "sourceText": "Check in at The Talent Hotel. Taxi from Termini (€9–11). Stay September 29, 30 and October 1."
+    },
+    {
+      "eventId": "event_02fa46067011",
+      "dayId": "day_1bca3ae59da2",
+      "legacyDayAnchor": "itinerary-day-1",
+      "legacyEventOrdinal": 4,
+      "sourceText": "Pantheon entry."
+    },
+    {
+      "eventId": "event_9ff6e3a9dc08",
+      "dayId": "day_1bca3ae59da2",
+      "legacyDayAnchor": "itinerary-day-1",
+      "legacyEventOrdinal": 5,
+      "sourceText": "Explore nearby; All'Antico Vinaio is one option."
+    },
+    {
+      "eventId": "event_a66bad4aee3b",
+      "dayId": "day_fb6528c95d3c",
+      "legacyDayAnchor": "itinerary-day-2",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Breakfast at the hotel (included)."
+    },
+    {
+      "eventId": "event_cdd2e9116a05",
+      "dayId": "day_fb6528c95d3c",
+      "legacyDayAnchor": "itinerary-day-2",
+      "legacyEventOrdinal": 2,
+      "sourceText": "Colosseum tour. Arrive 15 minutes early. Afterward, take a break for snacks around Mercato Rionale Monti or Mizio’s street food."
+    },
+    {
+      "eventId": "event_dbb73a37ace4",
+      "dayId": "day_fb6528c95d3c",
+      "legacyDayAnchor": "itinerary-day-2",
+      "legacyEventOrdinal": 3,
+      "sourceText": "Roman Forum & Palatine Hill. Ticket is valid within 24 hours of the Colosseum visit."
+    },
+    {
+      "eventId": "event_030b2676a0fe",
+      "dayId": "day_fb6528c95d3c",
+      "legacyDayAnchor": "itinerary-day-2",
+      "legacyEventOrdinal": 4,
+      "sourceText": "Dinner reservation: La Taverna dei Fori Imperiali. Via della Madonna Dei Monti 9."
+    },
+    {
+      "eventId": "event_99363984fa7c",
+      "dayId": "day_e788d030175b",
+      "legacyDayAnchor": "itinerary-day-3",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Meet the Vatican tour at Antico Cafe Candia. 25-minute taxi ride from the hotel."
+    },
+    {
+      "eventId": "event_1a43604727ed",
+      "dayId": "day_e788d030175b",
+      "legacyDayAnchor": "itinerary-day-3",
+      "legacyEventOrdinal": 2,
+      "sourceText": "Guided Vatican & St. Peter's Basilica tour."
+    },
+    {
+      "eventId": "event_947dc6df556c",
+      "dayId": "day_e788d030175b",
+      "legacyDayAnchor": "itinerary-day-3",
+      "legacyEventOrdinal": 3,
+      "sourceText": "Becco (Piazzale degli Eroi 7), then browse Mercato Trionfale for desserts."
+    },
+    {
+      "eventId": "event_9343b024948b",
+      "dayId": "day_e788d030175b",
+      "legacyDayAnchor": "itinerary-day-3",
+      "legacyEventOrdinal": 4,
+      "sourceText": "Taxi back to the hotel to rest, then walk to the Spanish Steps and finish at the Trevi Fountain."
+    },
+    {
+      "eventId": "event_0902e06f1518",
+      "dayId": "day_e788d030175b",
+      "legacyDayAnchor": "itinerary-day-3",
+      "legacyEventOrdinal": 5,
+      "sourceText": "Pinsitaly Trevi by the fountain."
+    },
+    {
+      "eventId": "event_8af15a044e7a",
+      "dayId": "day_ab2a690b820d",
+      "legacyDayAnchor": "itinerary-day-4",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Breakfast at the hotel, then taxi to Roma Termini."
+    },
+    {
+      "eventId": "event_60e900b085c6",
+      "dayId": "day_ab2a690b820d",
+      "legacyDayAnchor": "itinerary-day-4",
+      "legacyEventOrdinal": 2,
+      "sourceText": "Italo First Class train #9998 from Roma Termini to Naples Central."
+    },
+    {
+      "eventId": "event_3a9006824ba1",
+      "dayId": "day_ab2a690b820d",
+      "legacyDayAnchor": "itinerary-day-4",
+      "legacyEventOrdinal": 3,
+      "sourceText": "Alilauro ferry from Naples Port to Sorrento."
+    },
+    {
+      "eventId": "event_1bb62194c62e",
+      "dayId": "day_ab2a690b820d",
+      "legacyDayAnchor": "itinerary-day-4",
+      "legacyEventOrdinal": 4,
+      "sourceText": "Al Centro Suites. Seven-minute walk from the port. Stay October 2, 3 and 4."
+    },
+    {
+      "eventId": "event_29a69bfb47c7",
+      "dayId": "day_ab2a690b820d",
+      "legacyDayAnchor": "itinerary-day-4",
+      "legacyEventOrdinal": 5,
+      "sourceText": "Grab bites from A’Marenna Bakery or Piennolo, stroll Villa Comunale di Sorrento park, then have limoncello and gelato at I Giardini di Cataldo."
+    },
+    {
+      "eventId": "event_a1020d8a668d",
+      "dayId": "day_3bf42682cbed",
+      "legacyDayAnchor": "itinerary-day-5",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Pick up rental car at Hertz. Corso Italia 261/B. International Driving Permit required; return car by 7:00 PM."
+    },
+    {
+      "eventId": "event_0ecb1373ff6a",
+      "dayId": "day_3bf42682cbed",
+      "legacyDayAnchor": "itinerary-day-5",
+      "legacyEventOrdinal": 2,
+      "sourceText": "Drive to and explore Pompeii Archaeological Park. Bring snacks and water; use the free booklet."
+    },
+    {
+      "eventId": "event_2b7049aa5f5b",
+      "dayId": "day_3bf42682cbed",
+      "legacyDayAnchor": "itinerary-day-5",
+      "legacyEventOrdinal": 3,
+      "sourceText": "Dinner reservation: Caupona. Via Masseria Curato 2, Pompeii."
+    },
+    {
+      "eventId": "event_7307904d3e10",
+      "dayId": "day_3bf42682cbed",
+      "legacyDayAnchor": "itinerary-day-5",
+      "legacyEventOrdinal": 4,
+      "sourceText": "Return the rental car to Hertz in Sorrento."
+    },
+    {
+      "eventId": "event_bfccb7dbca60",
+      "dayId": "day_56b7a3bb49ca",
+      "legacyDayAnchor": "itinerary-day-6",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Meet the group tour at Piazza Angelina Lauro. Eight-hour excursion: Positano (1 hour), Amalfi (1 hour) and Ravello (2 hours)."
+    },
+    {
+      "eventId": "event_9c963b6de244",
+      "dayId": "day_56b7a3bb49ca",
+      "legacyDayAnchor": "itinerary-day-6",
+      "legacyEventOrdinal": 2,
+      "sourceText": "Explore Piazza Torquato Tasso (antiques and crafts market open until 8:00 PM), visit Stinga Tarsia woodcrafts, then dine at Annaré (Corso Italia 198/B)."
+    },
+    {
+      "eventId": "event_42b29dc6291e",
+      "dayId": "day_a8b378f6b86c",
+      "legacyDayAnchor": "itinerary-day-7",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Ferry from Sorrento back to Naples."
+    },
+    {
+      "eventId": "event_6b76de505549",
+      "dayId": "day_a8b378f6b86c",
+      "legacyDayAnchor": "itinerary-day-7",
+      "legacyEventOrdinal": 2,
+      "sourceText": "Italo First Class train from Naples to Roma Termini. Includes train lounge access."
+    },
+    {
+      "eventId": "event_16875db47767",
+      "dayId": "day_a8b378f6b86c",
+      "legacyDayAnchor": "itinerary-day-7",
+      "legacyEventOrdinal": 3,
+      "sourceText": "Leonardo Express from Roma Termini to FCO Airport."
+    },
+    {
+      "eventId": "event_e3798453c1e7",
+      "dayId": "day_a8b378f6b86c",
+      "legacyDayAnchor": "itinerary-day-7",
+      "legacyEventOrdinal": 4,
+      "sourceText": "Hilton Rome Airport Hotel."
+    },
+    {
+      "eventId": "event_5070e93567f1",
+      "dayId": "day_fedb026f091b",
+      "legacyDayAnchor": "itinerary-day-8",
+      "legacyEventOrdinal": 1,
+      "sourceText": "Flight departs Rome (FCO)."
+    }
+  ],
+  "places": [
+    {
+      "placeId": "place_b2ab0ae1e6bb",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Rome+Fiumicino+Airport",
+      "sourceNames": [
+        "Rome FCO",
+        "FCO Airport",
+        "Rome (FCO)"
+      ]
+    },
+    {
+      "placeId": "place_433ea12df8a5",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Roma+Termini+station",
+      "sourceNames": [
+        "Roma Termini"
+      ]
+    },
+    {
+      "placeId": "place_190582fb62e8",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Mercato+Centrale+Roma+Termini",
+      "sourceNames": [
+        "Mercato Centrale"
+      ]
+    },
+    {
+      "placeId": "place_0540a7a4f822",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=The+Talent+Hotel+Rome",
+      "sourceNames": [
+        "The Talent Hotel"
+      ]
+    },
+    {
+      "placeId": "place_c50ffb7dff15",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Pantheon+Rome",
+      "sourceNames": [
+        "Pantheon"
+      ]
+    },
+    {
+      "placeId": "place_cca5875d7be1",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=All+Antico+Vinaio+Rome+Pantheon",
+      "sourceNames": [
+        "All'Antico Vinaio"
+      ]
+    },
+    {
+      "placeId": "place_25639056d75f",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Colosseum+Rome",
+      "sourceNames": [
+        "Colosseum"
+      ]
+    },
+    {
+      "placeId": "place_6c93d2f363d5",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Mercato+Rionale+Monti+Rome",
+      "sourceNames": [
+        "Mercato Rionale Monti"
+      ]
+    },
+    {
+      "placeId": "place_014d6f437ac2",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Mizios+street+food+Rome",
+      "sourceNames": [
+        "Mizio’s street food"
+      ]
+    },
+    {
+      "placeId": "place_92854a16f273",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Roman+Forum+Rome",
+      "sourceNames": [
+        "Roman Forum"
+      ]
+    },
+    {
+      "placeId": "place_5adb36f6e1fc",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Palatine+Hill+Rome",
+      "sourceNames": [
+        "Palatine Hill"
+      ]
+    },
+    {
+      "placeId": "place_4d7f67c0f53f",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=La+Taverna+dei+Fori+Imperiali+Via+della+Madonna+dei+Monti+9+Rome",
+      "sourceNames": [
+        "La Taverna dei Fori Imperiali"
+      ]
+    },
+    {
+      "placeId": "place_995d04937bca",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Antico+Cafe+Candia+Rome",
+      "sourceNames": [
+        "Antico Cafe Candia"
+      ]
+    },
+    {
+      "placeId": "place_495ed9b850fb",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Vatican+Museums+Rome",
+      "sourceNames": [
+        "Vatican"
+      ]
+    },
+    {
+      "placeId": "place_3408605fcacd",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=St+Peters+Basilica+Vatican+City",
+      "sourceNames": [
+        "St. Peter's Basilica"
+      ]
+    },
+    {
+      "placeId": "place_8aa1fde4aa14",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Becco+Piazzale+degli+Eroi+7+Rome",
+      "sourceNames": [
+        "Becco"
+      ]
+    },
+    {
+      "placeId": "place_d8e5aa6a4941",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Mercato+Trionfale+Rome",
+      "sourceNames": [
+        "Mercato Trionfale"
+      ]
+    },
+    {
+      "placeId": "place_bd7e27c05ca6",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Spanish+Steps+Rome",
+      "sourceNames": [
+        "Spanish Steps"
+      ]
+    },
+    {
+      "placeId": "place_caf6d90f782a",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Trevi+Fountain+Rome",
+      "sourceNames": [
+        "Trevi Fountain"
+      ]
+    },
+    {
+      "placeId": "place_937007c9f65b",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Pinsitaly+Trevi+Rome",
+      "sourceNames": [
+        "Pinsitaly Trevi"
+      ]
+    },
+    {
+      "placeId": "place_b44868941bf8",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Napoli+Centrale+station",
+      "sourceNames": [
+        "Naples Central",
+        "Naples"
+      ]
+    },
+    {
+      "placeId": "place_5a1475d8d99b",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Alilauro+ferry+Naples+port",
+      "sourceNames": [
+        "Naples Port",
+        "Naples"
+      ]
+    },
+    {
+      "placeId": "place_22e1fc332d00",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Sorrento+ferry+port",
+      "sourceNames": [
+        "Sorrento"
+      ]
+    },
+    {
+      "placeId": "place_3db177128804",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Al+Centro+Suites+Sorrento",
+      "sourceNames": [
+        "Al Centro Suites"
+      ]
+    },
+    {
+      "placeId": "place_35c15b81442e",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=A+Marenna+Bakery+Sorrento",
+      "sourceNames": [
+        "A’Marenna Bakery"
+      ]
+    },
+    {
+      "placeId": "place_a7d652c0667d",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Piennolo+Sorrento",
+      "sourceNames": [
+        "Piennolo"
+      ]
+    },
+    {
+      "placeId": "place_c73a6b537e9e",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Villa+Comunale+di+Sorrento",
+      "sourceNames": [
+        "Villa Comunale di Sorrento"
+      ]
+    },
+    {
+      "placeId": "place_bb055ffb499d",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=I+Giardini+di+Cataldo+Sorrento",
+      "sourceNames": [
+        "I Giardini di Cataldo"
+      ]
+    },
+    {
+      "placeId": "place_e8bfa591d44f",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Hertz+Corso+Italia+261%2FB+Sorrento",
+      "sourceNames": [
+        "Hertz",
+        "Hertz in Sorrento"
+      ]
+    },
+    {
+      "placeId": "place_e7c1fbaea461",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Pompeii+Archaeological+Park",
+      "sourceNames": [
+        "Pompeii Archaeological Park"
+      ]
+    },
+    {
+      "placeId": "place_6e938bf70991",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Caupona+Via+Masseria+Curato+2+Pompeii",
+      "sourceNames": [
+        "Caupona"
+      ]
+    },
+    {
+      "placeId": "place_d6d4678fdf33",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Piazza+Angelina+Lauro+Sorrento",
+      "sourceNames": [
+        "Piazza Angelina Lauro"
+      ]
+    },
+    {
+      "placeId": "place_2a04a2c0130a",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Positano+Italy",
+      "sourceNames": [
+        "Positano"
+      ]
+    },
+    {
+      "placeId": "place_5162f6968adf",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Amalfi+Italy",
+      "sourceNames": [
+        "Amalfi"
+      ]
+    },
+    {
+      "placeId": "place_c097cd9a2566",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Ravello+Italy",
+      "sourceNames": [
+        "Ravello"
+      ]
+    },
+    {
+      "placeId": "place_4197d336548c",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Piazza+Torquato+Tasso+Sorrento",
+      "sourceNames": [
+        "Piazza Torquato Tasso"
+      ]
+    },
+    {
+      "placeId": "place_0bf087c4dac5",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Stinga+Tarsia+Sorrento",
+      "sourceNames": [
+        "Stinga Tarsia"
+      ]
+    },
+    {
+      "placeId": "place_e5b94ca8ee7e",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Annare+Corso+Italia+198%2FB+Sorrento",
+      "sourceNames": [
+        "Annaré"
+      ]
+    },
+    {
+      "placeId": "place_cf095639cb02",
+      "sourceHref": "https://www.google.com/maps/search/?api=1&query=Hilton+Rome+Airport+Hotel",
+      "sourceNames": [
+        "Hilton Rome Airport Hotel"
+      ]
+    }
+  ],
+  "transportPack": {
+    "id": "transport_wave1",
+    "title": "Getting around",
+    "authoringStatus": "ai-authored",
+    "independentReviewStatus": "complete-ai-assisted",
+    "fluentHumanReviewStatus": "not-performed",
+    "prompts": [
+      {
+        "phraseId": "phrase_050060d62054",
+        "exampleReplyIds": [
+          "phrase_0313b2f2e4d0"
+        ],
+        "exampleLabel": "Example reply — illustrative only"
+      },
+      {
+        "phraseId": "phrase_de4f189d6ae6",
+        "exampleReplyIds": [
+          "phrase_6c9677b4f411"
+        ],
+        "exampleLabel": "Example reply — illustrative only"
+      },
+      {
+        "phraseId": "phrase_8398bb0db907",
+        "exampleReplyIds": [
+          "phrase_ecbb2d00ba86"
+        ],
+        "exampleLabel": "Example reply — illustrative only"
+      },
+      {
+        "phraseId": "phrase_6f76e1828026",
+        "exampleReplyIds": [
+          "phrase_03f10297c095"
+        ],
+        "exampleLabel": "Example reply — illustrative only"
+      },
+      {
+        "phraseId": "phrase_56fc66cc0ed0",
+        "exampleReplyIds": [
+          "phrase_4771e5d48e5d"
+        ],
+        "exampleLabel": "Example reply — illustrative only"
+      },
+      {
+        "phraseId": "phrase_06059e96ed2a",
+        "exampleReplyIds": [
+          "phrase_53f1737d6536"
+        ],
+        "exampleLabel": "Example reply — illustrative only"
+      }
+    ],
+    "reviewEvidence": {
+      "kind": "independent-ai-bilingual-text-review",
+      "reviewedOn": "2026-09-27",
+      "reviewerChat": "01a0e2d0-827b-7c31-a311-dd851880ba0e",
+      "utterancesSha256": "504eec8e9a639b999ccf674a8a6815a024a99965551c61d69062c6a06d0a7745",
+      "record": "docs/wave-1/today-handoff.md"
+    }
+  }
+}

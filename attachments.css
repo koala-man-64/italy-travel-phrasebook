@@ -1,0 +1,11 @@
+.italy-attachments { margin-block: 1rem; overflow-wrap: anywhere; min-width: 0; }
+.italy-attachments button { min-height: 44px; min-width: 44px; max-width: 100%; padding: .65rem .85rem; margin: .25rem; font: inherit; color: var(--text, #202c29); background: var(--surface, #fff); border: 1px solid currentColor; border-radius: .5rem; white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
+.italy-attachments button:disabled { opacity: .6; cursor: default; }
+.italy-attachments :focus-visible { outline: 3px solid var(--accent-text, #14624d); outline-offset: 3px; }
+.attachment-list { padding: 0; list-style: none; }
+.attachment-list > li, .attachment-panel { border: 1px solid var(--border, #748079); padding: .75rem; border-radius: .6rem; margin-block: .75rem; }
+.attachment-name { font-weight: 650; white-space: pre-wrap; }
+.attachment-actions { display: flex; flex-wrap: wrap; gap: .25rem; }
+.attachment-panel button { display: block; }
+.attachment-status { min-height: 1.5em; }
+.attachment-status[role="alert"] { font-weight: 650; }

@@ -1,7 +1,7 @@
 {
   "name": "Italy Travel Pocket Guide",
   "short_name": "Italy Guide",
-  "description": "Offline Italian phrasebook and sentence builder for Rome, Sorrento and the Amalfi Coast.",
+  "description": "Offline Italian phrasebook, sentence builder and trip itinerary for Rome, Sorrento and the Amalfi Coast.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",

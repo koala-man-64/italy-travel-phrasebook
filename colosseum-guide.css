@@ -1,0 +1,44 @@
+#panel-guide { max-width: 760px; margin-inline: auto; }
+.guide-hero { margin-top: 20px; }
+.guide-eyebrow { color: var(--muted); font-size: .78rem; font-weight: 700; letter-spacing: .08em; margin-bottom: 8px; }
+.guide-hero h2 { font-family: Georgia, serif; font-size: clamp(2rem, 7vw, 3.2rem); line-height: 1.08; margin-bottom: 12px; }
+.guide-hero > p:not(.guide-eyebrow) { color: var(--muted); line-height: 1.6; }
+.guide-photo { margin: 18px 0; }
+.guide-photo img { display: block; width: 100%; height: auto; max-height: 460px; object-fit: contain; background: var(--surface-2); border-radius: var(--radius); }
+.guide-photo figcaption { color: var(--muted); font-size: .8rem; line-height: 1.5; margin-top: 8px; }
+.guide-photo-fallback { background: var(--surface-2); padding: 24px; border-radius: var(--radius); }
+.guide-photo [hidden] { display: none; }
+.guide-actions, .guide-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.guide-button, .guide-stop-choice, .guide-event-link { min-height: 44px; padding: 10px 14px; border: 1px solid var(--accent-text); border-radius: 12px; background: var(--accent-text); color: var(--bg); font: inherit; font-weight: 650; cursor: pointer; }
+.guide-secondary { background: var(--surface); color: var(--accent-text); }
+.guide-button:disabled { opacity: .45; cursor: default; }
+.guide-note { margin: 18px 0; border-left: 3px solid var(--accent-text); padding: 8px 14px; background: var(--surface-2); border-radius: 0 10px 10px 0; font-size: .88rem; line-height: 1.6; }
+.guide-jump { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 24px 0; scroll-margin-top: 85px; }
+.guide-stop-choice { background: var(--surface); color: var(--text); border-color: var(--border-strong); text-align: left; font-size: .85rem; }
+.guide-stop-choice[aria-pressed="true"] { color: var(--accent-text); background: var(--accent-soft); border-color: var(--accent-text); }
+.guide-stop { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(14px, 4vw, 24px); scroll-margin-top: 85px; }
+.guide-stop h3 { font-family: Georgia, serif; font-size: 1.65rem; line-height: 1.2; }
+.guide-stop h4 { margin: 14px 0 8px; }
+.guide-stop ul { padding-left: 22px; line-height: 1.6; }
+.guide-stop li + li { margin-top: 8px; }
+.guide-story { margin: 20px 0; line-height: 1.7; }
+.guide-gallery { margin-bottom: 20px; }
+.guide-gallery h4 { font-family: Georgia, serif; font-size: 1.15rem; }
+.guide-gallery .guide-photo { margin-block: 20px; }
+.guide-disclosure { border-top: 1px solid var(--border); padding-block: 12px; line-height: 1.6; }
+.guide-disclosure summary { cursor: pointer; min-height: 44px; padding-block: 10px; color: var(--accent-text); font-weight: 650; }
+.guide-controls { justify-content: space-between; margin: 16px 0 32px; }
+.guide-controls .guide-button { padding-inline: 12px; }
+.guide-position { font-size: .82rem; color: var(--muted); }
+.guide-timeline h3, .guide-onward h3 { font-family: Georgia, serif; font-size: 1.4rem; margin-bottom: 16px; }
+.guide-timeline ol { margin-left: 10px; padding-left: 22px; border-left: 2px solid var(--border-strong); list-style: none; }
+.guide-timeline li { margin-bottom: 20px; position: relative; line-height: 1.6; }
+.guide-timeline li::before { content: ''; position: absolute; width: 10px; height: 10px; left: -28px; top: 8px; border-radius: 50%; background: var(--accent-text); }
+.guide-timeline p { color: var(--muted); }
+.guide-onward { margin: 30px 0; padding: 20px; background: var(--surface-2); border-radius: var(--radius); line-height: 1.6; }
+.guide-onward .guide-button { margin-top: 16px; }
+.guide-sources { font-size: .82rem; }
+.guide-source-url { overflow-wrap: anywhere; user-select: text; color: var(--muted); }
+.guide-credit { margin-top: 20px; }
+.guide-event-link { display: block; margin-top: 8px; background: var(--surface); color: var(--accent-text); font-size: .85rem; }
+@media (max-width: 359px) { .guide-controls { gap: 6px; } .guide-controls .guide-button { font-size: .85rem; padding-inline: 8px; } }

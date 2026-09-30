@@ -1,0 +1,1733 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wave 0B proposed contracts v1",
+  "$ref": "#/$defs/TripContent",
+  "$defs": {
+    "Snapshot": {
+      "type": "object",
+      "properties": {
+        "it": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "it",
+        "en"
+      ],
+      "additionalProperties": false
+    },
+    "TripContent": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "const": "itguide-trip"
+        },
+        "schemaVersion": {
+          "const": 1
+        },
+        "contentVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "tripId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70,
+          "pattern": "^trip_[a-z0-9][a-z0-9_-]{0,63}$"
+        },
+        "timeZone": {
+          "const": "Europe/Rome"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "days": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^day_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "date": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10,
+                "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "order": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 366
+              },
+              "eventIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 70,
+                  "pattern": "^event_[a-z0-9][a-z0-9_-]{0,63}$"
+                },
+                "maxItems": 50,
+                "minItems": 0,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id",
+              "date",
+              "label",
+              "order",
+              "eventIds"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 366,
+          "minItems": 1
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^event_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "dayId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^day_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "timeLabel": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "order": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "exactLocal": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "time": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 5,
+                        "pattern": "^[0-9]{2}:[0-9]{2}$"
+                      },
+                      "offset": {
+                        "enum": [
+                          "+01:00",
+                          "+02:00"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "time",
+                      "offset"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "placeIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 70,
+                  "pattern": "^place_[a-z0-9][a-z0-9_-]{0,63}$"
+                },
+                "maxItems": 10,
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "phraseIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 70,
+                  "pattern": "^phrase_[a-z0-9][a-z0-9_-]{0,63}$"
+                },
+                "maxItems": 20,
+                "minItems": 0,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id",
+              "dayId",
+              "title",
+              "timeLabel",
+              "order",
+              "exactLocal",
+              "placeIds",
+              "phraseIds"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000,
+          "minItems": 0
+        },
+        "places": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^place_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "checkedOn": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10,
+                "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "checkedOn"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 200,
+          "minItems": 0
+        },
+        "phrases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^phrase_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2147483647
+              },
+              "snapshot": {
+                "$ref": "#/$defs/Snapshot"
+              },
+              "review": {
+                "enum": [
+                  "draft",
+                  "reviewed"
+                ]
+              },
+              "context": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "snapshot",
+              "review",
+              "context"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 2000,
+          "minItems": 0
+        }
+      },
+      "required": [
+        "format",
+        "schemaVersion",
+        "contentVersion",
+        "tripId",
+        "timeZone",
+        "title",
+        "days",
+        "events",
+        "places",
+        "phrases"
+      ],
+      "additionalProperties": false
+    },
+    "UserData": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "const": "itguide-user-data"
+        },
+        "schemaVersion": {
+          "const": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^(0|[1-9][0-9]{0,18})$"
+        },
+        "generationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^gen_[0-9a-f]{32}$"
+        },
+        "updatedAtUtc": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "preferences": {
+          "type": "object",
+          "properties": {
+            "slow": {
+              "type": "boolean"
+            },
+            "tab": {
+              "enum": [
+                "phrases",
+                "builder",
+                "vocab",
+                "itinerary"
+              ]
+            }
+          },
+          "required": [
+            "slow",
+            "tab"
+          ],
+          "additionalProperties": false
+        },
+        "legacyBuilderRaw": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8192
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "saved": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 36,
+                "pattern": "^sav_[0-9a-f]{32}$"
+              },
+              "sourcePhraseId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 70,
+                    "pattern": "^phrase_[a-z0-9][a-z0-9_-]{0,63}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sourceContentVersion": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "snapshot": {
+                "$ref": "#/$defs/Snapshot"
+              },
+              "createdAtUtc": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20,
+                "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+              }
+            },
+            "required": [
+              "id",
+              "sourcePhraseId",
+              "sourceContentVersion",
+              "snapshot",
+              "createdAtUtc"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 200,
+          "minItems": 0
+        },
+        "progress": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phraseId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^phrase_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "reviewCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "lastReviewedAtUtc": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20,
+                "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+              }
+            },
+            "required": [
+              "phraseId",
+              "reviewCount",
+              "lastReviewedAtUtc"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 500,
+          "minItems": 0
+        },
+        "wallet": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "generationId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 36,
+                  "pattern": "^gen_[0-9a-f]{32}$"
+                },
+                "revision": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 19,
+                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                }
+              },
+              "required": [
+                "generationId",
+                "revision"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tripId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^trip_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "eventId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 70,
+                "pattern": "^event_[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "documentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 36,
+                "pattern": "^doc_[0-9a-f]{32}$"
+              }
+            },
+            "required": [
+              "tripId",
+              "eventId",
+              "documentId"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 1000,
+          "minItems": 0
+        }
+      },
+      "required": [
+        "format",
+        "schemaVersion",
+        "revision",
+        "generationId",
+        "updatedAtUtc",
+        "preferences",
+        "legacyBuilderRaw",
+        "saved",
+        "progress",
+        "wallet",
+        "attachments"
+      ],
+      "additionalProperties": false
+    },
+    "Pointer": {
+      "type": "object",
+      "properties": {
+        "slot": {
+          "enum": [
+            "a",
+            "b"
+          ]
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^(0|[1-9][0-9]{0,18})$"
+        },
+        "generationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^gen_[0-9a-f]{32}$"
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "slot",
+        "revision",
+        "generationId",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "Manifest": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "const": "itguide-user-manifest"
+        },
+        "schemaVersion": {
+          "const": 1
+        },
+        "active": {
+          "$ref": "#/$defs/Pointer"
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Pointer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "format",
+        "schemaVersion",
+        "active",
+        "previous"
+      ],
+      "additionalProperties": false
+    },
+    "RecoveryImage": {
+      "type": "object",
+      "properties": {
+        "manifest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slots": {
+          "type": "object",
+          "properties": {
+            "a": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 524288
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "b": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 524288
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "manifest",
+        "slots"
+      ],
+      "additionalProperties": false
+    },
+    "Identity": {
+      "type": "object",
+      "properties": {
+        "generationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^gen_[0-9a-f]{32}$"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 19,
+          "pattern": "^(0|[1-9][0-9]{0,18})$"
+        },
+        "schemaVersion": {
+          "const": 1
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "generationId",
+        "revision",
+        "schemaVersion",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "Receipt": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 1
+        },
+        "transactionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^txn_[0-9a-f]{32}$"
+        },
+        "operation": {
+          "enum": [
+            "restore",
+            "delete"
+          ]
+        },
+        "store": {
+          "enum": [
+            "web",
+            "native"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "STAGED",
+            "ACTIVATED"
+          ]
+        },
+        "prior": {
+          "$ref": "#/$defs/Identity"
+        },
+        "candidate": {
+          "$ref": "#/$defs/Identity"
+        }
+      },
+      "required": [
+        "v",
+        "transactionId",
+        "operation",
+        "store",
+        "phase",
+        "prior",
+        "candidate"
+      ],
+      "additionalProperties": false
+    },
+    "Journal": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 1
+        },
+        "transactionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^txn_[0-9a-f]{32}$"
+        },
+        "operation": {
+          "enum": [
+            "restore",
+            "delete"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "BEGIN",
+            "PREPARED",
+            "COMMITTED"
+          ]
+        },
+        "web": {
+          "type": "object",
+          "properties": {
+            "prior": {
+              "$ref": "#/$defs/Identity"
+            },
+            "candidate": {
+              "$ref": "#/$defs/Identity"
+            }
+          },
+          "required": [
+            "prior",
+            "candidate"
+          ],
+          "additionalProperties": false
+        },
+        "native": {
+          "type": "object",
+          "properties": {
+            "prior": {
+              "$ref": "#/$defs/Identity"
+            },
+            "candidate": {
+              "$ref": "#/$defs/Identity"
+            }
+          },
+          "required": [
+            "prior",
+            "candidate"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "v",
+        "transactionId",
+        "operation",
+        "phase",
+        "web",
+        "native"
+      ],
+      "additionalProperties": false
+    },
+    "SpeechCapabilities": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "source": {
+          "enum": [
+            "OfflineConversation-v1",
+            "legacy-native",
+            "web",
+            "none"
+          ]
+        },
+        "protocolBaseline": {
+          "enum": [
+            "selected-1.9",
+            "historical-1.8",
+            "unknown"
+          ]
+        },
+        "freshness": {
+          "enum": [
+            "current",
+            "stale",
+            "unknown"
+          ]
+        },
+        "sequence": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "voices": {
+          "type": "object",
+          "properties": {
+            "it": {
+              "enum": [
+                "unknown",
+                "reported-ready",
+                "reported-unavailable"
+              ]
+            },
+            "en": {
+              "enum": [
+                "unknown",
+                "reported-ready",
+                "reported-unavailable"
+              ]
+            }
+          },
+          "required": [
+            "it",
+            "en"
+          ],
+          "additionalProperties": false
+        },
+        "recognitionModels": {
+          "type": "object",
+          "properties": {
+            "it": {
+              "enum": [
+                "unknown",
+                "reported-ready",
+                "reported-unavailable"
+              ]
+            },
+            "en": {
+              "enum": [
+                "unknown",
+                "reported-ready",
+                "reported-unavailable"
+              ]
+            }
+          },
+          "required": [
+            "it",
+            "en"
+          ],
+          "additionalProperties": false
+        },
+        "translationModels": {
+          "enum": [
+            "unknown",
+            "reported-ready",
+            "reported-unavailable"
+          ]
+        },
+        "microphonePermission": {
+          "const": "unknown"
+        },
+        "offlineDeviceProof": {
+          "const": "unverified"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "source",
+        "protocolBaseline",
+        "freshness",
+        "sequence",
+        "voices",
+        "recognitionModels",
+        "translationModels",
+        "microphonePermission",
+        "offlineDeviceProof"
+      ],
+      "additionalProperties": false
+    },
+    "AudioRequestHistorical18": {
+      "title": "HISTORICAL 1.8 only; not the selected 1.9 protocol",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "enum": [
+                "status",
+                "setup",
+                "cancelSetup",
+                "stop",
+                "cancel",
+                "clear",
+                "replay",
+                "stopPlayback",
+                "installVoice"
+              ]
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "start"
+            },
+            "source": {
+              "enum": [
+                "en",
+                "it"
+              ]
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "translate"
+            },
+            "source": {
+              "enum": [
+                "en",
+                "it"
+              ]
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op",
+            "source",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "speak"
+            },
+            "slow": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "AudioRequestSelected19": {
+      "title": "SELECTED immutable 1.9; wire v1 is unchanged",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "enum": [
+                "status",
+                "setup",
+                "cancelSetup",
+                "stop",
+                "cancel",
+                "clear",
+                "replay",
+                "stopPlayback",
+                "installVoice"
+              ]
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "start"
+            },
+            "source": {
+              "enum": [
+                "en",
+                "it"
+              ]
+            },
+            "autoTranslate": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "translate"
+            },
+            "source": {
+              "enum": [
+                "en",
+                "it"
+              ]
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op",
+            "source",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "present"
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "it": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op",
+            "en",
+            "it"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "speak"
+            },
+            "slow": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "op": {
+              "const": "speakText"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "language": {
+              "enum": [
+                "en",
+                "it"
+              ]
+            },
+            "slow": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "op",
+            "text",
+            "language"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "AudioStateSelected19": {
+      "title": "Bounded consumer profile for selected immutable 1.9 state events",
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 1
+        },
+        "event": {
+          "const": "state"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "ack": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "requestId": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "sessionEpoch": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "state": {
+          "enum": [
+            "ready",
+            "setup",
+            "preparing",
+            "permission",
+            "recording",
+            "finalizing",
+            "review",
+            "translating",
+            "result",
+            "playing",
+            "error"
+          ]
+        },
+        "source": {
+          "enum": [
+            "en",
+            "it"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "translation": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "machineTranslated": {
+          "type": "boolean"
+        },
+        "canReplay": {
+          "type": "boolean"
+        },
+        "models": {
+          "type": "object",
+          "properties": {
+            "en": {
+              "type": "boolean"
+            },
+            "it": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "en",
+            "it"
+          ],
+          "additionalProperties": false
+        },
+        "voices": {
+          "type": "object",
+          "properties": {
+            "en": {
+              "type": "boolean"
+            },
+            "it": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "en",
+            "it"
+          ],
+          "additionalProperties": false
+        },
+        "translationReady": {
+          "type": "boolean"
+        },
+        "progress": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2048
+        },
+        "error": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2048
+        },
+        "recordingMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "v",
+        "event",
+        "seq",
+        "ack",
+        "requestId",
+        "sessionEpoch",
+        "state",
+        "source",
+        "text",
+        "translation",
+        "machineTranslated",
+        "canReplay",
+        "models",
+        "voices",
+        "translationReady",
+        "progress",
+        "error",
+        "recordingMs"
+      ],
+      "additionalProperties": false
+    },
+    "JsonRequest": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "const": "import"
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "const": "export"
+            },
+            "payload": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 524288
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "const": "cancel"
+            },
+            "targetRequestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op",
+            "targetRequestId"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "JsonResult": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "const": "import"
+            },
+            "status": {
+              "const": "ok"
+            },
+            "payload": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 524288
+            },
+            "externalEffect": {
+              "const": "none"
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op",
+            "status",
+            "payload",
+            "externalEffect"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "const": "export"
+            },
+            "status": {
+              "const": "ok"
+            },
+            "bytesWritten": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 524288
+            },
+            "externalEffect": {
+              "const": "complete"
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op",
+            "status",
+            "bytesWritten",
+            "externalEffect"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "const": "cancel"
+            },
+            "status": {
+              "const": "ok"
+            },
+            "outcome": {
+              "enum": [
+                "requested",
+                "already-terminal"
+              ]
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op",
+            "status",
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "enum": [
+                "import",
+                "export"
+              ]
+            },
+            "status": {
+              "const": "cancelled"
+            },
+            "externalEffect": {
+              "enum": [
+                "none",
+                "partial",
+                "unknown"
+              ]
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op",
+            "status",
+            "externalEffect"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 1
+            },
+            "sessionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^ses_[0-9a-f]{32}$"
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36,
+              "pattern": "^req_[0-9a-f]{32}$"
+            },
+            "op": {
+              "enum": [
+                "import",
+                "export",
+                "cancel"
+              ]
+            },
+            "status": {
+              "const": "error"
+            },
+            "code": {
+              "enum": [
+                "UNSUPPORTED",
+                "BUSY",
+                "INVALID_REQUEST",
+                "INVALID_UTF8",
+                "MALFORMED",
+                "FILE_LIMIT",
+                "UNSUPPORTED_SCHEMA",
+                "INVALID_DATA",
+                "PERMISSION_DENIED",
+                "PROVIDER_UNAVAILABLE",
+                "IO_ERROR",
+                "INTERRUPTED",
+                "TIMEOUT"
+              ]
+            },
+            "externalEffect": {
+              "enum": [
+                "none",
+                "partial",
+                "unknown"
+              ]
+            }
+          },
+          "required": [
+            "v",
+            "sessionId",
+            "requestId",
+            "op",
+            "status",
+            "code",
+            "externalEffect"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

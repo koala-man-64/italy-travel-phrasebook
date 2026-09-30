@@ -1,0 +1,997 @@
+{
+  "format": "itguide-destinations",
+  "schemaVersion": 1,
+  "tripId": "trip_306765238f88",
+  "checkedOn": "2026-09-28",
+  "destinations": [
+    {
+      "id": "rome",
+      "name": "Rome & the Vatican",
+      "intro": "Three days of landmarks, neighbourhood walks and Roman food. These ideas sit around your existing bookings.",
+      "placeIds": [
+        "place_b2ab0ae1e6bb",
+        "place_433ea12df8a5",
+        "place_190582fb62e8",
+        "place_0540a7a4f822",
+        "place_c50ffb7dff15",
+        "place_cca5875d7be1",
+        "place_25639056d75f",
+        "place_6c93d2f363d5",
+        "place_014d6f437ac2",
+        "place_92854a16f273",
+        "place_5adb36f6e1fc",
+        "place_4d7f67c0f53f",
+        "place_995d04937bca",
+        "place_495ed9b850fb",
+        "place_3408605fcacd",
+        "place_8aa1fde4aa14",
+        "place_d8e5aa6a4941",
+        "place_bd7e27c05ca6",
+        "place_caf6d90f782a",
+        "place_937007c9f65b",
+        "place_cf095639cb02"
+      ],
+      "recommendations": [
+        {
+          "id": "rome-pantheon",
+          "category": "see",
+          "title": "The Pantheon",
+          "photoId": "pantheon",
+          "description": "Look up through the great dome to its open oculus.",
+          "tip": "Keep your booked entry; enjoy Piazza della Rotonda before or afterward.",
+          "mapsQuery": "Pantheon Rome",
+          "sourceUrls": [
+            "https://www.turismoroma.it/en/places/pantheon"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "rome-navona",
+          "category": "see",
+          "title": "Piazza Navona",
+          "photoId": "piazza-navona",
+          "description": "A lively square framed by fountains and Baroque buildings.",
+          "tip": "An optional wander around your Pantheon visit; skip it if you need a rest.",
+          "mapsQuery": "Piazza Navona Rome",
+          "sourceUrls": [
+            "https://www.turismoroma.it/en/node/31551"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "rome-colosseum",
+          "category": "see",
+          "title": "The Colosseum",
+          "photoId": "colosseum",
+          "description": "Your guided visit puts the amphitheatre and its arena into context.",
+          "tip": "Use the entrance and meeting instructions on your actual tour booking.",
+          "mapsQuery": "Colosseum Rome",
+          "sourceUrls": [
+            "https://colosseo.it/en/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "rome-forum",
+          "category": "see",
+          "title": "Roman Forum & Palatine Hill",
+          "photoId": "roman-forum",
+          "description": "Walk among the remains of ancient Rome, then take in the hilltop views.",
+          "tip": "Follow your ticket conditions and pace the visit around your planned breaks.",
+          "mapsQuery": "Roman Forum Palatine Hill Rome",
+          "sourceUrls": [
+            "https://colosseo.it/en/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "rome-vatican",
+          "category": "see",
+          "title": "Vatican Museums & St Peter’s",
+          "photoId": "vatican",
+          "description": "Your guided day combines the Vatican collections and the basilica area.",
+          "tip": "Follow the booked tour route; allow for security and dress requirements.",
+          "mapsQuery": "Saint Peter Basilica Vatican City",
+          "sourceUrls": [
+            "https://www.museivaticani.va/content/museivaticani/en.html"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "rome-steps",
+          "category": "see",
+          "title": "Spanish Steps",
+          "photoId": "spanish-steps",
+          "description": "Take in the staircase and Piazza di Spagna on your afternoon walk.",
+          "tip": "Keep this flexible after the Vatican tour and your hotel rest.",
+          "mapsQuery": "Spanish Steps Rome",
+          "sourceUrls": [
+            "https://www.turismoroma.it/en/node/31551"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "rome-trevi",
+          "category": "see",
+          "title": "Trevi Fountain",
+          "photoId": "trevi-fountain",
+          "description": "See the dramatic fountain from the surrounding piazza.",
+          "tip": "Keep belongings close in the crowd and follow the posted access rules.",
+          "mapsQuery": "Trevi Fountain Rome",
+          "sourceUrls": [
+            "https://www.turismoroma.it/en/node/1286"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "rome-carbonara",
+          "category": "eat",
+          "title": "Pasta alla carbonara",
+          "photoId": "carbonara",
+          "description": "A Roman pasta classic with egg, pecorino, guanciale and black pepper.",
+          "tip": "Ask what pasta dishes are on today’s menu rather than assuming a fixed offering.",
+          "mapsQuery": "La Taverna dei Fori Imperiali Via della Madonna dei Monti 9 Roma",
+          "sourceUrls": [
+            "https://www.turismoroma.it/en/page/tradititional-carbonara"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Your existing dinner stop: La Taverna dei Fori Imperiali."
+        },
+        {
+          "id": "rome-suppli",
+          "category": "eat",
+          "title": "Supplì",
+          "photoId": "suppli",
+          "description": "A crisp fried rice snack, often with a melting mozzarella centre.",
+          "tip": "A small snack works well between sightseeing stops; fillings can vary.",
+          "mapsQuery": "Mercato Centrale Roma Termini",
+          "sourceUrls": [
+            "https://www.turismoroma.it/it/accoglienza/suppl%C3%AC-roma"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Browse at your planned Mercato Centrale or Monti food stop."
+        },
+        {
+          "id": "rome-maritozzo",
+          "category": "eat",
+          "title": "Maritozzo con la panna",
+          "photoId": "maritozzo",
+          "description": "A soft sweet bun filled with whipped cream.",
+          "tip": "Ask for one to share if you want a lighter pastry break.",
+          "mapsQuery": "Mercato Trionfale Roma",
+          "sourceUrls": [
+            "https://www.turismoroma.it/it/node/53380"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Look at the pastry counters around your planned Mercato Trionfale visit."
+        },
+        {
+          "id": "rome-espresso",
+          "category": "drink",
+          "title": "Caffè espresso",
+          "photoId": "espresso",
+          "description": "A small coffee makes an easy pause between walks.",
+          "tip": "“Un caffè, per favore.” Ask the price before choosing counter or table service.",
+          "mapsQuery": "Sant Eustachio Il Caffè Roma",
+          "sourceUrls": [
+            "https://www.turismoroma.it/en/node/31551"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative drink photo",
+          "venue": "Optional café near the Pantheon: Sant’Eustachio Il Caffè."
+        },
+        {
+          "id": "rome-frascati",
+          "category": "drink",
+          "title": "Frascati white wine",
+          "photoId": "white-wine",
+          "description": "A wine from the hills outside Rome.",
+          "tip": "Ask whether Frascati is available by the glass with your dinner.",
+          "mapsQuery": "La Taverna dei Fori Imperiali Roma",
+          "sourceUrls": [
+            "https://turismoroma.it/de/node/51921"
+          ],
+          "alcoholic": true,
+          "photoLabel": "Representative drink photo",
+          "venue": "Ask at your existing dinner stop; wine lists change."
+        }
+      ],
+      "appearances": [
+        {
+          "dayId": "day_1bca3ae59da2",
+          "eventIds": [
+            "event_07f37de9666a",
+            "event_d6b7f467321c",
+            "event_8dde8012ba30",
+            "event_02fa46067011",
+            "event_9ff6e3a9dc08"
+          ],
+          "recommendationIds": [
+            "rome-pantheon",
+            "rome-navona",
+            "rome-suppli",
+            "rome-maritozzo",
+            "rome-espresso",
+            "rome-frascati"
+          ]
+        },
+        {
+          "dayId": "day_fb6528c95d3c",
+          "eventIds": [
+            "event_cdd2e9116a05",
+            "event_dbb73a37ace4",
+            "event_030b2676a0fe"
+          ],
+          "recommendationIds": [
+            "rome-colosseum",
+            "rome-forum",
+            "rome-carbonara",
+            "rome-suppli",
+            "rome-espresso",
+            "rome-frascati"
+          ]
+        },
+        {
+          "dayId": "day_e788d030175b",
+          "eventIds": [
+            "event_99363984fa7c",
+            "event_1a43604727ed",
+            "event_947dc6df556c",
+            "event_9343b024948b",
+            "event_0902e06f1518"
+          ],
+          "recommendationIds": [
+            "rome-vatican",
+            "rome-steps",
+            "rome-trevi",
+            "rome-carbonara",
+            "rome-maritozzo",
+            "rome-espresso",
+            "rome-frascati"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "naples",
+      "name": "Naples",
+      "intro": "A transfer stop, with optional quick tastes if your station-to-port timing allows. Ferry and train departures come first.",
+      "placeIds": [
+        "place_b44868941bf8",
+        "place_5a1475d8d99b"
+      ],
+      "recommendations": [
+        {
+          "id": "naples-castle",
+          "category": "see",
+          "title": "Castel Nuovo exterior",
+          "photoId": "castel-nuovo",
+          "description": "The castle is a memorable landmark in the port district.",
+          "tip": "Only a short exterior look if your transfer has spare time; keep the ferry first.",
+          "mapsQuery": "Castel Nuovo Napoli",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "naples-municipio",
+          "category": "see",
+          "title": "Piazza Municipio",
+          "photoId": "piazza-municipio-naples",
+          "description": "A central square near the castle and waterfront.",
+          "tip": "Use this as transfer context, not an added timed sightseeing stop.",
+          "mapsQuery": "Piazza Municipio Napoli",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "naples-pizza",
+          "category": "eat",
+          "title": "Neapolitan pizza",
+          "photoId": "pizza",
+          "description": "A simple margherita is a good introduction to Naples’ pizza.",
+          "tip": "If time is tight, ask for takeaway; a sit-down meal may not fit the transfer.",
+          "mapsQuery": "Pizza Napoli Centrale Piazza Garibaldi",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples/things-to-do/best-streetfood-naples"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Choose a counter near your station or port route after checking the queue."
+        },
+        {
+          "id": "naples-sfogliatella",
+          "category": "eat",
+          "title": "Sfogliatella",
+          "photoId": "sfogliatella",
+          "description": "Choose the flaky riccia or the smoother shortcrust frolla.",
+          "tip": "Ask which pastries are ready and keep an eye on your departure time.",
+          "mapsQuery": "Antico Forno delle Sfogliatelle Calde Attanasio Napoli",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples/things-to-do/best-streetfood-naples"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Optional near-station stop: Attanasio. Queue length may rule it out."
+        },
+        {
+          "id": "naples-coffee",
+          "category": "drink",
+          "title": "A Neapolitan coffee break",
+          "photoId": "espresso",
+          "description": "An espresso is a compact way to pause during the transfer.",
+          "tip": "Order at a café along the route rather than making a separate detour.",
+          "mapsQuery": "Caffè Napoli Centrale Piazza Garibaldi",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples/things-to-do/best-streetfood-naples"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative drink photo"
+        },
+        {
+          "id": "naples-wine",
+          "category": "drink",
+          "title": "A Campanian white wine",
+          "photoId": "white-wine",
+          "description": "Ask for a local white by the glass if you have a relaxed meal.",
+          "tip": "Save this for a comfortable meal window; you do not need to fit it into the transfer.",
+          "mapsQuery": "Ristoranti Piazza Municipio Napoli",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples"
+          ],
+          "alcoholic": true,
+          "photoLabel": "Representative drink photo",
+          "venue": "Ask the venue what local wines are available."
+        }
+      ],
+      "appearances": [
+        {
+          "dayId": "day_ab2a690b820d",
+          "eventIds": [
+            "event_60e900b085c6",
+            "event_3a9006824ba1"
+          ],
+          "recommendationIds": [
+            "naples-castle",
+            "naples-municipio",
+            "naples-pizza",
+            "naples-sfogliatella",
+            "naples-coffee",
+            "naples-wine"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sorrento",
+      "name": "Sorrento",
+      "intro": "Your base for three nights: town views, an easy stroll and lemon flavours around the places you already planned.",
+      "placeIds": [
+        "place_22e1fc332d00",
+        "place_3db177128804",
+        "place_35c15b81442e",
+        "place_a7d652c0667d",
+        "place_c73a6b537e9e",
+        "place_bb055ffb499d",
+        "place_e8bfa591d44f",
+        "place_d6d4678fdf33",
+        "place_4197d336548c",
+        "place_0bf087c4dac5",
+        "place_e5b94ca8ee7e"
+      ],
+      "recommendations": [
+        {
+          "id": "sorrento-villa",
+          "category": "see",
+          "title": "Villa Comunale views",
+          "photoId": "villa-comunale-sorrento",
+          "description": "A garden viewpoint over the Bay of Naples.",
+          "tip": "This is already in your itinerary; pause here before the food and lemon-garden stops.",
+          "mapsQuery": "Villa Comunale Sorrento",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/sorrento-peninsula"
+          ],
+          "alcoholic": false,
+          "photoLabel": "View from the Villa Comunale terrace"
+        },
+        {
+          "id": "sorrento-cloister",
+          "category": "see",
+          "title": "San Francesco cloister",
+          "photoId": "chiostro-san-francesco-sorrento",
+          "description": "A peaceful cloister beside the town’s public gardens.",
+          "tip": "Add it to the same stroll if open; respect ceremonies or private events.",
+          "mapsQuery": "Chiostro di San Francesco Sorrento",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples/sorrento"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "sorrento-tasso",
+          "category": "see",
+          "title": "Piazza Tasso",
+          "photoId": "piazza-tasso",
+          "description": "The central square is a useful starting point for an old-town wander.",
+          "tip": "Your October 4 evening already brings you here; keep market details subject to local signs.",
+          "mapsQuery": "Piazza Torquato Tasso Sorrento",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/naples/sorrento"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "sorrento-gnocchi",
+          "category": "eat",
+          "title": "Gnocchi alla sorrentina",
+          "photoId": "gnocchi-sorrentina",
+          "description": "Gnocchi with tomato, basil and melting cheese.",
+          "tip": "Ask whether it is on the menu at dinner; it is a filling choice after a day of walking.",
+          "mapsQuery": "Annaré Corso Italia 198 Sorrento",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/sorrento-peninsula"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Your planned dinner option: Annaré. Check the current menu."
+        },
+        {
+          "id": "sorrento-delizia",
+          "category": "eat",
+          "title": "Delizia al limone",
+          "photoId": "delizia-limone",
+          "description": "A soft lemon dessert associated with the Sorrento peninsula.",
+          "tip": "Ask whether the version contains liqueur if you prefer to avoid alcohol.",
+          "mapsQuery": "Pasticceria Sorrento Piazza Tasso",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/sorrento-peninsula"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Look for it in a central pasticceria; the photograph is representative."
+        },
+        {
+          "id": "sorrento-limoncello",
+          "category": "drink",
+          "title": "Limoncello",
+          "photoId": "limoncello",
+          "description": "A lemon liqueur closely associated with this coast.",
+          "tip": "Try a small serving after food; this is a liqueur, not lemonade.",
+          "mapsQuery": "I Giardini di Cataldo Via Correale 27 Sorrento",
+          "sourceUrls": [
+            "https://www.igiardinidicataldo.it/en/"
+          ],
+          "alcoholic": true,
+          "photoLabel": "Representative drink photo",
+          "venue": "Already on your itinerary: I Giardini di Cataldo."
+        },
+        {
+          "id": "sorrento-lemonade",
+          "category": "drink",
+          "title": "Limonata",
+          "photoId": "lemonade",
+          "description": "An alcohol-free lemon drink for a walking break.",
+          "tip": "Ask whether it is fresh or bottled and how sweet it is.",
+          "mapsQuery": "Caffè Piazza Tasso Sorrento",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/sorrento-peninsula"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative drink photo",
+          "venue": "Ask a café on your existing town walk."
+        }
+      ],
+      "appearances": [
+        {
+          "dayId": "day_ab2a690b820d",
+          "eventIds": [
+            "event_3a9006824ba1",
+            "event_1bb62194c62e",
+            "event_29a69bfb47c7"
+          ],
+          "recommendationIds": [
+            "sorrento-villa",
+            "sorrento-cloister",
+            "sorrento-tasso",
+            "sorrento-gnocchi",
+            "sorrento-delizia",
+            "sorrento-limoncello",
+            "sorrento-lemonade"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pompeii",
+      "name": "Pompeii",
+      "intro": "Choose a manageable route through the ruins, then keep your Caupona reservation and rental-car return time.",
+      "placeIds": [
+        "place_e7c1fbaea461",
+        "place_6e938bf70991"
+      ],
+      "recommendations": [
+        {
+          "id": "pompeii-forum",
+          "category": "see",
+          "title": "The Forum",
+          "photoId": "pompeii-forum",
+          "description": "Start with the open civic centre to orient yourself within the ancient city.",
+          "tip": "Use the park’s current map and follow the route that suits your entry gate.",
+          "mapsQuery": "Forum Pompeii Archaeological Park",
+          "sourceUrls": [
+            "https://pompeiisites.org/en/visiting-info/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "pompeii-theatre",
+          "category": "see",
+          "title": "The theatre district",
+          "photoId": "pompeii-theatre",
+          "description": "The ancient performance spaces offer a different view of everyday Roman life.",
+          "tip": "Check the current accessible route and openings in the park’s free guide.",
+          "mapsQuery": "Teatro Grande Pompeii",
+          "sourceUrls": [
+            "https://pompeiisites.org/en/visiting-info/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "pompeii-baths",
+          "category": "see",
+          "title": "Stabian Baths",
+          "photoId": "pompeii-baths",
+          "description": "An ancient bathing complex with distinct rooms and water systems.",
+          "tip": "Visit if open on the day; individual buildings can close independently of the park.",
+          "mapsQuery": "Terme Stabiane Pompeii",
+          "sourceUrls": [
+            "https://pompeiisites.org/en/excavations-plan-en/stabian-baths-and-republican-baths/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "pompeii-caprese",
+          "category": "eat",
+          "title": "Insalata caprese",
+          "photoId": "caprese-salad",
+          "description": "Tomatoes, mozzarella and basil make a simple meal option.",
+          "tip": "Ask what is available before your park visit; carry your planned snacks and water.",
+          "mapsQuery": "Ristoranti Porta Marina Pompei",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/sorrento-peninsula"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Choose a nearby lunch stop if needed. Your Caupona dinner reservation stays unchanged."
+        },
+        {
+          "id": "pompeii-pastiera",
+          "category": "eat",
+          "title": "Pastiera",
+          "photoId": "pastiera",
+          "description": "A Campanian pastry traditionally made with ricotta and cooked wheat.",
+          "tip": "Ask a pasticceria if it is available; a slice is an optional treat rather than a promised menu item.",
+          "mapsQuery": "Pasticceria Pompei",
+          "sourceUrls": [
+            "https://www.italia.it/en/italy/things-to-do/italian-easter-food-desserts-and-typical-dishes"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo"
+        },
+        {
+          "id": "pompeii-coffee",
+          "category": "drink",
+          "title": "Caffè after the ruins",
+          "photoId": "espresso",
+          "description": "A small coffee can round off your break after the park.",
+          "tip": "At Caupona, choose from the actual October menu; the advertised special menus have seasonal dates.",
+          "mapsQuery": "Caupona Via Masseria Curato 2 Pompei",
+          "sourceUrls": [
+            "https://www.caupona.it/menu-antico/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative drink photo",
+          "venue": "Your booked dinner: Caupona. Confirm menu choices directly."
+        },
+        {
+          "id": "pompeii-wine",
+          "category": "drink",
+          "title": "Local wine — after driving",
+          "photoId": "white-wine",
+          "description": "Ask for a regional wine by the glass on an evening when you are finished driving.",
+          "tip": "You have a rental car this day: choose an alcohol-free drink until the car is returned.",
+          "mapsQuery": "Enoteca Piazza Tasso Sorrento",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/sorrento-peninsula"
+          ],
+          "alcoholic": true,
+          "photoLabel": "Representative drink photo",
+          "venue": "Optional later in Sorrento, after the rental-car return."
+        }
+      ],
+      "appearances": [
+        {
+          "dayId": "day_3bf42682cbed",
+          "eventIds": [
+            "event_0ecb1373ff6a",
+            "event_2b7049aa5f5b"
+          ],
+          "recommendationIds": [
+            "pompeii-forum",
+            "pompeii-theatre",
+            "pompeii-baths",
+            "pompeii-caprese",
+            "pompeii-pastiera",
+            "pompeii-coffee",
+            "pompeii-wine"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "positano",
+      "name": "Positano",
+      "intro": "About one hour with the group tour: choose a short walk or a quick taste, and confirm where to meet again.",
+      "placeIds": [
+        "place_2a04a2c0130a"
+      ],
+      "recommendations": [
+        {
+          "id": "positano-church",
+          "category": "see",
+          "title": "Santa Maria Assunta",
+          "photoId": "santa-maria-assunta-positano",
+          "description": "The church and its colourful dome are a focal point of Positano.",
+          "tip": "Keep the one-hour tour stop compact; ask your guide about the walk back to the meeting point.",
+          "mapsQuery": "Chiesa Santa Maria Assunta Positano",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/positano"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "positano-beach",
+          "category": "see",
+          "title": "Spiaggia Grande views",
+          "photoId": "positano-beach",
+          "description": "Look back from the waterfront toward the hillside houses.",
+          "tip": "Enjoy the view if it fits the guide’s route; allow for the uphill return.",
+          "mapsQuery": "Spiaggia Grande Positano",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/positano"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "positano-seafood",
+          "category": "eat",
+          "title": "Seafood salad",
+          "photoId": "seafood-salad",
+          "description": "A coastal seafood dish often dressed with lemon.",
+          "tip": "A seated meal may exceed the stop; ask how long service will take before ordering.",
+          "mapsQuery": "La Zagara Via dei Mulini 10 Positano",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/positano",
+            "https://www.lazagara.com/the-pastry/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "La Zagara is a central food stop; confirm the day’s savoury menu."
+        },
+        {
+          "id": "positano-delizia",
+          "category": "eat",
+          "title": "Delizia al limone",
+          "photoId": "delizia-limone",
+          "description": "A lemon pastry is an easy way to taste the coast.",
+          "tip": "For a short stop, ask for a ready pastry to take away; check for liqueur if avoiding alcohol.",
+          "mapsQuery": "La Zagara Via dei Mulini 10 Positano",
+          "sourceUrls": [
+            "https://www.lazagara.com/the-pastry/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "La Zagara lists delizia al limone among its pastries."
+        },
+        {
+          "id": "positano-lemonade",
+          "category": "drink",
+          "title": "Limonata",
+          "photoId": "lemonade",
+          "description": "A refreshing alcohol-free choice between the lanes and waterfront.",
+          "tip": "Ask for a lemon drink to go if the tour meeting time is close.",
+          "mapsQuery": "La Zagara Via dei Mulini 10 Positano",
+          "sourceUrls": [
+            "https://www.lazagara.com/the-pastry/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative drink photo",
+          "venue": "Ask at a café on your walking route; drink offerings vary."
+        },
+        {
+          "id": "positano-limoncello",
+          "category": "drink",
+          "title": "A small limoncello",
+          "photoId": "limoncello",
+          "description": "A lemon liqueur to sample with a relaxed food break.",
+          "tip": "Keep the tour schedule first; skipping a tasting leaves more time for the view.",
+          "mapsQuery": "Bar centro Positano",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/amalfi"
+          ],
+          "alcoholic": true,
+          "photoLabel": "Representative drink photo",
+          "venue": "Ask a central café whether it serves local limoncello."
+        }
+      ],
+      "appearances": [
+        {
+          "dayId": "day_56b7a3bb49ca",
+          "eventIds": [
+            "event_bfccb7dbca60"
+          ],
+          "recommendationIds": [
+            "positano-church",
+            "positano-beach",
+            "positano-seafood",
+            "positano-delizia",
+            "positano-lemonade",
+            "positano-limoncello"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amalfi",
+      "name": "Amalfi",
+      "intro": "About one hour: the cathedral square, a waterfront look and a ready pastry are the most compact choices.",
+      "placeIds": [
+        "place_5162f6968adf"
+      ],
+      "recommendations": [
+        {
+          "id": "amalfi-cathedral",
+          "category": "see",
+          "title": "Cathedral of Sant’Andrea",
+          "photoId": "amalfi-cathedral",
+          "description": "The cathedral façade and steps dominate the main square.",
+          "tip": "With one hour in town, start outside; enter only if the opening and queue fit.",
+          "mapsQuery": "Duomo di Amalfi",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/amalfi"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "amalfi-waterfront",
+          "category": "see",
+          "title": "The waterfront",
+          "photoId": "amalfi-waterfront",
+          "description": "Take in the harbour and the town rising behind it.",
+          "tip": "Stay within the guide’s suggested area and keep the return meeting time visible.",
+          "mapsQuery": "Lungomare dei Cavalieri Amalfi",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/amalfi"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "amalfi-pasta",
+          "category": "eat",
+          "title": "Scialatielli ai frutti di mare",
+          "photoId": "scialatielli",
+          "description": "A coastal pasta choice with seafood.",
+          "tip": "This needs a meal window; do not squeeze a full lunch into the one-hour stop.",
+          "mapsQuery": "Ristoranti Piazza Duomo Amalfi",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/amalfi"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Fresh scialatielli before cooking — representative pasta photo"
+        },
+        {
+          "id": "amalfi-pastry",
+          "category": "eat",
+          "title": "Lemon pastries",
+          "photoId": "delizia-limone",
+          "description": "Citrus pastries are a convenient taste of Amalfi.",
+          "tip": "Choose a ready pastry and ask about its ingredients and any liqueur.",
+          "mapsQuery": "Pasticceria Pansa Piazza Duomo 40 Amalfi",
+          "sourceUrls": [
+            "https://pasticceriapansa.com/",
+            "https://www.pasticceriapansa.it/catalogo.asp?cat=2"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Pansa sits on Piazza Duomo, beside the cathedral."
+        },
+        {
+          "id": "amalfi-granita",
+          "category": "drink",
+          "title": "Granita di limone",
+          "photoId": "lemon-granita",
+          "description": "An icy lemon treat for a quick refreshment.",
+          "tip": "Ask whether granita is available that day; it works better with a short stop than a long meal.",
+          "mapsQuery": "Pasticceria Pansa Piazza Duomo 40 Amalfi",
+          "sourceUrls": [
+            "https://pasticceriapansa.com/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative drink photo",
+          "venue": "Pansa describes using lemons from its family estate for its granita."
+        },
+        {
+          "id": "amalfi-limoncello",
+          "category": "drink",
+          "title": "Amalfi limoncello",
+          "photoId": "limoncello",
+          "description": "A local lemon liqueur, usually taken in a small serving.",
+          "tip": "Ask about the producer and take time to sip; a tasting is optional on this short visit.",
+          "mapsQuery": "Enoteca Piazza Duomo Amalfi",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/amalfi"
+          ],
+          "alcoholic": true,
+          "photoLabel": "Representative drink photo",
+          "venue": "Ask a central bar or shop what is available."
+        }
+      ],
+      "appearances": [
+        {
+          "dayId": "day_56b7a3bb49ca",
+          "eventIds": [
+            "event_bfccb7dbca60"
+          ],
+          "recommendationIds": [
+            "amalfi-cathedral",
+            "amalfi-waterfront",
+            "amalfi-pasta",
+            "amalfi-pastry",
+            "amalfi-granita",
+            "amalfi-limoncello"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ravello",
+      "name": "Ravello",
+      "intro": "About two hours: make the gardens your main stop, with time for the piazza and a café if the tour schedule permits.",
+      "placeIds": [
+        "place_c097cd9a2566"
+      ],
+      "recommendations": [
+        {
+          "id": "ravello-rufolo",
+          "category": "see",
+          "title": "Villa Rufolo",
+          "photoId": "villa-rufolo",
+          "description": "Gardens and terraces make this a natural focus for your Ravello stop.",
+          "tip": "Use the two-hour visit for one main garden and a café break; check admission on arrival.",
+          "mapsQuery": "Villa Rufolo Ravello",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/ravello"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Place photograph"
+        },
+        {
+          "id": "ravello-duomo",
+          "category": "see",
+          "title": "Piazza Duomo & cathedral",
+          "photoId": "ravello-duomo",
+          "description": "Enjoy the central square around the cathedral and Villa Rufolo entrance.",
+          "tip": "Keep your coffee stop close to the centre so the return to the tour is straightforward.",
+          "mapsQuery": "Piazza Duomo Ravello",
+          "sourceUrls": [
+            "https://www.italia.it/en/campania/salerno/ravello"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Inside Ravello Cathedral"
+        },
+        {
+          "id": "ravello-caprese",
+          "category": "eat",
+          "title": "Torta caprese",
+          "photoId": "torta-caprese",
+          "description": "A chocolate-and-almond cake from the Campanian pastry tradition.",
+          "tip": "Ask what cake is available at the café; this is a regional suggestion, not a fixed menu promise.",
+          "mapsQuery": "Caffè Calce Piazza Duomo Ravello",
+          "sourceUrls": [
+            "https://www.pasticceriapansa.it/catalogo.asp?cat=2",
+            "https://www.ravello.com/bed-and-breakfast/giardini-calce-luxury-rooms/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Central café option: Caffè Calce."
+        },
+        {
+          "id": "ravello-pastiera",
+          "category": "eat",
+          "title": "A slice of pastiera",
+          "photoId": "pastiera",
+          "description": "A ricotta-and-wheat pastry to look for in local pastry cases.",
+          "tip": "Availability varies outside holiday periods; choose a ready local pastry if it is not on offer.",
+          "mapsQuery": "Caffè Calce Piazza Duomo Ravello",
+          "sourceUrls": [
+            "https://www.italia.it/en/italy/things-to-do/italian-easter-food-desserts-and-typical-dishes",
+            "https://www.ravello.com/bed-and-breakfast/giardini-calce-luxury-rooms/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative food photo",
+          "venue": "Browse the pastry selection at Caffè Calce or another central café."
+        },
+        {
+          "id": "ravello-espresso",
+          "category": "drink",
+          "title": "Espresso in the piazza",
+          "photoId": "espresso",
+          "description": "A short café stop leaves time for the gardens and views.",
+          "tip": "Ask for “un caffè” and check the table-service price before sitting down.",
+          "mapsQuery": "Caffè Calce Piazza Duomo Ravello",
+          "sourceUrls": [
+            "https://www.ravello.com/bed-and-breakfast/giardini-calce-luxury-rooms/"
+          ],
+          "alcoholic": false,
+          "photoLabel": "Representative drink photo",
+          "venue": "Caffè Calce is a central coffee option."
+        },
+        {
+          "id": "ravello-wine",
+          "category": "drink",
+          "title": "A local white wine",
+          "photoId": "white-wine",
+          "description": "Ask for a Campanian white with a relaxed food break.",
+          "tip": "A small glass is optional; keep the tour meeting time in mind.",
+          "mapsQuery": "Caffè Calce Piazza Duomo Ravello",
+          "sourceUrls": [
+            "https://www.ravello.com/bed-and-breakfast/giardini-calce-luxury-rooms/"
+          ],
+          "alcoholic": true,
+          "photoLabel": "Representative drink photo",
+          "venue": "Ask what regional wine is available rather than expecting a particular label."
+        }
+      ],
+      "appearances": [
+        {
+          "dayId": "day_56b7a3bb49ca",
+          "eventIds": [
+            "event_bfccb7dbca60"
+          ],
+          "recommendationIds": [
+            "ravello-rufolo",
+            "ravello-duomo",
+            "ravello-caprese",
+            "ravello-pastiera",
+            "ravello-espresso",
+            "ravello-wine"
+          ]
+        }
+      ]
+    }
+  ]
+}
